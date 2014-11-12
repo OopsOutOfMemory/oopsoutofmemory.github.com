@@ -6,21 +6,21 @@ permalink:	/blog/:title
 # Setup
 baseurl:
 
-title:		Thinny
+title:		盛利的博客
 tagline:	'blog'
-description:	'My personal blog.'
+description:	'专注大数据，分布式计算，Spark Contributor.'
 url:		http://camporez.com
 commentsystem:	google
 disqus:		example
 
 author:
-  name:		'Ian Camporez Brunelli'
+  name:		'盛利'
   url:		https://google.com/+IanCamporezBrunelli
 
 paginate:	5
 
 # Custom vars
-icon:		/assets/images/icon.png
+icon:		/assets/images/oopsoutofmemory.jpg
 cover:		/assets/images/cover.jpg
 
 social:
