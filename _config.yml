@@ -36,6 +36,9 @@ menu:
   - title:	关于我
     url:	/about
 
+  - title:  Test 404
+    url:  /404
+
 copyright:
   author:	盛利
   url:		http://oopsoutofmemory.github.io
