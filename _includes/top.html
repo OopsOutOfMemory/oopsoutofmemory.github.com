@@ -1,5 +1,10 @@
+<span id="home-intro">
+	OopsOutOfMemory's Blog<br/>
+    <span class="desc">专注大数据领域，分布式计算，Spark Contributor</span>
+</span>
 <label class="menu" for="_1">
 	<span class="genericon genericon-menu"></span>
+	
 </label>
 <input id="_1" type="checkbox">
 <div class="menu-content">
@@ -9,10 +14,23 @@
 		<a href="{{ item.url }}">{{ item.title }}</a>
 	{% endfor %}
 	<hr>
-	{% for social in site.social %}
-		<a href="{{ social.url }}" class="social-links-menu" target="_blank" title="{{ social.desc }}"><span class="genericon genericon-{{ social.icon }}"></span></a>
-	{% endfor %}
+	
 </div>
+ <div  class="social-links" data-stellar-ratio="0.1" style="-webkit-transform: translate3d(0px, 0px, 0px);">
+		
+			<a href="http://weibo.com/oopsoom" target="_blank" title="Sina WeiBo" ><img class="genericon genericon-github" src="/assets/images/icon/weibo.png" style="width:35px; height:32px;">
+			</img></a>
+
+			<a href="https://github.com/OopsOutOfMemory" target="_blank" title="Fork me on github"><img class="genericon genericon-github" src="/assets/images/icon/github.jpg" style="width:32px; height:29px;">
+			</img></a>
+		
+			<a href="https://twitter.com/sheng_victor" target="_blank" title="Follow me on twitter"><img class="genericon genericon-github" src="/assets/images/icon/twitter.png" style="width:34px; height:30px;">
+			</img></a>
+		
+			<a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=e5179e72fd9f500ad852aefa6e2824dc2fb59868de8fa3d5b65eae670a2fc437"><img class="genericon genericon-github" src="/assets/images/icon/qqqun.png" alt="Spark Ecosystem技术交流" style="width:34px; height:30px;" title="Spark Ecosystem技术交流"></a>
+		
+	</div>
+
 <div class="social-links" data-stellar-ratio="0.1">
 	{% for social in site.social %}
 		<a href="{{ social.url }}" target="_blank" title="{{ social.desc }}"><span class="genericon genericon-{{ social.icon }}"></span></a>

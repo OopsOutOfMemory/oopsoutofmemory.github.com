@@ -5,6 +5,8 @@ html, body, div, span, applet, object, iframe, caption, p {
 	color: inherit;
 }
 
+ 
+
 html, body {
 	width: 100%;
 	height: 100%;
@@ -100,21 +102,31 @@ img {
 
 #home-title {
 	left: 50%;
-	top: 50%;
+	top: 40%;
 	background-repeat: no-repeat;
 	position: absolute;
 	border-radius: 50%;
-	transition-duration: .25s;
 	z-index: 1;
+	border-radius: 50%;
+
 }
 
+ 
 #home-intro {
-	left: 38.7	%;
-	top: 65%;
-	position: absolute;
-	border-radius: 50%;
-	transition-duration: .25s;
-	z-index: 11;
+	font-family: cursive;
+	color: silver;
+	font-size: 30px;
+	display: inline-block;
+	padding-left: 65px;
+	padding-top: 8px;
+}
+
+#home-intro .desc {
+	font-family: cursive;
+	color: silver;
+	font-size: 24px;
+	display: inline-block;
+ 
 }
 
 .site-icon-home {
@@ -261,7 +273,7 @@ blockquote, pre, .message {
 }
 
 blockquote {
-	border-left: 10px solid #C7F66A;
+	border-left: 6px solid darkmagenta
 }
 
 blockquote p {
@@ -293,7 +305,7 @@ pre {
 	white-space: pre-wrap;
 	word-break: break-all;
 	word-wrap: break-word;
-	border-left: 10px solid #F6DF6A;
+	background: #23241f
 }
 
 pre code {
@@ -356,13 +368,12 @@ pre code {
 }
 
 .menu {
-	display: block;
 	cursor: pointer;
 	background-color: rgba(26, 26, 26, 0.35);
 	width: 30px;
 	height: 30px;
-	top: 12px;
 	left: 12px;
+	top: 10px;
 	padding-top: 5px;
 	padding-left: 5px;
 	z-index: 6;
