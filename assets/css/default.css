@@ -184,10 +184,24 @@ img {
 	background-color: #fff;
 	width: 100%;
 	height: auto;
+
 	position: relative;
 	z-index: 3;
 	padding-bottom: 50px;
 }
+
+
+#category-middle {
+
+	background-color: #fff;
+	width: 100%;
+	height: auto;
+	position: relative;
+	z-index: 3;
+	padding-bottom: 50px;
+	padding-left: 28%;
+}
+ 
 
 #article, #comments {
 	font-family: Fenix, Georgia, "Times New Roman", serif;
@@ -450,6 +464,8 @@ pre code {
 	font-weight: 300;
 	text-decoration: none;
 	color: #888;
+	line-height: 45px;
+
 }
 
 .pagination a {
@@ -497,6 +513,21 @@ pre code {
 
 #post-list {
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	top: 30px;
+	font-weight: 400;
+	letter-spacing: 0px;
+	font-size: 15pt;
+	color: #313131;
+	line-height: 1.5;
+	position: relative;
+}
+
+#category {
+	position: fixed;
+}
+
+#category-list {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	top: 50px;
 	padding-bottom: 80px;
 	font-weight: 400;
@@ -505,6 +536,14 @@ pre code {
 	color: #313131;
 	line-height: 1.5;
 	position: relative;
+
+}
+
+
+#category-list h3 {
+
+	color: brown;
+	font-size: 20pt;
 }
 
 #post-list h1 {
@@ -540,4 +579,28 @@ pre code {
 .footnotes {
 	margin-top: 60px;
 	border-top: 1px solid #EEE;
+}
+ 
+
+
+
+ .backToTop {
+    display: block;
+    width: 40px;
+    height: 32px;
+    font-size: 26px;
+    line-height: 32px;
+    font-family: verdana, arial;
+    padding: 5px 0;
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+    position: fixed;
+    _position: absolute;
+    right: 10px;
+    bottom: 100px;
+    _bottom: "auto";
+    cursor: pointer;
+    opacity: .6;
+    filter: Alpha(opacity=60);
 }

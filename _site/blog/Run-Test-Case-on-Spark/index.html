@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	
+	<link href="//gmpg.org/xfn/11" rel="profile">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<link rel="canonical" href="http://oopsoutofmemory.github.io/blog/Run-Test-Case-on-Spark" />
+	<meta name="description" content="今天有哥们问到如何对Spark进行单元测试。现在将Sbt的测试方法写出来，如下： **对Spark的test case进行测试的时候可以用sbt的test命令：** ## 一、测试全部test case sbt/sbt test ## 二、测试单个test case sbt/sbt "test-only *DriverSuite*" 下面举个例子： 这个Test Case是位于 ``` $SPARK_HOME/core/src/test/scala/org/apache/spark/DriverSuite.scala ```..." />
+	<meta property="og:description" content="今天有哥们问到如何对Spark进行单元测试。现在将Sbt的测试方法写出来，如下： **对Spark的test case进行测试的时候可以用sbt的test命令：** ## 一、测试全部test case sbt/sbt test ## 二、测试单个test case sbt/sbt "test-only *DriverSuite*" 下面举个例子： 这个Test Case是位于 ``` $SPARK_HOME/core/src/test/scala/org/apache/spark/DriverSuite.scala ```..." />
+	<meta itemprop="image" content="http://oopsoutofmemory.github.io/assets/images/oopsoutofmemory.jpg" />
+	<meta property="og:image" content="http://oopsoutofmemory.github.io/assets/images/oopsoutofmemory.jpg" />
+	<meta property="og:title" content="Run Test Case on Spark" />
+	<meta property="og:type" content="article" />
+	<meta property="og:url" content="http://oopsoutofmemory.github.io/blog/Run-Test-Case-on-Spark" />
+	<meta property="og:site_name" content="盛利的博客" />
+	<title>Run Test Case on Spark &middot; 盛利的博客</title>
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="HandheldFriendly" content="True" />
+	<meta name="MobileOptimized" content="320" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" type="text/css" media="only screen and (min-width: 900px)" href="/assets/css/desktop.css" />
+	<link rel="stylesheet" type="text/css" media="only screen and (max-width: 899px)" href="/assets/css/mobile.css" />
+	<link href="/assets/css/genericons.css" type="text/css" rel="stylesheet" />
+	<link href="/assets/css/index.css" type="text/css" rel="stylesheet" />
+	<link href="/assets/css/syntax.css" type="text/css" rel="stylesheet" />
+	<link rel="apple-touch-icon" href="http://oopsoutofmemory.github.io/assets/images/oopsoutofmemory.jpg">
+	<link rel="shortcut icon" href="http://oopsoutofmemory.github.io/assets/images/favicon.ico">
+	<link rel="alternate" type="application/rss+xml" title="RSS" href="http://oopsoutofmemory.github.io/atom.xml">
+	<script type="text/javascript" src="/assets/js/jquery-2.1.0.min.js"></script>
+	<script type="text/javascript" src="/assets/js/jquery.stellar.min.js"></script>
+	<script type="text/javascript" src="/assets/js/rocket.js"></script>
+	
+</head>
+
+	<body>
+		<header class="clean" style="background-image: url(/assets/images/cover.jpg); height: 100%;" data-stellar-background-ratio="0.5" data-stellar-horizontal-offset="50">
+	
+	<span id="home-intro">
+	OopsOutOfMemory 盛利's Blog<br/>
+    <span class="desc">专注大数据领域，分布式计算，Spark Contributor</span>
+</span>
+<label class="menu" for="_1">
+	<span class="genericon genericon-menu"></span>
+	
+</label>
+<input id="_1" type="checkbox">
+<div class="menu-content">
+	<p class="menu-title">盛利的博客<p>
+	<div class="menu" style="background-color: #1a1a1a; z-index: -1;"></div>
+	
+		<a href="/">首页</a>
+	
+		<a href="/category.html">博客列表</a>
+	
+		<a href="/aboutMe.html">关于我</a>
+	
+		<a href="/404">Test 404</a>
+	
+	<hr>
+	
+</div>
+ <div  class="social-links" data-stellar-ratio="0.1" style="-webkit-transform: translate3d(0px, 0px, 0px);">
+		
+			<a href="http://weibo.com/oopsoom" target="_blank" title="Sina WeiBo" ><img class="genericon genericon-github" src="/assets/images/icon/weibo.png" style="width:35px; height:32px;">
+			</img></a>
+
+			<a href="https://github.com/OopsOutOfMemory" target="_blank" title="Fork me on github"><img class="genericon genericon-github" src="/assets/images/icon/github.jpg" style="width:32px; height:29px;">
+			</img></a>
+		
+			<a href="https://twitter.com/sheng_victor" target="_blank" title="Follow me on twitter"><img class="genericon genericon-github" src="/assets/images/icon/twitter.png" style="width:34px; height:30px;">
+			</img></a>
+		
+			<a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=e5179e72fd9f500ad852aefa6e2824dc2fb59868de8fa3d5b65eae670a2fc437"><img class="genericon genericon-github" src="/assets/images/icon/qqqun.png" alt="Spark Ecosystem技术交流" style="width:34px; height:30px;" title="Spark Ecosystem技术交流"></a>
+		
+	</div>
+
+<div class="social-links" data-stellar-ratio="0.1">
+	
+</div>
+
+	<div style="display: none;" id="rocket-to-top">
+	<div style="opacity:0;display: block;" class="level-2"></div>
+	<div class="level-3"></div>
+	</div>
+
+	<div id="post-info" data-stellar-ratio="0.7">
+		<h1>Run Test Case on Spark</h1>
+		
+		<a class="site-title" href="http://oopsoutofmemory.github.io"><div class="site-icon-small" style="background-image: url(/assets/images/oopsoutofmemory.jpg);"></div>盛利的博客</a>, in 14 November 2014
+	</div>
+	<div id="nav-icon" style="bottom: 30px;" data-stellar-ratio="4">
+		<a class="scroll" data-speed="500" href="#article"><span class="genericon genericon-expand"></span></a>
+	</div>
+</header>
+
+<div id="middle">
+
+	<div id="article">
+		<p>今天有哥们问到如何对Spark进行单元测试。现在将Sbt的测试方法写出来，如下：</p>
+
+<p><strong>对Spark的test case进行测试的时候可以用sbt的test命令：</strong></p>
+
+<h2>一、测试全部test case</h2>
+<div class="highlight"><pre><code class="language-text" data-lang="text"> sbt/sbt test
+</code></pre></div>
+<h2>二、测试单个test case</h2>
+<div class="highlight"><pre><code class="language-text" data-lang="text"> sbt/sbt &quot;test-only *DriverSuite*&quot; 
+</code></pre></div>
+<p>下面举个例子：
+这个Test Case是位于
+<code>
+$SPARK_HOME/core/src/test/scala/org/apache/spark/DriverSuite.scala 
+</code></p>
+
+<p>FunSuit是scalatest里面的测试Suit，要继承它。这里主要是一个回归测试，测试Spark程序正常结束后，Driver会不会正常退出。
+注：我就拿这个例子模拟一下，测试成功和测试失败的情景，这个例子和DriverSuite的测试目的完全不一致，只是演示作用。 ：）</p>
+
+<h2>下面是正常运行退出的例子：</h2>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">package</span> <span class="nn">org.apache.spark</span>
+
+<span class="k">import</span> <span class="nn">java.io.File</span>
+
+<span class="k">import</span> <span class="nn">org.apache.log4j.Logger</span>
+<span class="k">import</span> <span class="nn">org.apache.log4j.Level</span>
+
+<span class="k">import</span> <span class="nn">org.scalatest.FunSuite</span>
+<span class="k">import</span> <span class="nn">org.scalatest.concurrent.Timeouts</span>
+<span class="k">import</span> <span class="nn">org.scalatest.prop.TableDrivenPropertyChecks._</span>
+<span class="k">import</span> <span class="nn">org.scalatest.time.SpanSugar._</span>
+
+<span class="k">import</span> <span class="nn">org.apache.spark.util.Utils</span>
+
+<span class="k">import</span> <span class="nn">scala.language.postfixOps</span>
+
+<span class="k">class</span> <span class="nc">DriverSuite</span> <span class="k">extends</span> <span class="nc">FunSuite</span> <span class="k">with</span> <span class="nc">Timeouts</span> <span class="o">{</span>
+
+  <span class="n">test</span><span class="o">(</span><span class="s">&quot;driver should exit after finishing&quot;</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="n">sparkHome</span> <span class="k">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">env</span><span class="o">.</span><span class="n">get</span><span class="o">(</span><span class="s">&quot;SPARK_HOME&quot;</span><span class="o">).</span><span class="n">orElse</span><span class="o">(</span><span class="n">sys</span><span class="o">.</span><span class="n">props</span><span class="o">.</span><span class="n">get</span><span class="o">(</span><span class="s">&quot;spark.home&quot;</span><span class="o">)).</span><span class="n">get</span>
+    <span class="c1">// Regression test for SPARK-530: &quot;Spark driver process doesn&#39;t exit after finishing&quot;</span>
+    <span class="k">val</span> <span class="n">masters</span> <span class="k">=</span> <span class="nc">Table</span><span class="o">((</span><span class="s">&quot;master&quot;</span><span class="o">),</span> <span class="o">(</span><span class="s">&quot;local&quot;</span><span class="o">),</span> <span class="o">(</span><span class="s">&quot;local-cluster[2,1,512]&quot;</span><span class="o">))</span>
+    <span class="n">forAll</span><span class="o">(</span><span class="n">masters</span><span class="o">)</span> <span class="o">{</span> <span class="o">(</span><span class="n">master</span><span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=&gt;</span>
+      <span class="n">failAfter</span><span class="o">(</span><span class="mi">60</span> <span class="n">seconds</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Utils</span><span class="o">.</span><span class="n">executeAndGetOutput</span><span class="o">(</span>
+          <span class="nc">Seq</span><span class="o">(</span><span class="s">&quot;./bin/spark-class&quot;</span><span class="o">,</span> <span class="s">&quot;org.apache.spark.DriverWithoutCleanup&quot;</span><span class="o">,</span> <span class="n">master</span><span class="o">),</span>
+          <span class="k">new</span> <span class="nc">File</span><span class="o">(</span><span class="n">sparkHome</span><span class="o">),</span>
+          <span class="nc">Map</span><span class="o">(</span><span class="s">&quot;SPARK_TESTING&quot;</span> <span class="o">-&gt;</span> <span class="s">&quot;1&quot;</span><span class="o">,</span> <span class="s">&quot;SPARK_HOME&quot;</span> <span class="o">-&gt;</span> <span class="n">sparkHome</span><span class="o">))</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * Program that creates a Spark driver but doesn&#39;t call SparkContext.stop() or</span>
+<span class="cm"> * Sys.exit() after finishing.</span>
+<span class="cm"> */</span>
+<span class="k">object</span> <span class="nc">DriverWithoutCleanup</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span> <span class="o">{</span>
+    <span class="nc">Logger</span><span class="o">.</span><span class="n">getRootLogger</span><span class="o">().</span><span class="n">setLevel</span><span class="o">(</span><span class="nc">Level</span><span class="o">.</span><span class="nc">WARN</span><span class="o">)</span>
+    <span class="k">val</span> <span class="n">sc</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">SparkContext</span><span class="o">(</span><span class="n">args</span><span class="o">(</span><span class="mi">0</span><span class="o">),</span> <span class="s">&quot;DriverWithoutCleanup&quot;</span><span class="o">)</span>
+    <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="o">(</span><span class="mi">1</span> <span class="n">to</span> <span class="mi">100</span><span class="o">,</span> <span class="mi">4</span><span class="o">).</span><span class="n">count</span><span class="o">()</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+<p>executeAndGetOutput方法接受一个command命令，调用spark-class来运行DriverWithoutCleanup类。</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"> <span class="cm">/**</span>
+<span class="cm">   * Execute a command and get its output, throwing an exception if it yields a code other than 0.</span>
+<span class="cm">   */</span>
+  <span class="k">def</span> <span class="n">executeAndGetOutput</span><span class="o">(</span><span class="n">command</span><span class="k">:</span> <span class="kt">Seq</span><span class="o">[</span><span class="kt">String</span><span class="o">],</span> <span class="n">workingDir</span><span class="k">:</span> <span class="kt">File</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">File</span><span class="o">(</span><span class="s">&quot;.&quot;</span><span class="o">),</span>
+                          <span class="n">extraEnvironment</span><span class="k">:</span> <span class="kt">Map</span><span class="o">[</span><span class="kt">String</span>, <span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="nc">Map</span><span class="o">.</span><span class="n">empty</span><span class="o">)</span><span class="k">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="o">{</span>
+    <span class="k">val</span> <span class="n">builder</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ProcessBuilder</span><span class="o">(</span><span class="n">command</span><span class="k">:</span> <span class="k">_</span><span class="kt">*</span><span class="o">)</span> 
+        <span class="o">.</span><span class="n">directory</span><span class="o">(</span><span class="n">workingDir</span><span class="o">)</span>
+    <span class="k">val</span> <span class="n">environment</span> <span class="k">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">environment</span><span class="o">()</span>
+    <span class="k">for</span> <span class="o">((</span><span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">)</span> <span class="k">&lt;-</span> <span class="n">extraEnvironment</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">environment</span><span class="o">.</span><span class="n">put</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">)</span>
+    <span class="o">}</span>
+    <span class="k">val</span> <span class="n">process</span> <span class="k">=</span> <span class="n">builder</span><span class="o">.</span><span class="n">start</span><span class="o">()</span>  <span class="c1">//启动一个进程来运行spark job</span>
+    <span class="k">new</span> <span class="nc">Thread</span><span class="o">(</span><span class="s">&quot;read stderr for &quot;</span> <span class="o">+</span> <span class="n">command</span><span class="o">(</span><span class="mi">0</span><span class="o">))</span> <span class="o">{</span>
+      <span class="k">override</span> <span class="k">def</span> <span class="n">run</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">for</span> <span class="o">(</span><span class="n">line</span> <span class="k">&lt;-</span> <span class="nc">Source</span><span class="o">.</span><span class="n">fromInputStream</span><span class="o">(</span><span class="n">process</span><span class="o">.</span><span class="n">getErrorStream</span><span class="o">).</span><span class="n">getLines</span><span class="o">)</span> <span class="o">{</span>
+          <span class="nc">System</span><span class="o">.</span><span class="n">err</span><span class="o">.</span><span class="n">println</span><span class="o">(</span><span class="n">line</span><span class="o">)</span>
+        <span class="o">}</span>
+      <span class="o">}</span>
+    <span class="o">}.</span><span class="n">start</span><span class="o">()</span>
+    <span class="k">val</span> <span class="n">output</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">StringBuffer</span>
+    <span class="k">val</span> <span class="n">stdoutThread</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">Thread</span><span class="o">(</span><span class="s">&quot;read stdout for &quot;</span> <span class="o">+</span> <span class="n">command</span><span class="o">(</span><span class="mi">0</span><span class="o">))</span> <span class="o">{</span> <span class="c1">//读取spark job的输出</span>
+      <span class="k">override</span> <span class="k">def</span> <span class="n">run</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">for</span> <span class="o">(</span><span class="n">line</span> <span class="k">&lt;-</span> <span class="nc">Source</span><span class="o">.</span><span class="n">fromInputStream</span><span class="o">(</span><span class="n">process</span><span class="o">.</span><span class="n">getInputStream</span><span class="o">).</span><span class="n">getLines</span><span class="o">)</span> <span class="o">{</span>
+          <span class="n">output</span><span class="o">.</span><span class="n">append</span><span class="o">(</span><span class="n">line</span><span class="o">)</span>
+        <span class="o">}</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="n">stdoutThread</span><span class="o">.</span><span class="n">start</span><span class="o">()</span>
+    <span class="k">val</span> <span class="n">exitCode</span> <span class="k">=</span> <span class="n">process</span><span class="o">.</span><span class="n">waitFor</span><span class="o">()</span>
+    <span class="n">stdoutThread</span><span class="o">.</span><span class="n">join</span><span class="o">()</span>   <span class="c1">// Wait for it to finish reading output</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">exitCode</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="nc">SparkException</span><span class="o">(</span><span class="s">&quot;Process &quot;</span> <span class="o">+</span> <span class="n">command</span> <span class="o">+</span> <span class="s">&quot; exited with code &quot;</span> <span class="o">+</span> <span class="n">exitCode</span><span class="o">)</span>
+    <span class="o">}</span>
+    <span class="n">output</span><span class="o">.</span><span class="n">toString</span> <span class="c1">//返回spark job的输出</span>
+  <span class="o">}</span>
+</code></pre></div>
+<p>运行第二个命令可以看到运行结果：
+<code>sbt/sbt &quot;test-only *DriverSuite*&quot;</code>
+执行结果：   </p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="o">[</span><span class="kt">info</span><span class="o">]</span> <span class="nc">Compiling</span> <span class="mi">1</span> <span class="nc">Scala</span> <span class="n">source</span> <span class="n">to</span> <span class="o">/</span><span class="n">app</span><span class="o">/</span><span class="n">hadoop</span><span class="o">/</span><span class="n">spark</span><span class="o">-</span><span class="mf">1.0</span><span class="o">.</span><span class="mi">1</span><span class="o">/</span><span class="n">core</span><span class="o">/</span><span class="n">target</span><span class="o">/</span><span class="n">scala</span><span class="o">-</span><span class="mf">2.10</span><span class="o">/</span><span class="n">test</span><span class="o">-</span><span class="n">classes</span><span class="o">...</span>
+<span class="o">[</span><span class="kt">info</span><span class="o">]</span> <span class="nc">DriverSuite</span><span class="k">:</span> <span class="c1">//执行DriverSuit这个TestSuit</span>
+<span class="nc">Spark</span> <span class="n">assembly</span> <span class="n">has</span> <span class="n">been</span> <span class="n">built</span> <span class="k">with</span> <span class="nc">Hive</span><span class="o">,</span> <span class="n">including</span> <span class="nc">Datanucleus</span> <span class="n">jars</span> <span class="n">on</span> <span class="n">classpath</span>
+<span class="nc">SLF4J</span><span class="k">:</span> <span class="kt">Class</span> <span class="kt">path</span> <span class="kt">contains</span> <span class="kt">multiple</span> <span class="kt">SLF4J</span> <span class="kt">bindings.</span>
+<span class="kt">SLF4J:</span> <span class="kt">Found</span> <span class="kt">binding</span> <span class="kt">in</span> <span class="o">[</span><span class="kt">jar:file:/app/hadoop/spark-</span><span class="err">1</span><span class="kt">.</span><span class="err">0</span><span class="kt">.</span><span class="err">1</span><span class="kt">/lib_managed/jars/slf4j-log4j12-</span><span class="err">1</span><span class="kt">.</span><span class="err">7</span><span class="kt">.</span><span class="err">5</span><span class="kt">.jar!/org/slf4j/impl/StaticLoggerBinder.class</span><span class="o">]</span>
+<span class="nc">SLF4J</span><span class="k">:</span> <span class="kt">Found</span> <span class="kt">binding</span> <span class="kt">in</span> <span class="o">[</span><span class="kt">jar:file:/app/hadoop/spark-</span><span class="err">1</span><span class="kt">.</span><span class="err">0</span><span class="kt">.</span><span class="err">1</span><span class="kt">/assembly/target/scala-</span><span class="err">2</span><span class="kt">.</span><span class="err">10</span><span class="kt">/spark-assembly-</span><span class="err">1</span><span class="kt">.</span><span class="err">0</span><span class="kt">.</span><span class="err">1</span><span class="kt">-hadoop0.</span><span class="err">20</span><span class="kt">.</span><span class="err">2</span><span class="kt">-cdh3u5.jar!/org/slf4j/impl/StaticLoggerBinder.class</span><span class="o">]</span>
+<span class="nc">SLF4J</span><span class="k">:</span> <span class="kt">See</span> <span class="kt">http://www.slf4j.org/codes.html</span><span class="k">#</span><span class="kt">multiple_bindings</span> <span class="kt">for</span> <span class="kt">an</span> <span class="kt">explanation.</span>
+<span class="kt">SLF4J:</span> <span class="kt">Actual</span> <span class="kt">binding</span> <span class="kt">is</span> <span class="kt">of</span> <span class="k">type</span> <span class="err">[</span><span class="kt">org.slf4j.impl.Log4jLoggerFactory</span><span class="err">]</span>
+<span class="err">14</span><span class="kt">/</span><span class="err">08</span><span class="kt">/</span><span class="err">14</span> <span class="err">18</span><span class="kt">:</span><span class="err">20</span><span class="kt">:</span><span class="err">15</span> <span class="kt">WARN</span> <span class="kt">spark.SparkConf:</span> 
+<span class="nc">SPARK_CLASSPATH</span> <span class="n">was</span> <span class="n">detected</span> <span class="o">(</span><span class="n">set</span> <span class="n">to</span> <span class="err">&#39;</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">hadoop</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">hadoop</span><span class="o">/</span><span class="n">lib</span><span class="o">/:/</span><span class="n">app</span><span class="o">/</span><span class="n">hadoop</span><span class="o">/</span><span class="n">sparklib</span><span class="cm">/*:/app/hadoop/spark-1.0.1/lib_managed/jars/*&#39;).</span>
+<span class="cm">This is deprecated in Spark 1.0+.</span>
+
+<span class="cm">Please instead use:</span>
+<span class="cm"> - ./spark-submit with --driver-class-path to augment the driver classpath</span>
+<span class="cm"> - spark.executor.extraClassPath to augment the executor classpath</span>
+
+<span class="cm">14/08/14 18:20:15 WARN spark.SparkConf: Setting &#39;spark.executor.extraClassPath&#39; to &#39;/home/hadoop/src/hadoop/lib/:/app/hadoop/sparklib/*:/app/hadoop/spark-1.0.1/lib_managed/jars/*&#39; as a work-around.</span>
+<span class="cm">14/08/14 18:20:15 WARN spark.SparkConf: Setting &#39;spark.driver.extraClassPath&#39; to &#39;/home/hadoop/src/hadoop/lib/:/app/hadoop/sparklib/*:/app/hadoop/spark-1.0.1/lib_managed/jars/*&#39; as a work-around.</span>
+<span class="cm">Spark assembly has been built with Hive, including Datanucleus jars on classpath</span>
+<span class="cm">SLF4J: Class path contains multiple SLF4J bindings.</span>
+<span class="cm">SLF4J: Found binding in [jar:file:/app/hadoop/spark-1.0.1/lib_managed/jars/slf4j-log4j12-1.7.5.jar!/org/slf4j/impl/StaticLoggerBinder.class]</span>
+<span class="cm">SLF4J: Found binding in [jar:file:/app/hadoop/spark-1.0.1/assembly/target/scala-2.10/spark-assembly-1.0.1-hadoop0.20.2-cdh3u5.jar!/org/slf4j/impl/StaticLoggerBinder.class]</span>
+<span class="cm">SLF4J: See http://www.slf4j.org/codes.html#multiple_bindings for an explanation.</span>
+<span class="cm">SLF4J: Actual binding is of type [org.slf4j.impl.Log4jLoggerFactory]</span>
+<span class="cm">14/08/14 18:20:19 WARN spark.SparkConf: </span>
+<span class="cm">SPARK_CLASSPATH was detected (set to &#39;/home/hadoop/src/hadoop/lib/:/app/hadoop/sparklib/*:/app/hadoop/spark-1.0.1/lib_managed/jars/*&#39;).</span>
+<span class="cm">This is deprecated in Spark 1.0+.</span>
+
+<span class="cm">Please instead use:</span>
+<span class="cm"> - ./spark-submit with --driver-class-path to augment the driver classpath</span>
+<span class="cm"> - spark.executor.extraClassPath to augment the executor classpath</span>
+
+<span class="cm">14/08/14 18:20:19 WARN spark.SparkConf: Setting &#39;spark.executor.extraClassPath&#39; to &#39;/home/hadoop/src/hadoop/lib/:/app/hadoop/sparklib/*:/app/hadoop/spark-1.0.1/lib_managed/jars/*&#39; as a work-around.</span>
+<span class="cm">14/08/14 18:20:19 WARN spark.SparkConf: Setting &#39;spark.driver.extraClassPath&#39; to &#39;/home/hadoop/src/hadoop/lib/:/app/hadoop/sparklib/*:/app/hadoop/spark-1.0.1/lib_managed/jars/*&#39; as a work-around.</span>
+<span class="cm">Spark assembly has been built with Hive, including Datanucleus jars on classpath</span>
+<span class="cm">Spark assembly has been built with Hive, including Datanucleus jars on classpath</span>
+<span class="cm">[info] - driver should exit after finishing</span>
+<span class="cm">[info] ScalaTest</span>
+<span class="cm">[info] Run completed in 12 seconds, 586 milliseconds.</span>
+<span class="cm">[info] Total number of tests run: 1</span>
+<span class="cm">[info] Suites: completed 1, aborted 0</span>
+<span class="cm">[info] Tests: succeeded 1, failed 0, canceled 0, ignored 0, pending 0</span>
+<span class="cm">[info] All tests passed.</span>
+<span class="cm">[info] Passed: Total 1, Failed 0, Errors 0, Passed 1</span>
+<span class="cm">[success] Total time: 76 s, completed Aug 14, 2014 6:20:26 PM</span>
+</code></pre></div>
+<p>测试通过:
+<code>Total 1， Failed 0， Errors 0， Passed 1。</code>
+这里如果我们稍微将test case 改改，让spark job抛异常，那么这个，这样test case 就会failed掉，如下：</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">object</span> <span class="nc">DriverWithoutCleanup</span> <span class="o">{</span>
+  <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span> <span class="o">{</span>
+    <span class="nc">Logger</span><span class="o">.</span><span class="n">getRootLogger</span><span class="o">().</span><span class="n">setLevel</span><span class="o">(</span><span class="nc">Level</span><span class="o">.</span><span class="nc">WARN</span><span class="o">)</span>
+    <span class="k">val</span> <span class="n">sc</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">SparkContext</span><span class="o">(</span><span class="n">args</span><span class="o">(</span><span class="mi">0</span><span class="o">),</span> <span class="s">&quot;DriverWithoutCleanup&quot;</span><span class="o">)</span>
+    <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="o">(</span><span class="mi">1</span> <span class="n">to</span> <span class="mi">100</span><span class="o">,</span> <span class="mi">4</span><span class="o">).</span><span class="n">count</span><span class="o">()</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nc">RuntimeException</span><span class="o">(</span><span class="s">&quot;OopsOutOfMemory, haha, not real OOM, don&#39;t worry!&quot;</span><span class="o">)</span> <span class="c1">//添加此行</span>
+  <span class="o">}</span>
+</code></pre></div>
+<p>那么，再次运行测试,会发现错误:</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"> <span class="o">[</span><span class="kt">info</span><span class="o">]</span> <span class="nc">DriverSuite</span><span class="k">:</span>
+<span class="kt">Spark</span> <span class="kt">assembly</span> <span class="kt">has</span> <span class="kt">been</span> <span class="kt">built</span> <span class="kt">with</span> <span class="kt">Hive</span><span class="o">,</span> <span class="n">including</span> <span class="nc">Datanucleus</span> <span class="n">jars</span> <span class="n">on</span> <span class="n">classpath</span>
+<span class="nc">SLF4J</span><span class="k">:</span> <span class="kt">Class</span> <span class="kt">path</span> <span class="kt">contains</span> <span class="kt">multiple</span> <span class="kt">SLF4J</span> <span class="kt">bindings.</span>
+<span class="kt">SLF4J:</span> <span class="kt">Found</span> <span class="kt">binding</span> <span class="kt">in</span> <span class="o">[</span><span class="kt">jar:file:/app/hadoop/spark-</span><span class="err">1</span><span class="kt">.</span><span class="err">0</span><span class="kt">.</span><span class="err">1</span><span class="kt">/lib_managed/jars/slf4j-log4j12-</span><span class="err">1</span><span class="kt">.</span><span class="err">7</span><span class="kt">.</span><span class="err">5</span><span class="kt">.jar!/org/slf4j/impl/StaticLoggerBinder.class</span><span class="o">]</span>
+<span class="nc">SLF4J</span><span class="k">:</span> <span class="kt">Found</span> <span class="kt">binding</span> <span class="kt">in</span> <span class="o">[</span><span class="kt">jar:file:/app/hadoop/spark-</span><span class="err">1</span><span class="kt">.</span><span class="err">0</span><span class="kt">.</span><span class="err">1</span><span class="kt">/assembly/target/scala-</span><span class="err">2</span><span class="kt">.</span><span class="err">10</span><span class="kt">/spark-assembly-</span><span class="err">1</span><span class="kt">.</span><span class="err">0</span><span class="kt">.</span><span class="err">1</span><span class="kt">-hadoop0.</span><span class="err">20</span><span class="kt">.</span><span class="err">2</span><span class="kt">-cdh3u5.jar!/org/slf4j/impl/StaticLoggerBinder.class</span><span class="o">]</span>
+<span class="nc">SLF4J</span><span class="k">:</span> <span class="kt">See</span> <span class="kt">http://www.slf4j.org/codes.html</span><span class="k">#</span><span class="kt">multiple_bindings</span> <span class="kt">for</span> <span class="kt">an</span> <span class="kt">explanation.</span>
+<span class="kt">SLF4J:</span> <span class="kt">Actual</span> <span class="kt">binding</span> <span class="kt">is</span> <span class="kt">of</span> <span class="k">type</span> <span class="err">[</span><span class="kt">org.slf4j.impl.Log4jLoggerFactory</span><span class="err">]</span>
+<span class="err">14</span><span class="kt">/</span><span class="err">08</span><span class="kt">/</span><span class="err">14</span> <span class="err">18</span><span class="kt">:</span><span class="err">40</span><span class="kt">:</span><span class="err">07</span> <span class="kt">WARN</span> <span class="kt">spark.SparkConf:</span> 
+<span class="nc">SPARK_CLASSPATH</span> <span class="n">was</span> <span class="n">detected</span> <span class="o">(</span><span class="n">set</span> <span class="n">to</span> <span class="err">&#39;</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">hadoop</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">hadoop</span><span class="o">/</span><span class="n">lib</span><span class="o">/:/</span><span class="n">app</span><span class="o">/</span><span class="n">hadoop</span><span class="o">/</span><span class="n">sparklib</span><span class="cm">/*:/app/hadoop/spark-1.0.1/lib_managed/jars/*&#39;).</span>
+<span class="cm">This is deprecated in Spark 1.0+.</span>
+
+<span class="cm">Please instead use:</span>
+<span class="cm"> - ./spark-submit with --driver-class-path to augment the driver classpath</span>
+<span class="cm"> - spark.executor.extraClassPath to augment the executor classpath</span>
+
+<span class="cm">14/08/14 18:40:07 WARN spark.SparkConf: Setting &#39;spark.executor.extraClassPath&#39; to &#39;/home/hadoop/src/hadoop/lib/:/app/hadoop/sparklib/*:/app/hadoop/spark-1.0.1/lib_managed/jars/*&#39; as a work-around.</span>
+<span class="cm">14/08/14 18:40:07 WARN spark.SparkConf: Setting &#39;spark.driver.extraClassPath&#39; to &#39;/home/hadoop/src/hadoop/lib/:/app/hadoop/sparklib/*:/app/hadoop/spark-1.0.1/lib_managed/jars/*&#39; as a work-around.</span>
+<span class="cm">Exception in thread &quot;main&quot; java.lang.RuntimeException: OopsOutOfMemory, haha, not real OOM, don&#39;t worry! //自定义抛异常使spark job运行失败，打印出了异常堆栈，测试用例失败</span>
+<span class="cm">        at org.apache.spark.DriverWithoutCleanup$.main(DriverSuite.scala:60)</span>
+<span class="cm">        at org.apache.spark.DriverWithoutCleanup.main(DriverSuite.scala)</span>
+<span class="cm">[info] - driver should exit after finishing *** FAILED ***</span>
+<span class="cm">[info]   SparkException was thrown during property evaluation. (DriverSuite.scala:40)</span>
+<span class="cm">[info]     Message: Process List(./bin/spark-class, org.apache.spark.DriverWithoutCleanup, local) exited with code 1</span>
+<span class="cm">[info]     Occurred at table row 0 (zero based, not counting headings), which had values (</span>
+<span class="cm">[info]       master = local</span>
+<span class="cm">[info]     )</span>
+<span class="cm">[info] ScalaTest</span>
+<span class="cm">[info] Run completed in 4 seconds, 765 milliseconds.</span>
+<span class="cm">[info] Total number of tests run: 1</span>
+<span class="cm">[info] Suites: completed 1, aborted 0</span>
+<span class="cm">[info] Tests: succeeded 0, failed 1, canceled 0, ignored 0, pending 0</span>
+<span class="cm">[info] *** 1 TEST FAILED ***</span>
+<span class="cm">[error] Failed: Total 1, Failed 1, Errors 0, Passed 0</span>
+<span class="cm">[error] Failed tests:</span>
+<span class="cm">[error]         org.apache.spark.DriverSuite</span>
+<span class="cm">[error] (core/test:testOnly) sbt.TestsFailedException: Tests unsuccessful</span>
+<span class="cm">[error] Total time: 14 s, completed Aug 14, 2014 6:40:10 PM</span>
+</code></pre></div>
+<p>可以看到TEST FAILED。</p>
+
+<h2>三、 总结：</h2>
+
+<p>本文主要讲解了，如何运行spark的测试用例，运行全部test case，和运行单个test case的命令，并通过一个例子讲解其运行正常和失败的详细情景，具体细节还需要继续摸索。如果想做contributor，这一关必须过了。</p>
+
+		<h5><原创文章> From OopsOutOfMemory 盛利's Blog<h5>
+		<h5>转载请注明出自：<a href="http://oopsoutofmemory.github.io/blog/Run-Test-Case-on-Spark"> http://oopsoutofmemory.github.io/blog/Run-Test-Case-on-Spark</a></h5>
+	</div>
+
+	
+	<div id="comments">
+		
+	
+	<script src="https://apis.google.com/js/plusone.js"></script>
+	<div id="g-comments" class="g-comments" data-href="http://oopsoutofmemory.github.io/blog/Run-Test-Case-on-Spark" data-width="700" data-first_party_property="BLOGGER" data-view_type="FILTERED_POSTMOD"></div>
+	<script>
+		var width = $('#comments').width() * 0.9;
+		width = Math.round(width);
+		$("#g-comments").attr({ "data-width": width });
+	</script>
+
+	</div>
+	
+
+</div>
+
+	
+		
+		
+		
+		
+		
+		
+	
+
+
+<footer class="clean" style="background-image: url(/assets/images/cover.jpg); height: 75%; min-height: 500px;" data-stellar-background-ratio="0.5" data-stellar-horizontal-offset="50" data-stellar-vertical-offset="50">
+	<div id="nav-icon" style="top: 60px;" data-stellar-ratio="0.8">
+		<a class="scroll" data-speed="500" href="#article"><span class="genericon genericon-collapse"></span></a>
+	</div>
+	<div id="post-info" data-stellar-ratio="0.5" data-stellar-vertical-offset="120">
+		<h3>Featured post</h3>
+		<a href="/blog/Col">
+			<h1>Col</h1>
+			
+				<h2></h2>
+			
+		</a>
+	</div>
+
+
+	<p class="copyright">&copy;2014, <a href="http://oopsoutofmemory.github.io" target="_blank">盛利</a>. <a href="http://oopsoutofmemory.github.io" target="_blank">All rights reserved</a>.</p>
+</footer>
+<script src="/assets/js/smooth-scroll.js"></script>
+
+		<script>
+		var width = $(window).width()
+		if ( width > 899 )
+		$( function(){
+		    $.stellar({
+		    	responsive: true,
+			verticalScrolling: true,
+			horizontalOffset: 0,
+			verticalOffset: 0,
+			positionProperty: 'transform',
+		    });
+		});
+		</script>
+	</body>
+</html>

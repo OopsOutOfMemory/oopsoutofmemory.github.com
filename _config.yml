@@ -28,13 +28,13 @@ cover:		/assets/images/cover.jpg
 
 menu:
   - title:	首页
-    url:	/
-
-  - title:  博客列表
     url: /
 
+  - title:  博客列表
+    url:  /category.html
+
   - title:	关于我
-    url:	/about
+    url:  /aboutMe.html
 
   - title:  Test 404
     url:  /404

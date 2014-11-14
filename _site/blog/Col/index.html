@@ -4,7 +4,16 @@
 	
 	<link href="//gmpg.org/xfn/11" rel="profile">
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
-	<title>盛利的博客 &middot; blog</title>
+	<link rel="canonical" href="http://oopsoutofmemory.github.io/blog/Col" />
+	<meta name="description" content="" />
+	<meta property="og:description" content="" />
+	<meta itemprop="image" content="http://oopsoutofmemory.github.io/assets/images/oopsoutofmemory.jpg" />
+	<meta property="og:image" content="http://oopsoutofmemory.github.io/assets/images/oopsoutofmemory.jpg" />
+	<meta property="og:title" content="Col" />
+	<meta property="og:type" content="article" />
+	<meta property="og:url" content="http://oopsoutofmemory.github.io/blog/Col" />
+	<meta property="og:site_name" content="盛利的博客" />
+	<title>Col &middot; 盛利的博客</title>
 	<meta name="mobile-web-app-capable" content="yes">
 	<meta name="HandheldFriendly" content="True" />
 	<meta name="MobileOptimized" content="320" />
@@ -24,7 +33,8 @@
 </head>
 
 	<body>
-		<header class="clean" style="height: 350px; background-image: url(/assets/images/cover.jpg);" data-stellar-background-ratio="0.5" data-stellar-horizontal-offset="50">
+		<header class="clean" style="background-image: url(/assets/images/cover.jpg); height: 100%;" data-stellar-background-ratio="0.5" data-stellar-horizontal-offset="50">
+	
 	<span id="home-intro">
 	OopsOutOfMemory 盛利's Blog<br/>
     <span class="desc">专注大数据领域，分布式计算，Spark Contributor</span>
@@ -73,50 +83,67 @@
 	<div class="level-3"></div>
 	</div>
 
-	<a href="http://oopsoutofmemory.github.io">
-		<div id="home-title"  class="site-icon-home" style="background-image: url(/assets/images/oopsoutofmemory.jpg); " data-stellar-ratio="0.5">
-		</div>
-	  
-	</a>
+	<div id="post-info" data-stellar-ratio="0.7">
+		<h1>Col</h1>
+		
+		<a class="site-title" href="http://oopsoutofmemory.github.io"><div class="site-icon-small" style="background-image: url(/assets/images/oopsoutofmemory.jpg);"></div>盛利的博客</a>, in 14 November 2014
+	</div>
+	<div id="nav-icon" style="bottom: 30px;" data-stellar-ratio="4">
+		<a class="scroll" data-speed="500" href="#article"><span class="genericon genericon-expand"></span></a>
+	</div>
 </header>
+
 <div id="middle">
-<div id="post-list">
+
+	<div id="article">
+		
+		<h5><原创文章> From OopsOutOfMemory 盛利's Blog<h5>
+		<h5>转载请注明出自：<a href="http://oopsoutofmemory.github.io/blog/Col"> http://oopsoutofmemory.github.io/blog/Col</a></h5>
+	</div>
+
 	
-		<div>
-			<span class="post-date">14 November 2014</span>
-			<h1><a href="/blog/Run-Test-Case-on-Spark">Run Test Case on Spark</a></h1>
-			<p class="post-description">今天有哥们问到如何对Spark进行单元测试。现在将Sbt的测试方法写出来，如下： 对Spark的test case进行测试的时候可以用sbt的test命令： 一、测试全部test case sbt/sbt test 二、测试单个test case sbt/sbt &quot;test-only *DriverSuite*&quot; 下面举个例子： 这个Test Case是位于 $SPARK_HOME/core/src/test/scala/org/apache/spark/DriverSuite.scala FunSuit是scalatest里面的测试Suit，要继承它。这里主要是一个回归测试，测试Spark程序正常结束后，Driver会不会正常退出。 注：我就拿这个例子模拟一下，测试成功和测试失败的情景，这个例子和DriverSuite的测试目的完全不一致，只是演示作用。 ：） 下面是正常运行退出的例子： package org.apache.spark import java.io.File import org.apache.log4j.Logger import org.apache.log4j.Level import org.scalatest.FunSuite import org.scalatest.concurrent.Timeouts import org.scalatest.prop.TableDrivenPropertyChecks._ import org.scalatest.time.SpanSugar._ import org.apache.spark.util.Utils import scala.language.postfixOps class DriverSuite extends FunSuite with Timeouts { test(&quot;driver should exit...</p>
-		</div>
-		<br>
+	<div id="comments">
+		
 	
-		<div>
-			<span class="post-date">14 November 2014</span>
-			<h1><a href="/blog/Col">Col</a></h1>
-			<p class="post-description"></p>
-		</div>
-		<br>
+	<script src="https://apis.google.com/js/plusone.js"></script>
+	<div id="g-comments" class="g-comments" data-href="http://oopsoutofmemory.github.io/blog/Col" data-width="700" data-first_party_property="BLOGGER" data-view_type="FILTERED_POSTMOD"></div>
+	<script>
+		var width = $('#comments').width() * 0.9;
+		width = Math.round(width);
+		$("#g-comments").attr({ "data-width": width });
+	</script>
+
+	</div>
 	
-		<div>
-			<span class="post-date">13 November 2014</span>
-			<h1><a href="/blog/Spark-Common-Issues">Spark Common Issues</a></h1>
-			<p class="post-description">1、WARN TaskSchedulerImpl: Initial job has not accepted any resources; check your cluster ui to ensure that workers are registered and have sufficient memory 当前的集群的可用资源不能满足应用程序所请求的资源。 资源分2类： cores 和 ram Cores代表对执行可用的executor slots Ram代表每个Worker上被需要的空闲内存来运行你的Application。 解决方法： 应用不要请求多余空闲可用资源的 关闭掉已经执行结束的Application 2、Application isn’t using all of the Cores: How to set the Cores used by a Spark...</p>
-		</div>
-		<br>
-	
-</div>
-</div>
-<nav class="pagination" role="navigation">
-	
-	<span class="page-number">Page 1 of 1</span>
-	
-</nav>
+
 </div>
 
+	
+	
+	
+	
+	
+	
 
 
-<footer class="clean" style="background-image: url(/assets/images/cover.jpg); background-position: bottom; height: 60px;">
+<footer class="clean" style="background-image: url(/assets/images/cover.jpg); height: 75%; min-height: 500px;" data-stellar-background-ratio="0.5" data-stellar-horizontal-offset="50" data-stellar-vertical-offset="50">
+	<div id="nav-icon" style="top: 60px;" data-stellar-ratio="0.8">
+		<a class="scroll" data-speed="500" href="#article"><span class="genericon genericon-collapse"></span></a>
+	</div>
+	<div id="post-info" data-stellar-ratio="0.5" data-stellar-vertical-offset="120">
+		<h3>Read next</h3>
+		<a href="/blog/Run-Test-Case-on-Spark">
+			<h1>Run Test Case on Spark</h1>
+			
+				<h2></h2>
+			
+		</a>
+	</div>
+
+
 	<p class="copyright">&copy;2014, <a href="http://oopsoutofmemory.github.io" target="_blank">盛利</a>. <a href="http://oopsoutofmemory.github.io" target="_blank">All rights reserved</a>.</p>
 </footer>
+<script src="/assets/js/smooth-scroll.js"></script>
 
 		<script>
 		var width = $(window).width()

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Spark Common Issues
-category: 
+category: Spark
 date: 2014-11-13
 ---
 
