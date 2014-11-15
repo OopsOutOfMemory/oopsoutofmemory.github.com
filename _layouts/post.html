@@ -13,12 +13,15 @@ article: true
 	{% endif %}
 	{% include top.html %}
 	<div id="post-info" data-stellar-ratio="0.7">
+		<a class="site-title" style="font-weight:bold"><原创文章></a>
 		<h1>{{ page.title }}</h1>
 		{% if page.quote %}
 			<h2>{{ page.quote }}</h2>
 		{% endif %}
 		<a class="site-title" href="{{ site.url }}{{ site.baseurl }}"><div class="site-icon-small" style="background-image: url({{ site.icon }});"></div>{{ site.title }}</a>, in {{ page.date | date_to_long_string }}
+
 	</div>
+
 	<div id="nav-icon" style="bottom: 30px;" data-stellar-ratio="4">
 		<a class="scroll" data-speed="500" href="#article"><span class="genericon genericon-expand"></span></a>
 	</div>
@@ -28,21 +31,22 @@ article: true
 
 	<div id="article">
 		{{ content }}
+		<h5>(The End)</h5>
 		<h5><原创文章> From OopsOutOfMemory 盛利's Blog<h5>
 		<h5>转载请注明出自：<a href="{{ site.url }}{{ site.baseurl }}{{ page.url }}"> {{ site.url }}{{ site.baseurl }}{{ page.url }}</a></h5>
+	
+
+<div class="ds-thread"></div>  
 	</div>
 
-	{% if site.commentsystem %}{% if page.comments != false %}
-	<div id="comments">
-		{% include comments.html %}
-	</div>
-	{% endif %}{% endif %}
+
 
 </div>
+
 {% if page.next %}
 	{% capture footer_style %}{% if page.next.dark %}dark{% else %}clean{% endif %}{% endcapture %}
 	{% capture footer_image %}{% if page.next.image %}{{ site.baseurl }}{{ page.next.image }}{% else %}{{ site.cover }}{% endif %}{% endcapture %}
-	{% capture footer_message %}Read next{% endcapture %}
+	{% capture footer_message %}下一篇文章：{% endcapture %}
 	{% capture footer_url %}{{ site.baseurl }}{{ page.next.url }}{% endcapture %}
 	{% capture footer_title %}{{ page.next.title }}{% endcapture %}
 	{% capture footer_quote %}{{ page.next.quote }}{% endcapture %}
@@ -50,7 +54,7 @@ article: true
 	{% for post in site.related_posts limit:1 %}
 		{% capture footer_style %}{% if post.dark %}dark{% else %}clean{% endif %}{% endcapture %}
 		{% capture footer_image %}{% if post.image %}{{ site.baseurl }}{{ post.image }}{% else %}{{ site.cover }}{% endif %}{% endcapture %}
-		{% capture footer_message %}Featured post{% endcapture %}
+		{% capture footer_message %}<strong>上一篇文章：</strong>{% endcapture %}
 		{% capture footer_url %}{{ site.baseurl }}{{ post.url }}{% endcapture %}
 		{% capture footer_title %}{{ post.title }}{% endcapture %}
 		{% capture footer_quote %}{{ post.quote }}{% endcapture %}
@@ -75,3 +79,5 @@ article: true
 	<p class="copyright">&copy;{{ site.time | date: "%Y" }}, <a href="{{ site.copyright.url }}" target="_blank">{{ site.copyright.author }}</a>. <a href="{{ site.copyright.type_url }}" target="_blank">{{ site.copyright.type_title }}</a>.</p>
 </footer>
 <script src="{{ site.baseurl }}/assets/js/smooth-scroll.js"></script>
+
+

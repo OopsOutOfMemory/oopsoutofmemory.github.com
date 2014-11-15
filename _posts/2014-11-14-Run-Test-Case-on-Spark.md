@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Run Test Case on Spark
-category: Tests
+category: Spark
 date: 2014-11-14
 ---
 

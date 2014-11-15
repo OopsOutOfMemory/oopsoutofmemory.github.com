@@ -176,7 +176,7 @@ img {
 #nav-icon a, #nav-icon a span {
 	width: 50px;
 	text-decoration: none;
-	font-size: 48px;
+	font-size: 88px;
 	display: table;
 }
 
@@ -419,16 +419,17 @@ pre code {
 	         font-smoothing: antialiased;
 	
 	letter-spacing: 1.2pt;
-	font-size: 12px;
+	font-size: 18px;
 	font-weight: 600;
 	font-style: normal;
 	line-height: 35px;
 	display: block;
-	color: gray;
+	color: white;
+	font-family: cursive;
 }
 
 .menu-content a:hover {
-	color: #fff;
+	color: fuchsia;
 }
 
 .menu span {

@@ -2,6 +2,7 @@ require "rubygems"
 require 'rake'
 require 'yaml'
 require 'time'
+require '/Users/shengli/.rvm/gems/ruby-2.1.4/gems/hz2py-1.0.0/lib/hz2py.rb'
 
 SOURCE = "."
 CONFIG = {
@@ -31,7 +32,10 @@ desc "Begin a new post in #{CONFIG['post']}"
 task :post do
   abort("rake aborted: '#{CONFIG['post']}' directory not found.") unless FileTest.directory?(CONFIG['post'])
   title = ENV["title"] || "New-Post"
-  slug = title.gsub(' ', '-').gsub(/[^\w-]/, '')
+  tags = ENV["tags"] || "[]"
+  category = ENV['category'] || ""
+  slug = Hz2py.do(title.encode('utf-8'), :join_with => '-', :to_simplified => true)
+  slug = slug.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '')
   begin
     date = (ENV['date'] ? Time.parse(ENV['date']) : Time.now).strftime('%Y-%m-%d')
   rescue => e

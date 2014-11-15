@@ -2,7 +2,7 @@ require "rubygems"
 require 'rake'
 require 'yaml'
 require 'time'
-require 'hz2py'
+require '/Users/shengli/.rvm/gems/ruby-2.1.4/gems/hz2py-1.0.0/lib/hz2py.rb'
 
 SOURCE = "."
 CONFIG = {
@@ -28,47 +28,34 @@ def get_stdin(message)
 end
 
 # Usage: rake post title="Post Name"
-desc "Begin a new post in #{CONFIG['posts']}"
+desc "Begin a new post in #{CONFIG['post']}"
 task :post do
-  abort("rake aborted: '#{CONFIG['posts']}' directory not found.") unless FileTest.directory?(CONFIG['posts'])
-  title = ENV["title"] || "new－post"
-
-  category = ENV["category"] || "default"
-  description = ENV["description"] || ""
+  abort("rake aborted: '#{CONFIG['post']}' directory not found.") unless FileTest.directory?(CONFIG['post'])
+  title = ENV["title"] || "New-Post"
   tags = ENV["tags"] || "[]"
-  slug = Hz2py.do(title, :join_with => '-', :to_simplified => true)
+  category = ENV['category'] || ""
+  slug = Hz2py.do(title.encode('utf-8'), :join_with => '-', :to_simplified => true)
   slug = slug.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '')
   begin
     date = (ENV['date'] ? Time.parse(ENV['date']) : Time.now).strftime('%Y-%m-%d')
-  rescue Exception => e
-    puts "Error - date format must be YYYY-MM-DD, please check you typed it correctly!"
+  rescue => e
+    puts "Error - date format must be YYYY-MM-DD!"
     exit -1
   end
-
-  filename = File.join(CONFIG['posts'], category)
-  if !File.directory?(filename)
-    mkdir_p filename
-  end
-  filename = File.join(filename, "#{date}-#{slug}.#{CONFIG['post_ext']}")
+  filename = File.join(CONFIG['post'], "#{date}-#{slug}.#{CONFIG['post_ext']}")
   if File.exist?(filename)
     abort("rake aborted!") if ask("#{filename} already exists. Do you want to overwrite?", ['y', 'n']) == 'n'
   end
-
-  # User confirm 
-  abort("rake aborted!") if ask("The post #{filename} will be created in category #{category}, are you sure?", ['y', 'n']) == 'n'
-
   puts "Creating new post: #{filename}"
   open(filename, 'w') do |post|
     post.puts "---"
     post.puts "layout: post"
-    post.puts "title: \"#{title}\""
-    post.puts "description: \"#{description}\""
-    post.puts "category: \"#{category}\""
-    post.puts "tags: \"#{tags}\""
+    post.puts "title: #{title.gsub(/-/,' ')}"
+    post.puts "category: "
+    post.puts "date: #{date}"
     post.puts "---"
-    post.puts "Included file 'JB/setup' not found in _includes directory"
   end
-end # task :post
+end
 
 # Usage: rake life title="Post Name"
 desc "Begin a new life-post in #{CONFIG['life']}"

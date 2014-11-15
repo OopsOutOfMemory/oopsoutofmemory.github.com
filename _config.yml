@@ -24,6 +24,10 @@ icon:		/assets/images/oopsoutofmemory.jpg
 cover:		/assets/images/cover.jpg
 
 
+comments :
+  provider : duoshuo
+  duoshuo : 
+    short_name : oopsoutofmemory
 
 
 menu:
@@ -38,6 +42,8 @@ menu:
 
   - title:  Test 404
     url:  /404
+
+markdown: redcarpet  
 
 copyright:
   author:	盛利
