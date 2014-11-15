@@ -11,7 +11,11 @@ title: Home
 	  
 	</a>
 </header>
+
 <div id="middle">
+
+{% include category-nav.html %}
+
 <div id="post-list">
 	{% for post in paginator.posts %}
 		<div>
@@ -44,3 +48,4 @@ title: Home
 <footer class="clean" style="background-image: url({{ site.cover }}); background-position: bottom; height: 60px;">
 	<p class="copyright">&copy;{{ site.time | date: "%Y" }}, <a href="{{ site.copyright.url }}" target="_blank">{{ site.copyright.author }}</a>. <a href="{{ site.copyright.type_url }}" target="_blank">{{ site.copyright.type_title }}</a>.</p>
 </footer>
+

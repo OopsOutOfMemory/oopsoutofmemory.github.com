@@ -194,12 +194,12 @@ img {
 #category-middle {
 
 	background-color: #fff;
-	width: 100%;
+	
 	height: auto;
 	position: relative;
 	z-index: 3;
 	padding-bottom: 50px;
-	padding-left: 28%;
+	padding-left: 25%;
 }
  
 

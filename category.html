@@ -11,7 +11,13 @@ title: category
 	  
 	</a>
 </header>
+
+	{% include category-nav.html %}
+
 <div id="category-middle">
+
+
+
 <div id="category-list">
 {% for category in site.categories %}
 <h3>{{ category | first }} (<span>{{ category | last | size }}</span>)</h3>

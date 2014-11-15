@@ -1,0 +1,9 @@
+<div class="nav">
+	<div class="title"><span style="padding-right: 10px;" class="genericon genericon-menu"><span>&nbsp;&nbsp;&nbsp;Category</span></div>
+	{% for category in site.categories %} 
+	<a  href=”/categories/{{ category | first }}” title=”view all posts”>
+		<span style="padding-right: 10px;" class="genericon genericon-pinned"></span>
+		{{ category | first }} <span class="bubble">{{ category | last | size }}</span></a>
+	{% endfor %} 
+	<a class="" href="/category.html"><span style="padding-right: 12px;" class="genericon genericon-pinned"></span>Show All</a>
+</div>

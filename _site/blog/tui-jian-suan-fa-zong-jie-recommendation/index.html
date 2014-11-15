@@ -23,6 +23,7 @@
 	<link href="/assets/css/genericons.css" type="text/css" rel="stylesheet" />
 	<link href="/assets/css/index.css" type="text/css" rel="stylesheet" />
 	<link href="/assets/css/syntax.css" type="text/css" rel="stylesheet" />
+		<link href="/assets/css/style.css" type="text/css" rel="stylesheet" />
 	<link rel="apple-touch-icon" href="http://oopsoutofmemory.github.io/assets/images/oopsoutofmemory.jpg">
 	<link rel="shortcut icon" href="http://oopsoutofmemory.github.io/assets/images/favicon.ico">
 	<link rel="alternate" type="application/rss+xml" title="RSS" href="http://oopsoutofmemory.github.io/atom.xml">
@@ -83,6 +84,8 @@
 	<div class="level-3"></div>
 	</div>
 
+
+	
 	<div id="post-info" data-stellar-ratio="0.7">
 		<a class="site-title" style="font-weight:bold"><原创文章></a>
 		<h1>推荐算法总结Recommendation</h1>
@@ -98,6 +101,20 @@
 
 <div id="middle">
 
+	<div class="nav">
+	<div class="title"><span style="padding-right: 10px;" class="genericon genericon-menu"><span>&nbsp;&nbsp;&nbsp;Category</span></div>
+	 
+	<a  href=”/categories/spark” title=”view all posts”>
+		<span style="padding-right: 10px;" class="genericon genericon-pinned"></span>
+		spark <span class="bubble">3</span></a>
+	 
+	<a  href=”/categories/machine learning” title=”view all posts”>
+		<span style="padding-right: 10px;" class="genericon genericon-pinned"></span>
+		machine learning <span class="bubble">2</span></a>
+	 
+	<a class="" href="/category.html"><span style="padding-right: 12px;" class="genericon genericon-pinned"></span>Show All</a>
+</div>
+	
 	<div id="article">
 		<p>目前为止，我们常推荐算法有好多种，比较常见的有协同过滤（Collaborative Filtering Recommendations）这个在Mahout里的ItemCF和UserCF比较常用，还有一种比较新的运行在Spark上的交替性最小二乘ALS也是一种协同过滤的算法，但是其它的推荐算法也有很多，在日常中也用的比较多，就做个总结吧。</p>
 
