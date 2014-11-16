@@ -1,7 +1,8 @@
 ---
 layout: post
 title: 协同过滤     数据挖掘学习笔记
-category: Machine Learning
+categories:
+- Machine Learning
 date: 2014-11-15
 ---
 #Collaborative Filtering

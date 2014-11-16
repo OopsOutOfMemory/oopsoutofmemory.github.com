@@ -1,7 +1,8 @@
 ---
 layout: post
 title: 推荐算法总结Recommendation
-category: Machine Learning
+categories:
+- Machine Learning
 date: 2014-11-15
 ---
 

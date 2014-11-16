@@ -84,25 +84,26 @@
 <div id="middle">
 
 <div class="nav">
-	<div class="title"><span style="padding-right: 10px;" class="genericon genericon-menu"><span>&nbsp;&nbsp;&nbsp;Category</span></div>
+	<div class="title"><span style="padding-right: 10px;" class="genericon genericon-menu"><a style="color:white;" href="/category.html"><span>&nbsp;&nbsp;&nbsp;Category</span></a></div>
 	 
-	<a  href=”/categories/spark” title=”view all posts”>
+	<a  href="/category.html#spark" title="view all posts">
 		<span style="padding-right: 10px;" class="genericon genericon-pinned"></span>
-		spark <span class="bubble">3</span></a>
+		Spark <span class="bubble">3</span></a>
 	 
-	<a  href=”/categories/machine learning” title=”view all posts”>
+	<a  href="/category.html#machine learning" title="view all posts">
 		<span style="padding-right: 10px;" class="genericon genericon-pinned"></span>
-		machine learning <span class="bubble">2</span></a>
+		Machine learning <span class="bubble">2</span></a>
 	 
 	<a class="" href="/category.html"><span style="padding-right: 12px;" class="genericon genericon-pinned"></span>Show All</a>
 </div>
 
 <div id="post-list">
+	<strong style="font-family:cursive; font-size:30px;">Recent Posts:</strong><br/>
 	
 		<div>
 			<span class="post-date">15 November 2014</span>
 			<h1><a href="/blog/xie-tong-guo-lv-------shu-ju-wa-jue-xue-xi-bi-ji">协同过滤     数据挖掘学习笔记</a></h1>
-			<p class="post-description">Collaborative Filtering 1.协同过滤CF 最近你想看电影了，但是不知道看什么好，想要了解电影的推荐信息，通过什么途径呢？ 比如向问朋友，问老师，问亲友，但是毕竟每个人的品味不同，而且现在可选择的商品或电影太多太多了，不肯得到很好的推荐效果，知道你确实想要什么。 协同过滤推荐（Collaborative Filtering recommendation）是在信息过滤和信息系统中正迅速成为一项很受欢迎的技术。与传统的基于内容过滤直接分析内容进行推荐不同，协同过滤分析用户兴趣，在用户群中找到指定用户的相似（兴趣）用户，综合这些相似用户对某一信息的评价，形成系统对该指定用户对此信息的喜好程度预测。 一个协作型过滤算法通常的做法是对一大群人进行搜索， 并从中找出与我们品味相近的一小群入。算法会对这些人所偏爱的其他内容进行考查，并将它们组合起来构造出一个经过排名的推荐列表。有许多不同的方法可以帮助我们确定哪些人与自己的品味相近，并将他们的选择组合成列表。...</p>
+			<p class="post-description">Collaborative Filtering 1.协同过滤CF 最近你想看电影了，但是不知道看什么好，想要了解电影的推荐信息，通过什么途径呢？ 比如向问朋友，问老师，问亲友，但是毕竟每个人的品味不同，而且现在可选择的商品或电影太多太多了，不肯得到很好的推荐效果，知道你确实想要什么。 协同过滤推荐（Collaborative...</p>
 		</div>
 		<hr />
 		<br>
@@ -110,7 +111,7 @@
 		<div>
 			<span class="post-date">15 November 2014</span>
 			<h1><a href="/blog/tui-jian-suan-fa-zong-jie-recommendation">推荐算法总结Recommendation</a></h1>
-			<p class="post-description">目前为止，我们常推荐算法有好多种，比较常见的有协同过滤（Collaborative Filtering Recommendations）这个在Mahout里的ItemCF和UserCF比较常用，还有一种比较新的运行在Spark上的交替性最小二乘ALS也是一种协同过滤的算法，但是其它的推荐算法也有很多，在日常中也用的比较多，就做个总结吧。 1、基于内容的推荐算法(Content Based Recommendation 简称CB) 这种推荐是从信息检索，和文本检索里来的，个人理解为是搜索引擎里的搜索排行。TD-IDF计算文章的词频和反文档频率计算出关键词在文档中的权值，最后构成某篇文章的特征向量。基于该文章的特征向量和其它文章的特征向量进行余弦相似度计算，从而返回最匹配相似的文章来给予推荐。 可以简单概括为: 抽取item的特征向量...</p>
+			<p class="post-description">目前为止，我们常推荐算法有好多种，比较常见的有协同过滤（Collaborative Filtering Recommendations）这个在Mahout里的ItemCF和UserCF比较常用，还有一种比较新的运行在Spark上的交替性最小二乘ALS也是一种协同过滤的算法，但是其它的推荐算法也有很多，在日常中也用的比较多，就做个总结吧。 1、基于内容的推荐算法(Content Based Recommendation...</p>
 		</div>
 		<hr />
 		<br>
@@ -118,7 +119,7 @@
 		<div>
 			<span class="post-date">14 November 2014</span>
 			<h1><a href="/blog/Scala-eclipse-sbt-">Scala eclipse sbt 应用程序开发</a></h1>
-			<p class="post-description">由于Scala有一个比较完备的Eclipse IDE（Scala IDE for Eclipse）, 对于不想从eclipse迁移到Iea平台的Dev来说，如何方便、快速、有效得在Eclipse下编译打包开发Scala应用程序尤为重要。Sbt是类似Maven的一个构建工具，我们将使用它来构建发布程序。 本文会介绍搭建Eclipse开发Scala应用程序的一般步骤，并结合实例演示sbt工具在eclipse里是如何创建项目文件，和编译打包部署程序的。 这里做个备忘，也为初学者少走弯路而做出点小小的贡献。 一、环境准备： Scala...</p>
+			<p class="post-description">由于Scala有一个比较完备的Eclipse IDE（Scala IDE for Eclipse）, 对于不想从eclipse迁移到Iea平台的Dev来说，如何方便、快速、有效得在Eclipse下编译打包开发Scala应用程序尤为重要。Sbt是类似Maven的一个构建工具，我们将使用它来构建发布程序。...</p>
 		</div>
 		<hr />
 		<br>
@@ -126,7 +127,7 @@
 		<div>
 			<span class="post-date">14 November 2014</span>
 			<h1><a href="/blog/Run-Test-Case-on-Spark">Run Test Case on Spark</a></h1>
-			<p class="post-description">今天有哥们问到如何对Spark进行单元测试。现在将Sbt的测试方法写出来，如下： 对Spark的test case进行测试的时候可以用sbt的test命令： 一、测试全部test case sbt/sbt test 二、测试单个test case sbt/sbt...</p>
+			<p class="post-description">今天有哥们问到如何对Spark进行单元测试。现在将Sbt的测试方法写出来，如下： 对Spark的test case进行测试的时候可以用sbt的test命令： 一、测试全部test case sbt/sbt...</p>
 		</div>
 		<hr />
 		<br>
@@ -134,7 +135,7 @@
 		<div>
 			<span class="post-date">13 November 2014</span>
 			<h1><a href="/blog/Spark-Common-Issues">Spark Common Issues</a></h1>
-			<p class="post-description">1、WARN TaskSchedulerImpl: Initial job has not accepted any resources; check...</p>
+			<p class="post-description">1、WARN TaskSchedulerImpl: Initial job has not...</p>
 		</div>
 		<hr />
 		<br>

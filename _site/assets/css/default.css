@@ -527,7 +527,7 @@ pre code {
 	position: fixed;
 }
 
-#category-list {
+.category-list {
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	top: 50px;
 	padding-bottom: 80px;
@@ -539,9 +539,54 @@ pre code {
 	position: relative;
 
 }
+.category-list ul {
+	margin-left: 1.3em;
+	list-style: disc;
+	margin-top: 0;
+}
 
+.category-list a {
 
-#category-list h3 {
+	border-bottom: 1px solid #1abc9c;
+}
+
+.category-list li {
+border-bottom-color: rgb(26, 188, 156);
+
+border-bottom-width: 1px;
+box-sizing: border-box;
+color: rgb(26, 188, 156);
+cursor: auto;
+font-family: Avenir, 'Microsoft Yahei', 'Hiragino Sans GB', 'Microsoft Sans Serif', 'WenQuanYi Micro Hei', sans-serif;
+font-size: 20px;
+font-style: normal;
+font-variant: normal;
+font-weight: normal;
+height: auto;
+line-height: 35px;
+list-style-image: none;
+list-style-position: outside;
+list-style-type: none;
+text-align: left;
+text-decoration: none;
+width: auto;
+}
+
+.category-list h2 {
+	font-family: cursive;
+	font-size: 32px;
+font-style: normal;
+font-variant: normal;
+font-weight: 200;
+height: 43px;
+line-height: 43.2000007629395px;
+margin-bottom: 11.5199995040894px;
+margin-left: 0px;
+margin-right: 0px;
+margin-top: 0px;
+}
+
+.category-list h3 {
 
 	color: brown;
 	font-size: 20pt;

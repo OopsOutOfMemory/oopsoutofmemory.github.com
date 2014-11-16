@@ -1,7 +1,8 @@
 ---
 layout: post
 title: Scala eclipse sbt 应用程序开发
-category: Spark
+categories: 
+- spark
 date: 2014-11-14
 ---
 
