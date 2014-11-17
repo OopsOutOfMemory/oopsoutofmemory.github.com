@@ -4,7 +4,7 @@
  <title>盛利的博客</title>
  <link href="http://oopsoutofmemory.github.io/atom.xml" rel="self"/>
  <link href="http://oopsoutofmemory.github.io/"/>
- <updated>2014-11-16T11:06:51+08:00</updated>
+ <updated>2014-11-17T15:12:32+08:00</updated>
  <id>http://oopsoutofmemory.github.io</id>
  <author>
    <name>OopsOutOfMemory</name>
@@ -22,9 +22,9 @@
 &lt;h2&gt;1.协同过滤CF&lt;/h2&gt;
 
 &lt;p&gt;最近你想看电影了，但是不知道看什么好，想要了解电影的推荐信息，通过什么途径呢？
-    比如向问朋友，问老师，问亲友，但是毕竟每个人的品味不同，而且现在可选择的商品或电影太多太多了，不肯得到很好的推荐效果，知道你确实想要什么。
-    协同过滤推荐（Collaborative Filtering recommendation）是在信息过滤和信息系统中正迅速成为一项很受欢迎的技术。与传统的基于内容过滤直接分析内容进行推荐不同，协同过滤分析用户兴趣，在用户群中找到指定用户的相似（兴趣）用户，综合这些相似用户对某一信息的评价，形成系统对该指定用户对此信息的喜好程度预测。
-    一个协作型过滤算法通常的做法是对一大群人进行搜索， 并从中找出与我们品味相近的一小群入。算法会对这些人所偏爱的其他内容进行考查，并将它们组合起来构造出一个经过排名的推荐列表。有许多不同的方法可以帮助我们确定哪些人与自己的品味相近，并将他们的选择组合成列表。&lt;/p&gt;
+比如向问朋友，问老师，问亲友，但是毕竟每个人的品味不同，而且现在可选择的商品或电影太多太多了，不肯得到很好的推荐效果，知道你确实想要什么。
+协同过滤推荐（Collaborative Filtering recommendation）是在信息过滤和信息系统中正迅速成为一项很受欢迎的技术。与传统的基于内容过滤直接分析内容进行推荐不同，协同过滤分析用户兴趣，在用户群中找到指定用户的相似（兴趣）用户，综合这些相似用户对某一信息的评价，形成系统对该指定用户对此信息的喜好程度预测。
+一个协作型过滤算法通常的做法是对一大群人进行搜索， 并从中找出与我们品味相近的一小群入。算法会对这些人所偏爱的其他内容进行考查，并将它们组合起来构造出一个经过排名的推荐列表。有许多不同的方法可以帮助我们确定哪些人与自己的品味相近，并将他们的选择组合成列表。&lt;/p&gt;
 
 &lt;h2&gt;2. 协同过滤种类&lt;/h2&gt;
 
@@ -647,7 +647,7 @@ EclipseKeys.createSrc := EclipseCreateSrc.Default + EclipseCreateSrc.Resource
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;至此我们在eclipse能运行Run as Scala Application，但是如何加依赖打包发布呢？&lt;/p&gt;
 
-&lt;h3&gt;3.3、Assembly&lt;/h3&gt;
+3.3、Assembly&lt;/h3&gt;
 
 &lt;p&gt;还记得Spark里面的assembly吗？那个就是发布用的，sbt本身支持的clean compile package之类的命令，但是带依赖的one jar打包方式还是assembly比较成熟。
 Sbt本身的命令：参考&lt;a href=&quot;http://www.scala-sbt.org/0.13/tutorial/Running.html&quot;&gt;http://www.scala-sbt.org/0.13/tutorial/Running.html&lt;/a&gt; 和&lt;a href=&quot;http://www.scala-sbt.org/0.13/docs/Command-Line-Reference.html&quot;&gt;http://www.scala-sbt.org/0.13/docs/Command-Line-Reference.html&lt;/a&gt;&lt;/p&gt;

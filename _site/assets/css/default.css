@@ -171,13 +171,19 @@ img {
 	position: absolute;
 	text-align: center;
 	z-index: 2;
+	border-radius: 50%;
+	background-color: green;
 }
 
 #nav-icon a, #nav-icon a span {
-	width: 50px;
+	width: 30px;
 	text-decoration: none;
-	font-size: 88px;
+	font-size: 58px;
 	display: table;
+}
+
+#nav-icon > a:hover {
+color: orange;
 }
 
 #middle {

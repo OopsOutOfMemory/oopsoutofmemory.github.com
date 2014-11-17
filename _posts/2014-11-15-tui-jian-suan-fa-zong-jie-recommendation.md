@@ -3,6 +3,7 @@ layout: post
 title: 推荐算法总结Recommendation
 categories:
 - Machine Learning
+tags: [recommendation, data mining, machine learning, big data]
 date: 2014-11-15
 ---
 

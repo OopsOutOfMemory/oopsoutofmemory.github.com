@@ -62,6 +62,10 @@
 </div>
  <div  class="social-links" data-stellar-ratio="0.1" style="-webkit-transform: translate3d(0px, 0px, 0px);">
 		
+		<a href="http://localhost:4000"  title="Home" ><span style="display: inline-block;font-size: 45px;position: relative;top: -4px;
+right: 10px;" class="genericon genericon-home"  >
+			</span></a>
+
 			<a href="http://weibo.com/oopsoom" target="_blank" title="Sina WeiBo" ><img class="genericon genericon-github" src="/assets/images/icon/weibo.png" style="width:35px; height:32px;">
 			</img></a>
 
@@ -285,7 +289,7 @@ EclipseKeys.createSrc := EclipseCreateSrc.Default + EclipseCreateSrc.Resource
 </code></pre></div>
 <p>至此我们在eclipse能运行Run as Scala Application，但是如何加依赖打包发布呢？</p>
 
-<h3>3.3、Assembly</h3>
+3.3、Assembly</h3>
 
 <p>还记得Spark里面的assembly吗？那个就是发布用的，sbt本身支持的clean compile package之类的命令，但是带依赖的one jar打包方式还是assembly比较成熟。
 Sbt本身的命令：参考<a href="http://www.scala-sbt.org/0.13/tutorial/Running.html">http://www.scala-sbt.org/0.13/tutorial/Running.html</a> 和<a href="http://www.scala-sbt.org/0.13/docs/Command-Line-Reference.html">http://www.scala-sbt.org/0.13/docs/Command-Line-Reference.html</a></p>

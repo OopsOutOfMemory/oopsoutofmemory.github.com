@@ -3,6 +3,7 @@ layout: post
 title: Run Test Case on Spark
 categories: 
 - spark
+tags: [spark, test]
 date: 2014-11-14
 ---
 

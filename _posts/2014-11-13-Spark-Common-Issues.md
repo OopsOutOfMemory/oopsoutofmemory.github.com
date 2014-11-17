@@ -3,6 +3,7 @@ layout: post
 title: Spark Common Issues
 categories: 
 - spark
+tags: [spark]
 date: 2014-11-13
 ---
 
