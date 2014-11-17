@@ -43,7 +43,7 @@ title: category
 	{% endfor %}
 </div>
 </div>
-<nav class="pagination" role="navigation">
+<!-- <nav class="pagination" role="navigation">
 	{% if paginator.next_page %}
 		<a class="newer-posts" href="{{ site.baseurl }}/page{{paginator.next_page}}">&larr; Older posts</a>
 	{% endif %}
@@ -55,7 +55,7 @@ title: category
 			<a class="older-posts" href="{{ site.baseurl }}/page{{paginator.previous_page}}">Newer posts &rarr;</a>
 		{% endif %}
 	{% endif %}
-</nav>
+</nav> -->
 
 <footer class="clean" style="background-image: url({{ site.cover }}); background-position: bottom; height: 60px;">
 	<p class="copyright">&copy;{{ site.time | date: "%Y" }}, <a href="{{ site.copyright.url }}" target="_blank">{{ site.copyright.author }}</a>. <a href="{{ site.copyright.type_url }}" target="_blank">{{ site.copyright.type_title }}</a>.</p>

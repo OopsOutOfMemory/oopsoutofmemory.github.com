@@ -190,10 +190,9 @@ color: orange;
 	background-color: #fff;
 	width: 100%;
 	height: auto;
-
 	position: relative;
 	z-index: 3;
-	padding-bottom: 50px;
+/*	padding-bottom: 50px;*/
 }
 
 
@@ -267,7 +266,7 @@ dd {
 
 hr {
 	position: relative;
-	margin: 1.5rem 0;
+	/*margin: 1.5rem 0;*/
 	border: 0;
 	border-top: 1px solid #eee;
 	border-bottom: 1px solid #fff;
@@ -472,6 +471,7 @@ pre code {
 	text-decoration: none;
 	color: #888;
 	line-height: 45px;
+	margin-bottom: 30px;
 
 }
 
@@ -527,6 +527,7 @@ pre code {
 	color: #313131;
 	line-height: 1.5;
 	position: relative;
+	min-height: 300px;
 }
 
 #category {
@@ -600,7 +601,7 @@ margin-top: 0px;
 
 #post-list h1 {
 	font-weight: bold;
-	font-size: 30pt;
+/*	font-size: 30pt;*/
 	line-height: 44px;
 	margin-top: 0px;
 	margin-bottom: 8px;
