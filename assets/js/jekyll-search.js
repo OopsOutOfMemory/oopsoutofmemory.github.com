@@ -214,7 +214,7 @@ function e(t, n, r) {
 					resultsContainer: null,
 					dataSource: [],
 					searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>',
-					noResultsText: "No results found",
+					noResultsText: "",
 					limit: 10,
 					fuzzy: !1
 				};
