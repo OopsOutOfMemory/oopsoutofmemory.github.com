@@ -21,6 +21,7 @@
 	<script type="text/javascript" src="/assets/js/jquery-2.1.0.min.js"></script>
 	<script type="text/javascript" src="/assets/js/jquery.stellar.min.js"></script>
 	<script type="text/javascript" src="/assets/js/rocket.js"></script>
+	<script type="text/javascript" src="/assets/js/jekyll-search.js"></script>
 	
 </head>
 
@@ -53,6 +54,10 @@
 </div>
  <div  class="social-links" data-stellar-ratio="0.1" style="-webkit-transform: translate3d(0px, 0px, 0px);">
 		
+<div id="search-container" >
+      <input type="text" id="search-input" placeholder="search...">
+      <ul id="results-container" style="position: absolute;"></ul>
+ </div>
 		<a href="http://oopsoutofmemory.github.io"  title="Home" ><span style="display: inline-block;font-size: 45px;position: relative;top: -4px;
 right: 10px;" class="genericon genericon-home"  >
 			</span></a>
@@ -78,7 +83,17 @@ right: 10px;" class="genericon genericon-home"  >
 	<div style="opacity:0;display: block;" class="level-2"></div>
 	<div class="level-3"></div>
 	</div>
-
+ <script type="text/javascript">
+      SimpleJekyllSearch.init({
+        searchInput: document.getElementById('search-input'),
+        resultsContainer: document.getElementById('results-container'),
+        dataSource: '/search.json',
+        searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>',
+        noResultsText: 'No results found',
+        limit: 10,
+        fuzzy: false,
+      })
+    </script>
 	<div id="post-info">
 	<p id="404" style="text-align: center; color: #fff; opacity: .75; font-weight: bold;">404</p>
 	<h2 style="text-align: center;">This page has just discovered that Darth Vader is his father and ran away to not be found. Go back to the homepage.</h2>

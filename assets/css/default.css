@@ -657,3 +657,48 @@ margin-top: 0px;
     opacity: .6;
     filter: Alpha(opacity=60);
 }
+
+
+#search-container {
+position: absolute;
+right: 240px;
+top: 2px;
+z-index: 500;
+}
+
+
+#search-container input {
+width: 200px;
+height: 21px;
+line-height: 21px;
+padding: 4px 7px;
+color: b3b3b3;
+border: 1px solid #999;
+border-radius: 5px;
+background-color: #fbfbfb;
+}
+
+#search-container ul {
+	position: absolute;
+	margin: 0;
+	padding: 0;
+	background-color: white;
+}
+
+
+#search-container ul li {
+	list-style: none;
+	width: 360px;
+	padding: 5px;
+}
+
+
+#search-container ul li a {
+color: #2a7ead;
+text-decoration: none;
+width: 100%;
+}
+
+#search-container ul li:hover {
+	background-color: lightblue;
+}

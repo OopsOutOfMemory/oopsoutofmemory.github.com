@@ -18,6 +18,10 @@
 </div>
  <div  class="social-links" data-stellar-ratio="0.1" style="-webkit-transform: translate3d(0px, 0px, 0px);">
 		
+<div id="search-container" >
+      <input type="text" id="search-input" placeholder="search...">
+      <ul id="results-container" style="position: absolute;"></ul>
+ </div>
 		<a href="{{ site.url }}"  title="Home" ><span style="display: inline-block;font-size: 45px;position: relative;top: -4px;
 right: 10px;" class="genericon genericon-home"  >
 			</span></a>
@@ -45,3 +49,14 @@ right: 10px;" class="genericon genericon-home"  >
 	<div style="opacity:0;display: block;" class="level-2"></div>
 	<div class="level-3"></div>
 	</div>
+ <script type="text/javascript">
+      SimpleJekyllSearch.init({
+        searchInput: document.getElementById('search-input'),
+        resultsContainer: document.getElementById('results-container'),
+        dataSource: '/search.json',
+        searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>',
+        noResultsText: 'No results found',
+        limit: 10,
+        fuzzy: false,
+      })
+    </script>

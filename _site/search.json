@@ -1,0 +1,43 @@
+[
+  
+    {
+      "title"    : "协同过滤     数据挖掘学习笔记",
+      "category" : "",
+      "tags"     : "data mining, machine learning, and big data",
+      "url"      : "/blog/xie-tong-guo-lv-------shu-ju-wa-jue-xue-xi-bi-ji",
+      "date"     : "2014-11-15 00:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "推荐算法总结Recommendation",
+      "category" : "",
+      "tags"     : "recommendation, data mining, machine learning, and big data",
+      "url"      : "/blog/tui-jian-suan-fa-zong-jie-recommendation",
+      "date"     : "2014-11-15 00:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "Scala eclipse sbt 应用程序开发",
+      "category" : "",
+      "tags"     : "spark, scaka, eclipse, and sbt",
+      "url"      : "/blog/Scala-eclipse-sbt-",
+      "date"     : "2014-11-14 00:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "Run Test Case on Spark",
+      "category" : "",
+      "tags"     : "spark and test",
+      "url"      : "/blog/Run-Test-Case-on-Spark",
+      "date"     : "2014-11-14 00:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "Spark Common Issues",
+      "category" : "",
+      "tags"     : "spark",
+      "url"      : "/blog/Spark-Common-Issues",
+      "date"     : "2014-11-13 00:00:00 +0800"
+    } 
+  
+]
