@@ -523,7 +523,6 @@ pre code {
 	top: 30px;
 	font-weight: 400;
 	letter-spacing: 0px;
-	font-size: 15pt;
 	color: #313131;
 	line-height: 1.5;
 	position: relative;
@@ -601,7 +600,7 @@ margin-top: 0px;
 
 #post-list h1 {
 	font-weight: bold;
-/*	font-size: 30pt;*/
+	font-size: 26px;
 	line-height: 44px;
 	margin-top: 0px;
 	margin-bottom: 8px;
@@ -620,8 +619,9 @@ margin-top: 0px;
 
 .post-description {
 	color: #777;
-	font-size: 15pt;
+	font-size: 17px;
 	font-family: Fenix, Georgia, "Times New Roman", serif;
+	padding-bottom: 10px;
 }
 
 .post-date {

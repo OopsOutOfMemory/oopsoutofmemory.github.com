@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	
+	<link href="//gmpg.org/xfn/11" rel="profile">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<link rel="canonical" href="http://oopsoutofmemory.github.io/blog/hive-zhong-reduce-ge-shu-she-ding" />
+	<meta name="description" content="我们每次执行hive的hql时，shell里都会提示一段话： ```scala ... Number of reduce tasks not specified. Estimated from input data size: 500 In order to change the..." />
+	<meta property="og:description" content="我们每次执行hive的hql时，shell里都会提示一段话： ```scala ... Number of reduce tasks not specified. Estimated from input data size: 500 In order to change the..." />
+	<meta itemprop="image" content="http://oopsoutofmemory.github.io/assets/images/oopsoutofmemory.jpg" />
+	<meta property="og:image" content="http://oopsoutofmemory.github.io/assets/images/oopsoutofmemory.jpg" />
+	<meta property="og:title" content="Hive中reduce个数设定" />
+	<meta property="og:type" content="article" />
+	<meta property="og:url" content="http://oopsoutofmemory.github.io/blog/hive-zhong-reduce-ge-shu-she-ding" />
+	<meta property="og:site_name" content="盛利的博客" />
+	<title>Hive中reduce个数设定 &middot; 盛利的博客</title>
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="HandheldFriendly" content="True" />
+	<meta name="MobileOptimized" content="320" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" type="text/css" media="only screen and (min-width: 900px)" href="/assets/css/desktop.css" />
+	<link rel="stylesheet" type="text/css" media="only screen and (max-width: 899px)" href="/assets/css/mobile.css" />
+	<link href="/assets/css/genericons.css" type="text/css" rel="stylesheet" />
+	<link href="/assets/css/index.css" type="text/css" rel="stylesheet" />
+	<link href="/assets/css/syntax.css" type="text/css" rel="stylesheet" />
+		<link href="/assets/css/style.css" type="text/css" rel="stylesheet" />
+	<link rel="apple-touch-icon" href="http://oopsoutofmemory.github.io/assets/images/oopsoutofmemory.jpg">
+	<link rel="shortcut icon" href="http://oopsoutofmemory.github.io/assets/images/favicon.ico">
+	<link rel="alternate" type="application/rss+xml" title="RSS" href="http://oopsoutofmemory.github.io/atom.xml">
+	<script type="text/javascript" src="/assets/js/jquery-2.1.0.min.js"></script>
+	<script type="text/javascript" src="/assets/js/jquery.stellar.min.js"></script>
+	<script type="text/javascript" src="/assets/js/rocket.js"></script>
+	<script type="text/javascript" src="/assets/js/jekyll-search.js"></script>
+	
+</head>
+
+	<body>
+		<header class="clean" style="background-image: url(/assets/images/cover.jpg); height: 100%;" data-stellar-background-ratio="0.5" data-stellar-horizontal-offset="50">
+	
+	<span id="home-intro">
+	<b>OopsOutOfMemory 盛利's Blog</b><br/>
+    <span class="desc"><b>专注大数据领域，分布式计算，Spark Contributor</b></span>
+</span>
+<label class="menu" for="_1">
+	<span class="genericon genericon-menu"></span>
+	
+</label>
+<input id="_1" type="checkbox">
+<div class="menu-content">
+	<p class="menu-title">盛利的博客<p>
+	<div class="menu" style="background-color: #1a1a1a; z-index: -1;"></div>
+	
+		<a href="/">首页</a>
+	
+		<a href="/category.html">博客列表</a>
+	
+		<a href="/aboutMe.html">关于我</a>
+	
+		<a href="/404">Test 404</a>
+	
+	<hr>
+	
+</div>
+ <div  class="social-links" data-stellar-ratio="0.1" style="-webkit-transform: translate3d(0px, 0px, 0px);">
+		
+<div id="search-container" >
+      <input type="text" id="search-input" placeholder="search...">
+      <ul id="results-container" style="position: absolute;"></ul>
+ </div>
+		<a href="http://oopsoutofmemory.github.io"  title="Home" ><span style="display: inline-block;font-size: 45px;position: relative;top: -4px;
+right: 10px;" class="genericon genericon-home"  >
+			</span></a>
+
+			<a href="http://weibo.com/oopsoom" target="_blank" title="Sina WeiBo" ><img class="genericon genericon-github" src="/assets/images/icon/weibo.png" style="width:35px; height:32px;">
+			</img></a>
+
+			<a href="https://github.com/OopsOutOfMemory" target="_blank" title="Fork me on github"><img class="genericon genericon-github" src="/assets/images/icon/github.jpg" style="width:32px; height:29px;">
+			</img></a>
+		
+			<a href="https://twitter.com/sheng_victor" target="_blank" title="Follow me on twitter"><img class="genericon genericon-github" src="/assets/images/icon/twitter.png" style="width:34px; height:30px;">
+			</img></a>
+		
+			<a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=e5179e72fd9f500ad852aefa6e2824dc2fb59868de8fa3d5b65eae670a2fc437"><img class="genericon genericon-github" src="/assets/images/icon/qqqun.png" alt="Spark Ecosystem技术交流" style="width:34px; height:30px;" title="Spark Ecosystem技术交流"></a>
+		
+	</div>
+
+<div class="social-links" data-stellar-ratio="0.1">
+	
+</div>
+
+	<div style="display: none;" id="rocket-to-top">
+	<div style="opacity:0;display: block;" class="level-2"></div>
+	<div class="level-3"></div>
+	</div>
+ <script type="text/javascript">
+      SimpleJekyllSearch.init({
+        searchInput: document.getElementById('search-input'),
+        resultsContainer: document.getElementById('results-container'),
+        dataSource: '/search.json',
+        searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>',
+        noResultsText: 'No results found',
+        limit: 10,
+        fuzzy: false,
+      })
+    </script>
+
+
+	<div id="post-info" data-stellar-ratio="0.7">
+		<a class="site-title" style="font-weight:bold"><原创文章></a>
+		<h1>Hive中reduce个数设定</h1>
+		
+		<a class="site-title" href="http://oopsoutofmemory.github.io"><div class="site-icon-small" style="background-image: url(/assets/images/oopsoutofmemory.jpg);"></div>盛利的博客</a>, in 19 November 2014
+
+	</div>
+
+	<div id="nav-icon" style="bottom: 30px;" data-stellar-ratio="4">
+		<a class="scroll" data-speed="500" href="#article"><span class="genericon genericon-expand"></span></a>
+	</div>
+</header>
+
+<div id="middle">
+
+	<div class="nav">
+	<div class="title"><span style="padding-right: 10px;" class="genericon genericon-menu"><a style="color:white;" href="/category.html"><span>&nbsp;&nbsp;&nbsp;Category</span></a></div>
+	 
+	<a  href="/category.html#spark" title="view all posts">
+		<span style="padding-right: 10px;" class="genericon genericon-pinned"></span>
+		Spark <span class="bubble">3</span></a>
+	 
+	<a  href="/category.html#machine learning" title="view all posts">
+		<span style="padding-right: 10px;" class="genericon genericon-pinned"></span>
+		Machine learning <span class="bubble">2</span></a>
+	 
+	<a  href="/category.html#hive" title="view all posts">
+		<span style="padding-right: 10px;" class="genericon genericon-pinned"></span>
+		Hive <span class="bubble">7</span></a>
+	 
+	<a class="" href="/category.html"><span style="padding-right: 12px;" class="genericon genericon-pinned"></span>Show All</a>
+</div>
+	
+	<div id="article">
+		<p>我们每次执行hive的hql时，shell里都会提示一段话：</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="o">...</span>  
+<span class="nc">Number</span> <span class="n">of</span> <span class="n">reduce</span> <span class="n">tasks</span> <span class="n">not</span> <span class="n">specified</span><span class="o">.</span> <span class="nc">Estimated</span> <span class="n">from</span> <span class="n">input</span> <span class="n">data</span> <span class="n">size</span><span class="k">:</span> <span class="err">500</span>  
+<span class="kt">In</span> <span class="kt">order</span> <span class="kt">to</span> <span class="kt">change</span> <span class="kt">the</span> <span class="kt">average</span> <span class="kt">load</span> <span class="kt">for</span> <span class="kt">a</span> <span class="kt">reducer</span> <span class="o">(</span><span class="kt">in</span> <span class="kt">bytes</span><span class="o">)</span><span class="kt">:</span>  
+  <span class="n">set</span> <span class="n">hive</span><span class="o">.</span><span class="n">exec</span><span class="o">.</span><span class="n">reducers</span><span class="o">.</span><span class="n">bytes</span><span class="o">.</span><span class="n">per</span><span class="o">.</span><span class="n">reducer</span><span class="o">=&lt;</span><span class="n">number</span><span class="o">&gt;</span>  
+<span class="nc">In</span> <span class="n">order</span> <span class="n">to</span> <span class="n">limit</span> <span class="n">the</span> <span class="n">maximum</span> <span class="n">number</span> <span class="n">of</span> <span class="n">reducers</span><span class="k">:</span>  
+  <span class="kt">set</span> <span class="kt">hive.exec.reducers.max</span><span class="o">=&lt;</span><span class="n">number</span><span class="o">&gt;</span>  
+<span class="nc">In</span> <span class="n">order</span> <span class="n">to</span> <span class="n">set</span> <span class="n">a</span> <span class="n">constant</span> <span class="n">number</span> <span class="n">of</span> <span class="n">reducers</span><span class="k">:</span>  
+  <span class="kt">set</span> <span class="kt">mapred.reduce.tasks</span><span class="o">=&lt;</span><span class="n">number</span><span class="o">&gt;</span>  
+<span class="o">...</span>  
+</code></pre></div>
+<p>这个是调优的经常手段，主要有一下三个属性来决定</p>
+
+<h3>hive.exec.reducers.bytes.per.reducer</h3>
+
+<p>这个参数控制一个job会有多少个reducer来处理，依据的是输入文件的总大小。默认1GB。</p>
+
+<blockquote>
+<p>This controls how many reducers a map-reduce job should have, depending on the total size of input files to the job. Default is 1GB</p>
+</blockquote>
+
+<h3>hive.exec.reducers.max</h3>
+
+<p>这个参数控制最大的reducer的数量， 如果 input / bytes per reduce &gt; max  则会启动这个参数所指定的reduce个数。  这个并不会影响mapre.reduce.tasks参数的设置。默认的max是999。</p>
+
+<blockquote>
+<p>This controls the maximum number of reducers a map-reduce job can have.  If input<em>file</em>size divided by &quot;hive.exec.bytes.per.reducer&quot; is greater than this value, the map-reduce job will have this value as the number reducers.  Note this does not affect the number of reducers directly specified by the user through &quot;mapred.reduce.tasks&quot; and query hints</p>
+</blockquote>
+
+<h3>mapred.reduce.tasks</h3>
+
+<p>这个参数如果指定了，hive就不会用它的estimation函数来自动计算reduce的个数，而是用这个参数来启动reducer。默认是-1.</p>
+
+<blockquote>
+<p>This overrides the hadoop configuration to make sure we enable the estimation of the number of reducers by the size of the input files. If this value is non-negative, then hive will pass this number directly to map-reduce jobs instead of doing the estimation.</p>
+</blockquote>
+
+<p>reduce的个数设置其实对执行效率有很大的影响：
+1. 如果reduce太少：  如果数据量很大，会导致这个reduce异常的慢，从而导致这个任务不能结束，也有可能会OOM
+2. 如果reduce太多：  产生的小文件太多，合并起来代价太高，namenode的内存占用也会增大。</p>
+
+<p>如果我们不指定<code>mapred.reduce.tasks</code>， hive会自动计算需要多少个<code>reducer</code>。</p>
+
+<p>计算的公式：  <code>reduce个数 =  InputFileSize   /   bytes per reducer</code></p>
+
+<p>这个数个粗略的公式，详细的公式在：
+<code>common/src/java/org/apache/hadoop/hive/conf/HiveConf.java</code></p>
+
+<p>我们先看下： 
+1. 计算输入文件大小的方法：其实很简单，遍历每个路径获取length，累加。</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="o">+</span>   <span class="o">*</span> <span class="nc">Calculate</span> <span class="n">the</span> <span class="n">total</span> <span class="n">size</span> <span class="n">of</span> <span class="n">input</span> <span class="n">files</span><span class="o">.</span>  
+<span class="o">+</span>   <span class="o">*</span> <span class="nd">@param</span> <span class="n">job</span> <span class="n">the</span> <span class="n">hadoop</span> <span class="n">job</span> <span class="n">conf</span><span class="o">.</span>  
+<span class="o">+</span>   <span class="o">*</span> <span class="nd">@return</span> <span class="n">the</span> <span class="n">total</span> <span class="n">size</span> <span class="n">in</span> <span class="n">bytes</span><span class="o">.</span>  
+<span class="o">+</span>   <span class="o">*</span> <span class="nd">@throws</span> <span class="nc">IOException</span>   
+<span class="o">+</span>   <span class="o">*/</span>  
+<span class="o">+</span>  <span class="n">public</span> <span class="n">static</span> <span class="n">long</span> <span class="n">getTotalInputFileSize</span><span class="o">(</span><span class="nc">JobConf</span> <span class="n">job</span><span class="o">,</span> <span class="n">mapredWork</span> <span class="n">work</span><span class="o">)</span> <span class="n">throws</span> <span class="nc">IOException</span> <span class="o">{</span>  
+<span class="o">+</span>    <span class="n">long</span> <span class="n">r</span> <span class="k">=</span> <span class="mi">0</span><span class="o">;</span>  
+<span class="o">+</span>    <span class="nc">FileSystem</span> <span class="n">fs</span> <span class="k">=</span> <span class="nc">FileSystem</span><span class="o">.</span><span class="n">get</span><span class="o">(</span><span class="n">job</span><span class="o">);</span>  
+<span class="o">+</span>    <span class="c1">// For each input path, calculate the total size.  </span>
+<span class="o">+</span>    <span class="k">for</span> <span class="o">(</span><span class="nc">String</span> <span class="n">path</span><span class="k">:</span> <span class="kt">work.getPathToAliases</span><span class="o">()</span><span class="kt">.keySet</span><span class="o">())</span> <span class="o">{</span>  
+<span class="o">+</span>      <span class="nc">ContentSummary</span> <span class="n">cs</span> <span class="k">=</span> <span class="n">fs</span><span class="o">.</span><span class="n">getContentSummary</span><span class="o">(</span><span class="k">new</span> <span class="nc">Path</span><span class="o">(</span><span class="n">path</span><span class="o">));</span>  
+<span class="o">+</span>      <span class="n">r</span> <span class="o">+=</span> <span class="n">cs</span><span class="o">.</span><span class="n">getLength</span><span class="o">();</span>  
+<span class="o">+</span>    <span class="o">}</span>  
+<span class="o">+</span>    <span class="k">return</span> <span class="n">r</span><span class="o">;</span>  
+<span class="o">+</span>  <span class="o">}</span>  
+</code></pre></div>
+<p>2、估算reducer的个数，及计算公式：
+注意最重要的一句话：  int reducers = (int)((totalInputFileSize + bytesPerReducer - 1) / bytesPerReducer);</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="o">+</span>  <span class="cm">/**  </span>
+<span class="cm">+   * Estimate the number of reducers needed for this job, based on job input,  </span>
+<span class="cm">+   * and configuration parameters.  </span>
+<span class="cm">+   * @return the number of reducers.  </span>
+<span class="cm">+   */</span>  
+<span class="o">+</span>  <span class="n">public</span> <span class="n">int</span> <span class="n">estimateNumberOfReducers</span><span class="o">(</span><span class="nc">HiveConf</span> <span class="n">hive</span><span class="o">,</span> <span class="nc">JobConf</span> <span class="n">job</span><span class="o">,</span> <span class="n">mapredWork</span> <span class="n">work</span><span class="o">)</span> <span class="n">throws</span> <span class="nc">IOException</span> <span class="o">{</span>  
+<span class="o">+</span>    <span class="n">long</span> <span class="n">bytesPerReducer</span> <span class="k">=</span> <span class="n">hive</span><span class="o">.</span><span class="n">getLongVar</span><span class="o">(</span><span class="nc">HiveConf</span><span class="o">.</span><span class="nc">ConfVars</span><span class="o">.</span><span class="nc">BYTESPERREDUCER</span><span class="o">);</span>  
+<span class="o">+</span>    <span class="n">int</span> <span class="n">maxReducers</span> <span class="k">=</span> <span class="n">hive</span><span class="o">.</span><span class="n">getIntVar</span><span class="o">(</span><span class="nc">HiveConf</span><span class="o">.</span><span class="nc">ConfVars</span><span class="o">.</span><span class="nc">MAXREDUCERS</span><span class="o">);</span>  
+<span class="o">+</span>    <span class="n">long</span> <span class="n">totalInputFileSize</span> <span class="k">=</span> <span class="n">getTotalInputFileSize</span><span class="o">(</span><span class="n">job</span><span class="o">,</span> <span class="n">work</span><span class="o">);</span>  
+<span class="o">+</span>  
+<span class="o">+</span>    <span class="nc">LOG</span><span class="o">.</span><span class="n">info</span><span class="o">(</span><span class="s">&quot;BytesPerReducer=&quot;</span> <span class="o">+</span> <span class="n">bytesPerReducer</span> <span class="o">+</span> <span class="s">&quot; maxReducers=&quot;</span> <span class="o">+</span> <span class="n">maxReducers</span>   
+<span class="o">+</span>        <span class="o">+</span> <span class="s">&quot; totalInputFileSize=&quot;</span> <span class="o">+</span> <span class="n">totalInputFileSize</span><span class="o">);</span>  
+<span class="o">+</span>    <span class="n">int</span> <span class="n">reducers</span> <span class="k">=</span> <span class="o">(</span><span class="n">int</span><span class="o">)((</span><span class="n">totalInputFileSize</span> <span class="o">+</span> <span class="n">bytesPerReducer</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">/</span> <span class="n">bytesPerReducer</span><span class="o">);</span>  
+<span class="o">+</span>    <span class="n">reducers</span> <span class="k">=</span> <span class="nc">Math</span><span class="o">.</span><span class="n">max</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">reducers</span><span class="o">);</span>  
+<span class="o">+</span>    <span class="n">reducers</span> <span class="k">=</span> <span class="nc">Math</span><span class="o">.</span><span class="n">min</span><span class="o">(</span><span class="n">maxReducers</span><span class="o">,</span> <span class="n">reducers</span><span class="o">);</span>  
+<span class="o">+</span>    <span class="k">return</span> <span class="n">reducers</span><span class="o">;</span>      
+<span class="o">+</span>  <span class="o">}</span>  
+</code></pre></div>
+<p>3、真正的计算流程代码：</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="o">+</span>  <span class="cm">/**  </span>
+<span class="cm">+   * Set the number of reducers for the mapred work.  </span>
+<span class="cm">+   */</span>  
+<span class="o">+</span>  <span class="k">protected</span> <span class="n">void</span> <span class="n">setNumberOfReducers</span><span class="o">()</span> <span class="n">throws</span> <span class="nc">IOException</span> <span class="o">{</span>  
+<span class="o">+</span>    <span class="c1">// this is a temporary hack to fix things that are not fixed in the compiler  </span>
+<span class="o">+</span>    <span class="nc">Integer</span> <span class="n">numReducersFromWork</span> <span class="k">=</span> <span class="n">work</span><span class="o">.</span><span class="n">getNumReduceTasks</span><span class="o">();</span>  
+<span class="o">+</span>      
+<span class="o">+</span>    <span class="k">if</span> <span class="o">(</span><span class="n">numReducersFromWork</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">numReducersFromWork</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>  
+<span class="o">+</span>      <span class="nc">LOG</span><span class="o">.</span><span class="n">info</span><span class="o">(</span><span class="s">&quot;Number of reduce tasks determined at compile: &quot;</span> <span class="o">+</span> <span class="n">work</span><span class="o">.</span><span class="n">getNumReduceTasks</span><span class="o">());</span>  
+<span class="o">+</span>    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span><span class="o">(</span><span class="n">work</span><span class="o">.</span><span class="n">getReducer</span><span class="o">()</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>  
+<span class="o">+</span>      <span class="nc">LOG</span><span class="o">.</span><span class="n">info</span><span class="o">(</span><span class="s">&quot;Number of reduce tasks not specified. Defaulting to 0 since there&#39;s no reduce operator&quot;</span><span class="o">);</span>  
+<span class="o">+</span>      <span class="n">work</span><span class="o">.</span><span class="n">setNumReduceTasks</span><span class="o">(</span><span class="nc">Integer</span><span class="o">.</span><span class="n">valueOf</span><span class="o">(</span><span class="mi">0</span><span class="o">));</span>  
+<span class="o">+</span>    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>  
+<span class="o">+</span>      <span class="n">int</span> <span class="n">reducers</span> <span class="k">=</span> <span class="n">estimateNumberOfReducers</span><span class="o">(</span><span class="n">conf</span><span class="o">,</span> <span class="n">job</span><span class="o">,</span> <span class="n">work</span><span class="o">);</span>  
+<span class="o">+</span>      <span class="n">work</span><span class="o">.</span><span class="n">setNumReduceTasks</span><span class="o">(</span><span class="n">reducers</span><span class="o">);</span>  
+<span class="o">+</span>      <span class="nc">LOG</span><span class="o">.</span><span class="n">info</span><span class="o">(</span><span class="s">&quot;Number of reduce tasks not specified. Estimated from input data size: &quot;</span> <span class="o">+</span> <span class="n">reducers</span><span class="o">);</span>  
+     <span class="o">}</span>  
+   <span class="o">}</span>  
+</code></pre></div>
+<p>这就是reduce个数计算的原理。</p>
+
+<p>By the way :
+今天中午在群里看到一位朋友问到：</p>
+
+<blockquote>
+<p>当前hive的reduce个数的设定是依据map阶段输入的数据量大小来除以每一个reduce能够处理的数据量来决定有多少个的，但是考虑到经过map阶段处理的数据很可能可输入数据相差很大，这样子的话，当初设定的reduce个数感觉不太合理。。。请问hive当前能支持依据map阶段输出数据量的大小决定reduce个数么？（但是，reduce任务的开启是在有某些map任务完成就会开始的，所以要等到所有map全部执行完成再统计数据量来决定reduce个数感觉也不太合理）  有没有什么好方法？谢谢</p>
+</blockquote>
+
+<p>这个问题的大意是，reducer个数是根据输入文件的大小来估算出来的，但是实际情况下，Map的输出文件才是真正要到reduce上计算的数据量，如何依据Map的阶段输出数据流觉得reduce的个数，才是实际的问题。</p>
+
+<p><strong>我给出的思路是：</strong></p>
+
+<ol>
+<li><p>hack下源码，计算下<code>每个map输出的大小</code>×<code>map个数</code>不就估算出<code>map总共输出的数据量</code>了吗？不用等它结束，因为每个map的处理量是一定的。</p></li>
+<li><p>你把源码的 <code>总输入量 / 每个reduce处理量</code>  改成 <code>总输出量</code> / <code>每个reduce处理量</code>不就行了？（<code>总输出=每个Map输出文件的大小×map个数</code>）</p></li>
+</ol>
+
+<p>Ps:最后朋友提到：
+建议不错，虽然有一定误差。 谢谢。   不过，如果<code>filter push down</code>的话，每一个ｍａｐ的输出大小差别可能比较大。。。而且<code>filter push down</code>现在应该是hive默认支持的了</p>
+
+<p>大意是，还是会有一些误差，谓词下推可能会影响Map的输出大小。</p>
+
+<p>本文权且当作回顾加备忘，如有不对之处，请高手指正。
+—EOF——</p>
+
+		<h5>(The End)</h5>
+		<h5><原创文章> From OopsOutOfMemory 盛利's Blog<h5>
+		<h5>转载请注明出自：<a href="http://oopsoutofmemory.github.io/blog/hive-zhong-reduce-ge-shu-she-ding"> http://oopsoutofmemory.github.io/blog/hive-zhong-reduce-ge-shu-she-ding</a></h5>
+	
+
+<div class="ds-thread"></div>  
+	</div>
+
+
+
+</div>
+
+
+	
+		
+		
+		
+		
+		
+		
+	
+
+
+<footer class="clean" style="background-image: url(/assets/images/cover.jpg); height: 75%; min-height: 500px;" data-stellar-background-ratio="0.5" data-stellar-horizontal-offset="50" data-stellar-vertical-offset="50">
+	<div id="nav-icon" style="top: 60px;" data-stellar-ratio="0.8">
+		<a class="scroll" data-speed="500" href="#article"><span class="genericon genericon-collapse"></span></a>
+	</div>
+	<div id="post-info" data-stellar-ratio="0.5" data-stellar-vertical-offset="120">
+		<h3><strong>上一篇文章：</strong></h3>
+		<a href="/blog/hive-zhong-lateral-view-yong-fa---yu--hive-udtf-explode">
+			<h1>Hive中Lateral View用法 与 Hive UDTF explode</h1>
+			
+				<h2></h2>
+			
+		</a>
+	</div>
+
+
+	<p class="copyright">&copy;2014, <a href="http://oopsoutofmemory.github.io" target="_blank">盛利</a>. <a href="http://oopsoutofmemory.github.io" target="_blank">All rights reserved</a>.</p>
+</footer>
+<script src="/assets/js/smooth-scroll.js"></script>
+
+
+
+		<script>
+		var width = $(window).width()
+		if ( width > 899 )
+		$( function(){
+		    $.stellar({
+		    	responsive: true,
+			verticalScrolling: true,
+			horizontalOffset: 0,
+			verticalOffset: 0,
+			positionProperty: 'transform',
+		    });
+		});
+		</script>
+	</body>
+</html>
+ <!--多说js加载开始，一个页面只需要加载一次 -->
+    <script type="text/javascript">
+      var duoshuoQuery = {short_name:"oopsoutofmemory"};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = 'http://static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+    </script>
+    <!--多说js加载结束，一个页面只需要加载一次 -->
+
+ 

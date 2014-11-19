@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	
+	<link href="//gmpg.org/xfn/11" rel="profile">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<link rel="canonical" href="http://oopsoutofmemory.github.io/blog/hive-zhong-lateral-view-yong-fa---yu--hive-udtf-explode" />
+	<meta name="description" content="Lateral View是Hive中提供给UDTF的conjunction，它可以解决UDTF不能添加额外的select列的问题。 ## 1. Why we need Lateral View？ 当我们想对hive表中某一列进行split之后，想对其转换成1 to N的模式，即一行转多列。 hive不允许我们在UDTF函数之外，再添加其它select语句。 如下，我们想将登录某个游戏的用户id放在一个字段user_ids里，对每一行数据用UDTF后输出多行。 ```sql select game_id, explode(split(user_ids,'\\[\\[\\[')) as user_id..." />
+	<meta property="og:description" content="Lateral View是Hive中提供给UDTF的conjunction，它可以解决UDTF不能添加额外的select列的问题。 ## 1. Why we need Lateral View？ 当我们想对hive表中某一列进行split之后，想对其转换成1 to N的模式，即一行转多列。 hive不允许我们在UDTF函数之外，再添加其它select语句。 如下，我们想将登录某个游戏的用户id放在一个字段user_ids里，对每一行数据用UDTF后输出多行。 ```sql select game_id, explode(split(user_ids,'\\[\\[\\[')) as user_id..." />
+	<meta itemprop="image" content="http://oopsoutofmemory.github.io/assets/images/oopsoutofmemory.jpg" />
+	<meta property="og:image" content="http://oopsoutofmemory.github.io/assets/images/oopsoutofmemory.jpg" />
+	<meta property="og:title" content="Hive中Lateral View用法 与 Hive UDTF explode" />
+	<meta property="og:type" content="article" />
+	<meta property="og:url" content="http://oopsoutofmemory.github.io/blog/hive-zhong-lateral-view-yong-fa---yu--hive-udtf-explode" />
+	<meta property="og:site_name" content="盛利的博客" />
+	<title>Hive中Lateral View用法 与 Hive UDTF explode &middot; 盛利的博客</title>
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="HandheldFriendly" content="True" />
+	<meta name="MobileOptimized" content="320" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" type="text/css" media="only screen and (min-width: 900px)" href="/assets/css/desktop.css" />
+	<link rel="stylesheet" type="text/css" media="only screen and (max-width: 899px)" href="/assets/css/mobile.css" />
+	<link href="/assets/css/genericons.css" type="text/css" rel="stylesheet" />
+	<link href="/assets/css/index.css" type="text/css" rel="stylesheet" />
+	<link href="/assets/css/syntax.css" type="text/css" rel="stylesheet" />
+		<link href="/assets/css/style.css" type="text/css" rel="stylesheet" />
+	<link rel="apple-touch-icon" href="http://oopsoutofmemory.github.io/assets/images/oopsoutofmemory.jpg">
+	<link rel="shortcut icon" href="http://oopsoutofmemory.github.io/assets/images/favicon.ico">
+	<link rel="alternate" type="application/rss+xml" title="RSS" href="http://oopsoutofmemory.github.io/atom.xml">
+	<script type="text/javascript" src="/assets/js/jquery-2.1.0.min.js"></script>
+	<script type="text/javascript" src="/assets/js/jquery.stellar.min.js"></script>
+	<script type="text/javascript" src="/assets/js/rocket.js"></script>
+	<script type="text/javascript" src="/assets/js/jekyll-search.js"></script>
+	
+</head>
+
+	<body>
+		<header class="clean" style="background-image: url(/assets/images/cover.jpg); height: 100%;" data-stellar-background-ratio="0.5" data-stellar-horizontal-offset="50">
+	
+	<span id="home-intro">
+	<b>OopsOutOfMemory 盛利's Blog</b><br/>
+    <span class="desc"><b>专注大数据领域，分布式计算，Spark Contributor</b></span>
+</span>
+<label class="menu" for="_1">
+	<span class="genericon genericon-menu"></span>
+	
+</label>
+<input id="_1" type="checkbox">
+<div class="menu-content">
+	<p class="menu-title">盛利的博客<p>
+	<div class="menu" style="background-color: #1a1a1a; z-index: -1;"></div>
+	
+		<a href="/">首页</a>
+	
+		<a href="/category.html">博客列表</a>
+	
+		<a href="/aboutMe.html">关于我</a>
+	
+		<a href="/404">Test 404</a>
+	
+	<hr>
+	
+</div>
+ <div  class="social-links" data-stellar-ratio="0.1" style="-webkit-transform: translate3d(0px, 0px, 0px);">
+		
+<div id="search-container" >
+      <input type="text" id="search-input" placeholder="search...">
+      <ul id="results-container" style="position: absolute;"></ul>
+ </div>
+		<a href="http://oopsoutofmemory.github.io"  title="Home" ><span style="display: inline-block;font-size: 45px;position: relative;top: -4px;
+right: 10px;" class="genericon genericon-home"  >
+			</span></a>
+
+			<a href="http://weibo.com/oopsoom" target="_blank" title="Sina WeiBo" ><img class="genericon genericon-github" src="/assets/images/icon/weibo.png" style="width:35px; height:32px;">
+			</img></a>
+
+			<a href="https://github.com/OopsOutOfMemory" target="_blank" title="Fork me on github"><img class="genericon genericon-github" src="/assets/images/icon/github.jpg" style="width:32px; height:29px;">
+			</img></a>
+		
+			<a href="https://twitter.com/sheng_victor" target="_blank" title="Follow me on twitter"><img class="genericon genericon-github" src="/assets/images/icon/twitter.png" style="width:34px; height:30px;">
+			</img></a>
+		
+			<a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=e5179e72fd9f500ad852aefa6e2824dc2fb59868de8fa3d5b65eae670a2fc437"><img class="genericon genericon-github" src="/assets/images/icon/qqqun.png" alt="Spark Ecosystem技术交流" style="width:34px; height:30px;" title="Spark Ecosystem技术交流"></a>
+		
+	</div>
+
+<div class="social-links" data-stellar-ratio="0.1">
+	
+</div>
+
+	<div style="display: none;" id="rocket-to-top">
+	<div style="opacity:0;display: block;" class="level-2"></div>
+	<div class="level-3"></div>
+	</div>
+ <script type="text/javascript">
+      SimpleJekyllSearch.init({
+        searchInput: document.getElementById('search-input'),
+        resultsContainer: document.getElementById('results-container'),
+        dataSource: '/search.json',
+        searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>',
+        noResultsText: 'No results found',
+        limit: 10,
+        fuzzy: false,
+      })
+    </script>
+
+
+	<div id="post-info" data-stellar-ratio="0.7">
+		<a class="site-title" style="font-weight:bold"><原创文章></a>
+		<h1>Hive中Lateral View用法 与 Hive UDTF explode</h1>
+		
+		<a class="site-title" href="http://oopsoutofmemory.github.io"><div class="site-icon-small" style="background-image: url(/assets/images/oopsoutofmemory.jpg);"></div>盛利的博客</a>, in 19 November 2014
+
+	</div>
+
+	<div id="nav-icon" style="bottom: 30px;" data-stellar-ratio="4">
+		<a class="scroll" data-speed="500" href="#article"><span class="genericon genericon-expand"></span></a>
+	</div>
+</header>
+
+<div id="middle">
+
+	<div class="nav">
+	<div class="title"><span style="padding-right: 10px;" class="genericon genericon-menu"><a style="color:white;" href="/category.html"><span>&nbsp;&nbsp;&nbsp;Category</span></a></div>
+	 
+	<a  href="/category.html#spark" title="view all posts">
+		<span style="padding-right: 10px;" class="genericon genericon-pinned"></span>
+		Spark <span class="bubble">3</span></a>
+	 
+	<a  href="/category.html#machine learning" title="view all posts">
+		<span style="padding-right: 10px;" class="genericon genericon-pinned"></span>
+		Machine learning <span class="bubble">2</span></a>
+	 
+	<a  href="/category.html#hive" title="view all posts">
+		<span style="padding-right: 10px;" class="genericon genericon-pinned"></span>
+		Hive <span class="bubble">7</span></a>
+	 
+	<a class="" href="/category.html"><span style="padding-right: 12px;" class="genericon genericon-pinned"></span>Show All</a>
+</div>
+	
+	<div id="article">
+		<p>Lateral View是Hive中提供给UDTF的conjunction，它可以解决UDTF不能添加额外的select列的问题。</p>
+
+<h2>1. Why we need Lateral View？</h2>
+
+<p>当我们想对hive表中某一列进行split之后，想对其转换成1 to N的模式，即一行转多列。
+hive不允许我们在UDTF函数之外，再添加其它select语句。
+如下，我们想将登录某个游戏的用户id放在一个字段user_ids里，对每一行数据用UDTF后输出多行。</p>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">select</span> <span class="n">game_id</span><span class="p">,</span> <span class="n">explode</span><span class="p">(</span><span class="n">split</span><span class="p">(</span><span class="n">user_ids</span><span class="p">,</span><span class="s1">&#39;\\[\\[\\[&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">user_id</span>   <span class="k">from</span> <span class="n">login_game_log</span>  <span class="k">where</span> <span class="n">dt</span><span class="o">=</span><span class="s1">&#39;2014-05-15&#39;</span>   
+</code></pre></div>
+<p><code>FAILED: Error in semantic analysis: UDTF&#39;s are not supported outside the SELECT clause, nor nested in expressions。</code><br>
+提示语法分析错误，UDTF不支持函数之外的select 语句，真无语。。。
+如果我们想支持怎么办呢？接下来就是<code>Lateral View</code> 登场的时候了。</p>
+
+<h2>2. Lateral View explain</h2>
+
+<h3>2.1 单个Lateral View</h3>
+
+<blockquote>
+<p>Lateral view is used in conjunction with user-defined table generatingfunctions such as explode(). As mentioned in Built-in Table-Generating Functions, a UDTF generates zero or more output rows foreach input row. A lateral view first applies the UDTF to each row of base tableand then joins resulting output rows to the input rows to form a virtual tablehaving the supplied table alias.</p>
+</blockquote>
+
+<p>解释一下：
+<code>Lateral view</code> 其实就是用来和像类似explode这种UDTF函数联用的。lateral view 会将UDTF生成的结果放到一个虚拟表中，然后这个虚拟表会和输入行即每个game_id进行join 来达到连接UDTF外的select字段的目的。</p>
+
+<h3>Lateral View Syntax</h3>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="n">lateralView</span><span class="p">:</span> <span class="k">LATERAL</span> <span class="k">VIEW</span> <span class="n">udtf</span><span class="p">(</span><span class="n">expression</span><span class="p">)</span> <span class="n">tableAlias</span> <span class="k">AS</span> <span class="n">columnAlias</span> <span class="p">(</span><span class="s1">&#39;,&#39;</span> <span class="n">columnAlias</span><span class="p">)</span><span class="o">*</span>
+
+<span class="n">fromClause</span><span class="p">:</span> <span class="k">FROM</span> <span class="n">baseTable</span> <span class="p">(</span><span class="n">lateralView</span><span class="p">)</span><span class="o">*</span>
+</code></pre></div>
+<p>可以看出，可以在2个地方用Lateral view：
+1. 在udtf前面用
+2. 在from baseTable后面用</p>
+
+<p><strong>举个例子：</strong>
+1. 先创建一个文件，里面2列用\t分割，game<em>id和user</em>ids</p>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="n">hive</span><span class="o">&gt;</span> <span class="k">create</span> <span class="k">table</span> <span class="n">test_lateral_view_shengli</span><span class="p">(</span><span class="n">game_id</span> <span class="n">string</span><span class="p">,</span><span class="n">userl_ids</span> <span class="n">string</span><span class="p">)</span> <span class="k">row</span> <span class="n">format</span> <span class="n">delimited</span> <span class="n">fields</span> <span class="n">terminated</span> <span class="k">by</span> <span class="s1">&#39;\t&#39;</span> <span class="n">stored</span> <span class="k">as</span> <span class="n">textfile</span><span class="p">;</span>  
+<span class="n">OK</span>  
+<span class="n">Time</span> <span class="n">taken</span><span class="p">:</span> <span class="mi">2</span><span class="p">.</span><span class="mi">451</span> <span class="n">seconds</span>  
+<span class="n">hive</span><span class="o">&gt;</span> <span class="k">load</span> <span class="k">data</span> <span class="k">local</span> <span class="n">inpath</span> <span class="s1">&#39;/home/hadoop/test_lateral&#39;</span> <span class="k">into</span> <span class="k">table</span> <span class="n">test_lateral_view_shengli</span><span class="p">;</span>  
+<span class="n">Copying</span> <span class="k">data</span> <span class="k">from</span> <span class="n">file</span><span class="p">:</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">hadoop</span><span class="o">/</span><span class="n">test_lateral</span>  
+<span class="n">Copying</span> <span class="n">file</span><span class="p">:</span> <span class="n">file</span><span class="p">:</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">hadoop</span><span class="o">/</span><span class="n">test_lateral</span>  
+<span class="n">Loading</span> <span class="k">data</span> <span class="k">to</span> <span class="k">table</span> <span class="n">dw</span><span class="p">.</span><span class="n">test_lateral_view_shengli</span>  
+<span class="n">OK</span>  
+<span class="n">Time</span> <span class="n">taken</span><span class="p">:</span> <span class="mi">6</span><span class="p">.</span><span class="mi">716</span> <span class="n">seconds</span>  
+<span class="n">hive</span><span class="o">&gt;</span> <span class="k">select</span> <span class="o">*</span> <span class="k">from</span> <span class="n">test_lateral_view_shengli</span><span class="p">;</span>                                                                                                             
+<span class="n">OK</span>  
+<span class="n">game101</span>       <span class="mi">15358083654</span><span class="p">[[[</span><span class="n">ab33787873</span><span class="p">[[[</span><span class="n">zjy18052480603</span><span class="p">[[[</span><span class="n">shlg1881826</span><span class="p">[[[</span><span class="n">lxqab110</span>  
+<span class="n">game66</span>       <span class="n">winning1ren</span><span class="p">[[[</span><span class="mi">13810537508</span>  
+<span class="n">game101</span>       <span class="n">hu330602003</span><span class="p">[[[</span><span class="n">hu330602004</span><span class="p">[[[</span><span class="n">hu330602005</span><span class="p">[[[</span><span class="mi">15967506560</span>  
+</code></pre></div>
+<p>下面使用lateral_view</p>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="n">hive</span><span class="o">&gt;</span> <span class="k">select</span> <span class="n">game_id</span><span class="p">,</span> <span class="n">user_id</span>    
+    <span class="o">&gt;</span> <span class="k">from</span> <span class="n">test_lateral_view_shengli</span> <span class="k">lateral</span> <span class="k">view</span> <span class="n">explode</span><span class="p">(</span><span class="n">split</span><span class="p">(</span><span class="n">userl_ids</span><span class="p">,</span><span class="s1">&#39;\\[\\[\\[&#39;</span><span class="p">))</span> <span class="n">snTable</span> <span class="k">as</span> <span class="n">user_id</span>   
+    <span class="o">&gt;</span> <span class="p">;</span>  
+<span class="n">Total</span> <span class="n">MapReduce</span> <span class="n">jobs</span> <span class="o">=</span> <span class="mi">1</span>  
+<span class="n">Launching</span> <span class="n">Job</span> <span class="mi">1</span> <span class="k">out</span> <span class="k">of</span> <span class="mi">1</span>  
+<span class="nb">Number</span> <span class="k">of</span> <span class="n">reduce</span> <span class="n">tasks</span> <span class="k">is</span> <span class="k">set</span> <span class="k">to</span> <span class="mi">0</span> <span class="n">since</span> <span class="n">there</span><span class="err">&#39;</span><span class="n">s</span> <span class="k">no</span> <span class="n">reduce</span> <span class="k">operator</span>  
+<span class="n">Starting</span> <span class="n">Job</span> <span class="o">=</span> <span class="n">job_201403301416_445839</span><span class="p">,</span> <span class="n">Tracking</span> <span class="n">URL</span> <span class="o">=</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="mi">10</span><span class="p">.</span><span class="mi">1</span><span class="p">.</span><span class="mi">9</span><span class="p">.</span><span class="mi">10</span><span class="p">:</span><span class="mi">50030</span><span class="o">/</span><span class="n">jobdetails</span><span class="p">.</span><span class="n">jsp</span><span class="o">?</span><span class="n">jobid</span><span class="o">=</span><span class="n">job_201403301416_445839</span>  
+<span class="n">Kill</span> <span class="n">Command</span> <span class="o">=</span> <span class="o">/</span><span class="n">app</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">hadoop</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">hadoop</span><span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">20</span><span class="p">.</span><span class="mi">2</span><span class="o">-</span><span class="n">cdh3u5</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="p">..</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">hadoop</span> <span class="n">job</span>  <span class="o">-</span><span class="n">Dmapred</span><span class="p">.</span><span class="n">job</span><span class="p">.</span><span class="n">tracker</span><span class="o">=</span><span class="mi">10</span><span class="p">.</span><span class="mi">1</span><span class="p">.</span><span class="mi">9</span><span class="p">.</span><span class="mi">10</span><span class="p">:</span><span class="mi">9001</span> <span class="o">-</span><span class="n">kill</span> <span class="n">job_201403301416_445839</span>  
+<span class="mi">2014</span><span class="o">-</span><span class="mi">05</span><span class="o">-</span><span class="mi">16</span> <span class="mi">17</span><span class="p">:</span><span class="mi">39</span><span class="p">:</span><span class="mi">19</span><span class="p">,</span><span class="mi">108</span> <span class="n">Stage</span><span class="o">-</span><span class="mi">1</span> <span class="k">map</span> <span class="o">=</span> <span class="mi">0</span><span class="o">%</span><span class="p">,</span>  <span class="n">reduce</span> <span class="o">=</span> <span class="mi">0</span><span class="o">%</span>  
+<span class="mi">2014</span><span class="o">-</span><span class="mi">05</span><span class="o">-</span><span class="mi">16</span> <span class="mi">17</span><span class="p">:</span><span class="mi">39</span><span class="p">:</span><span class="mi">28</span><span class="p">,</span><span class="mi">157</span> <span class="n">Stage</span><span class="o">-</span><span class="mi">1</span> <span class="k">map</span> <span class="o">=</span> <span class="mi">100</span><span class="o">%</span><span class="p">,</span>  <span class="n">reduce</span> <span class="o">=</span> <span class="mi">0</span><span class="o">%</span>  
+<span class="mi">2014</span><span class="o">-</span><span class="mi">05</span><span class="o">-</span><span class="mi">16</span> <span class="mi">17</span><span class="p">:</span><span class="mi">39</span><span class="p">:</span><span class="mi">38</span><span class="p">,</span><span class="mi">830</span> <span class="n">Stage</span><span class="o">-</span><span class="mi">1</span> <span class="k">map</span> <span class="o">=</span> <span class="mi">100</span><span class="o">%</span><span class="p">,</span>  <span class="n">reduce</span> <span class="o">=</span> <span class="mi">100</span><span class="o">%</span>  
+<span class="n">Ended</span> <span class="n">Job</span> <span class="o">=</span> <span class="n">job_201403301416_445839</span>  
+<span class="n">OK</span>  
+<span class="n">game101</span>       <span class="n">hu330602003</span>  
+<span class="n">game101</span>       <span class="n">hu330602004</span>  
+<span class="n">game101</span>       <span class="n">hu330602005</span>  
+<span class="n">game101</span>       <span class="mi">15967506560</span>  
+<span class="n">game101</span>       <span class="mi">15358083654</span>  
+<span class="n">game101</span>       <span class="n">ab33787873</span>  
+<span class="n">game101</span>       <span class="n">zjy18052480603</span>  
+<span class="n">game101</span>       <span class="n">shlg1881826</span>  
+<span class="n">game101</span>       <span class="n">lxqab110</span>  
+<span class="n">game66</span>       <span class="n">winning1ren</span>  
+<span class="n">game66</span>       <span class="mi">13810537508</span>  
+</code></pre></div>
+<h3>2.2 多个Lateral View</h3>
+
+<p>From语句后可以跟多个Lateral View。</p>
+
+<blockquote>
+<p>A FROM clause can have multiple LATERAL VIEW clauses. Subsequent LATERAL VIEWS can reference columns from any of the tables appearing to the left of the LATERAL VIEW.</p>
+</blockquote>
+
+<p><strong>给定数据：</strong></p>
+
+<div>
+<table class="confluenceTable  " style="border-collapse:collapse; margin:0px; color:rgb(51,51,51); font-family:Arial,sans-serif; font-size:14px; line-height:20px">
+<tbody>
+<tr>
+<td class="confluenceTd" style="border:1px solid rgb(221,221,221); padding:7px 10px; vertical-align:top">
+<p style="margin-top:0px; margin-bottom:0px">Array&lt;int&gt; col1</p>
+</td>
+<td class="confluenceTd" style="border:1px solid rgb(221,221,221); padding:7px 10px; vertical-align:top">
+<p style="margin-top:0px; margin-bottom:0px">Array&lt;string&gt; col2</p>
+</td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border:1px solid rgb(221,221,221); padding:7px 10px; vertical-align:top">
+<p style="margin-top:0px; margin-bottom:0px">[1, 2]</p>
+</td>
+<td class="confluenceTd" style="border:1px solid rgb(221,221,221); padding:7px 10px; vertical-align:top">
+<p style="margin-top:0px; margin-bottom:0px">[a", "b", "c"]</p>
+</td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border:1px solid rgb(221,221,221); padding:7px 10px; vertical-align:top">
+<p style="margin-top:0px; margin-bottom:0px">[3, 4]</p>
+</td>
+<td class="confluenceTd" style="border:1px solid rgb(221,221,221); padding:7px 10px; vertical-align:top">
+<p style="margin-top:0px; margin-bottom:0px">[d", "e", "f"]</p>
+</td>
+</tr>
+</tbody>
+</table>
+转换目标：</div>
+
+__转换目标：__
+
+想同时把第一列和第二列拆开，类似做笛卡尔乘积。
+
+<div>
+<table class="confluenceTable  " style="border-collapse:collapse; margin:0px; color:rgb(51,51,51); font-family:Arial,sans-serif; font-size:14px; line-height:20px">
+<tbody>
+<tr>
+<td class="confluenceTd" style="border:1px solid rgb(221,221,221); padding:7px 10px; vertical-align:top">
+<p style="margin-top:0px; margin-bottom:0px">int myCol1</p>
+</td>
+<td class="confluenceTd" style="border:1px solid rgb(221,221,221); padding:7px 10px; vertical-align:top">
+<p style="margin-top:0px; margin-bottom:0px">string myCol2</p>
+</td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border:1px solid rgb(221,221,221); padding:7px 10px; vertical-align:top">
+<p style="margin-top:0px; margin-bottom:0px">1</p>
+</td>
+<td class="confluenceTd" style="border:1px solid rgb(221,221,221); padding:7px 10px; vertical-align:top">
+<p style="margin-top:0px; margin-bottom:0px">"a"</p>
+</td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border:1px solid rgb(221,221,221); padding:7px 10px; vertical-align:top">
+<p style="margin-top:0px; margin-bottom:0px">1</p>
+</td>
+<td class="confluenceTd" style="border:1px solid rgb(221,221,221); padding:7px 10px; vertical-align:top">
+<p style="margin-top:0px; margin-bottom:0px">"b"</p>
+</td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border:1px solid rgb(221,221,221); padding:7px 10px; vertical-align:top">
+<p style="margin-top:0px; margin-bottom:0px">1</p>
+</td>
+<td class="confluenceTd" style="border:1px solid rgb(221,221,221); padding:7px 10px; vertical-align:top">
+<p style="margin-top:0px; margin-bottom:0px">"c"</p>
+</td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border:1px solid rgb(221,221,221); padding:7px 10px; vertical-align:top">
+<p style="margin-top:0px; margin-bottom:0px">2</p>
+</td>
+<td class="confluenceTd" style="border:1px solid rgb(221,221,221); padding:7px 10px; vertical-align:top">
+<p style="margin-top:0px; margin-bottom:0px">"a"</p>
+</td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border:1px solid rgb(221,221,221); padding:7px 10px; vertical-align:top">
+<p style="margin-top:0px; margin-bottom:0px">2</p>
+</td>
+<td class="confluenceTd" style="border:1px solid rgb(221,221,221); padding:7px 10px; vertical-align:top">
+<p style="margin-top:0px; margin-bottom:0px">"b"</p>
+</td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border:1px solid rgb(221,221,221); padding:7px 10px; vertical-align:top">
+<p style="margin-top:0px; margin-bottom:0px">2</p>
+</td>
+<td class="confluenceTd" style="border:1px solid rgb(221,221,221); padding:7px 10px; vertical-align:top">
+<p style="margin-top:0px; margin-bottom:0px">"c"</p>
+</td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border:1px solid rgb(221,221,221); padding:7px 10px; vertical-align:top">
+<p style="margin-top:0px; margin-bottom:0px">3</p>
+</td>
+<td class="confluenceTd" style="border:1px solid rgb(221,221,221); padding:7px 10px; vertical-align:top">
+<p style="margin-top:0px; margin-bottom:0px">"d"</p>
+</td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border:1px solid rgb(221,221,221); padding:7px 10px; vertical-align:top">
+<p style="margin-top:0px; margin-bottom:0px">3</p>
+</td>
+<td class="confluenceTd" style="border:1px solid rgb(221,221,221); padding:7px 10px; vertical-align:top">
+<p style="margin-top:0px; margin-bottom:0px">"e"</p>
+</td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border:1px solid rgb(221,221,221); padding:7px 10px; vertical-align:top">
+<p style="margin-top:0px; margin-bottom:0px">3</p>
+</td>
+<td class="confluenceTd" style="border:1px solid rgb(221,221,221); padding:7px 10px; vertical-align:top">
+<p style="margin-top:0px; margin-bottom:0px">"f"</p>
+</td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border:1px solid rgb(221,221,221); padding:7px 10px; vertical-align:top">
+<p style="margin-top:0px; margin-bottom:0px">4</p>
+</td>
+<td class="confluenceTd" style="border:1px solid rgb(221,221,221); padding:7px 10px; vertical-align:top">
+<p style="margin-top:0px; margin-bottom:0px">"d"</p>
+</td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border:1px solid rgb(221,221,221); padding:7px 10px; vertical-align:top">
+<p style="margin-top:0px; margin-bottom:0px">4</p>
+</td>
+<td class="confluenceTd" style="border:1px solid rgb(221,221,221); padding:7px 10px; vertical-align:top">
+<p style="margin-top:0px; margin-bottom:0px">"e"</p>
+</td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border:1px solid rgb(221,221,221); padding:7px 10px; vertical-align:top">
+<p style="margin-top:0px; margin-bottom:0px">4</p>
+</td>
+<td class="confluenceTd" style="border:1px solid rgb(221,221,221); padding:7px 10px; vertical-align:top">
+<p style="margin-top:0px; margin-bottom:0px">"f"</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<p>我们可以这样写：</p>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="n">myCol1</span><span class="p">,</span> <span class="n">myCol2</span> <span class="k">FROM</span> <span class="n">baseTable</span>  
+<span class="k">LATERAL</span> <span class="k">VIEW</span> <span class="n">explode</span><span class="p">(</span><span class="n">col1</span><span class="p">)</span> <span class="n">myTable1</span> <span class="k">AS</span> <span class="n">myCol1</span>  
+<span class="k">LATERAL</span> <span class="k">VIEW</span> <span class="n">explode</span><span class="p">(</span><span class="n">col2</span><span class="p">)</span> <span class="n">myTable2</span> <span class="k">AS</span> <span class="n">myCol2</span><span class="p">;</span>  
+</code></pre></div>
+<ol>
+<li>Outer Lateral View
+还有一种情况，如果UDTF转换的Array是空的怎么办呢？
+在Hive0.12里面会支持outer关键字，如果UDTF的结果是空，默认会被忽略输出。
+如果加上outer关键字，则会像left outer join 一样，还是会输出select出的列，而UDTF的输出结果是NULL。</li>
+</ol>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="n">hive</span><span class="o">&gt;</span> <span class="k">select</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">test_lateral_view_shengli</span> <span class="k">LATERAL</span> <span class="k">VIEW</span> <span class="n">explode</span><span class="p">(</span><span class="nb">array</span><span class="p">())</span> <span class="k">C</span> <span class="k">AS</span> <span class="n">a</span> <span class="p">;</span>  
+</code></pre></div>
+<p>结果是什么都不输出。</p>
+
+<p>如果加上outer关键字：</p>
+<div class="highlight"><pre><code class="language-sql" data-lang="sql"><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">src</span> <span class="k">LATERAL</span> <span class="k">VIEW</span> <span class="k">OUTER</span> <span class="n">explode</span><span class="p">(</span><span class="nb">array</span><span class="p">())</span> <span class="k">C</span> <span class="k">AS</span> <span class="n">a</span> <span class="k">limit</span> <span class="mi">10</span><span class="p">;</span>  
+</code></pre></div><div class="highlight"><pre><code class="language-text" data-lang="text">238 val_238 NULL  
+86 val_86 NULL  
+311 val_311 NULL  
+27 val_27 NULL  
+165 val_165 NULL  
+409 val_409 NULL  
+255 val_255 NULL  
+278 val_278 NULL  
+98 val_98 NULL  
+...  
+</code></pre></div>
+<h2>4.总结：</h2>
+
+<p>Lateral View通常和UDTF一起出现，为了解决UDTF不允许在select字段的问题。
+Multiple Lateral View可以实现类似笛卡尔乘积。
+Outer关键字可以把不输出的UDTF的空结果，输出成NULL，防止丢失数据。</p>
+
+		<h5>(The End)</h5>
+		<h5><原创文章> From OopsOutOfMemory 盛利's Blog<h5>
+		<h5>转载请注明出自：<a href="http://oopsoutofmemory.github.io/blog/hive-zhong-lateral-view-yong-fa---yu--hive-udtf-explode"> http://oopsoutofmemory.github.io/blog/hive-zhong-lateral-view-yong-fa---yu--hive-udtf-explode</a></h5>
+	
+
+<div class="ds-thread"></div>  
+	</div>
+
+
+
+</div>
+
+
+	
+	
+	
+	
+	
+	
+
+
+<footer class="clean" style="background-image: url(/assets/images/cover.jpg); height: 75%; min-height: 500px;" data-stellar-background-ratio="0.5" data-stellar-horizontal-offset="50" data-stellar-vertical-offset="50">
+	<div id="nav-icon" style="top: 60px;" data-stellar-ratio="0.8">
+		<a class="scroll" data-speed="500" href="#article"><span class="genericon genericon-collapse"></span></a>
+	</div>
+	<div id="post-info" data-stellar-ratio="0.5" data-stellar-vertical-offset="120">
+		<h3>下一篇文章：</h3>
+		<a href="/blog/hive-zhong-reduce-ge-shu-she-ding">
+			<h1>Hive中reduce个数设定</h1>
+			
+				<h2></h2>
+			
+		</a>
+	</div>
+
+
+	<p class="copyright">&copy;2014, <a href="http://oopsoutofmemory.github.io" target="_blank">盛利</a>. <a href="http://oopsoutofmemory.github.io" target="_blank">All rights reserved</a>.</p>
+</footer>
+<script src="/assets/js/smooth-scroll.js"></script>
+
+
+
+		<script>
+		var width = $(window).width()
+		if ( width > 899 )
+		$( function(){
+		    $.stellar({
+		    	responsive: true,
+			verticalScrolling: true,
+			horizontalOffset: 0,
+			verticalOffset: 0,
+			positionProperty: 'transform',
+		    });
+		});
+		</script>
+	</body>
+</html>
+ <!--多说js加载开始，一个页面只需要加载一次 -->
+    <script type="text/javascript">
+      var duoshuoQuery = {short_name:"oopsoutofmemory"};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = 'http://static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+    </script>
+    <!--多说js加载结束，一个页面只需要加载一次 -->
+
+ 

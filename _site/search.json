@@ -1,6 +1,62 @@
 [
   
     {
+      "title"    : "Hive中reduce个数设定",
+      "category" : "",
+      "tags"     : "hive and reduce",
+      "url"      : "/blog/hive-zhong-reduce-ge-shu-she-ding",
+      "date"     : "2014-11-19 00:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "Hive中Lateral View用法 与 Hive UDTF explode",
+      "category" : "hive",
+      "tags"     : "",
+      "url"      : "/blog/hive-zhong-lateral-view-yong-fa---yu--hive-udtf-explode",
+      "date"     : "2014-11-19 00:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "Hive中的View视图",
+      "category" : "hive",
+      "tags"     : "sql, hive, and view",
+      "url"      : "/blog/hive-zhong-de-view-shi-tu",
+      "date"     : "2014-11-19 00:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "Hive UDFA 中位数",
+      "category" : "hive",
+      "tags"     : "hive, udaf, and udf",
+      "url"      : "/blog/hive-udfa--zhong-wei-shu",
+      "date"     : "2014-11-19 00:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "Hive数据翻倍总结",
+      "category" : "hive",
+      "tags"     : "",
+      "url"      : "/blog/hive-shu-ju-fan-bei-zong-jie",
+      "date"     : "2014-11-19 00:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "Hive求页面访问路径",
+      "category" : "hive",
+      "tags"     : "hive and sql",
+      "url"      : "/blog/hive-qiu-ye-mian-fang-wen-lu-jing",
+      "date"     : "2014-11-19 00:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "Hive导入sequencefile错误",
+      "category" : "hive",
+      "tags"     : "hive",
+      "url"      : "/blog/hive-dao-ru-sequencefile-cuo-wu",
+      "date"     : "2014-11-19 00:00:00 +0800"
+    } ,
+  
+    {
       "title"    : "协同过滤     数据挖掘学习笔记",
       "category" : "",
       "tags"     : "data mining, machine learning, and big data",

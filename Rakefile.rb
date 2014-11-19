@@ -2,7 +2,8 @@ require "rubygems"
 require 'rake'
 require 'yaml'
 require 'time'
-require '/Users/shengli/.rvm/gems/ruby-2.1.4/gems/hz2py-1.0.0/lib/hz2py.rb'
+require 'hz2py'
+# require '/Users/shengli/.rvm/gems/ruby-2.1.4/gems/hz2py-1.0.0/lib/hz2py.rb'
 
 SOURCE = "."
 CONFIG = {
