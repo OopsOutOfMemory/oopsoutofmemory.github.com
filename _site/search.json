@@ -9,6 +9,14 @@
     } ,
   
     {
+      "title"    : "Spark Executor Driver资源调度小结",
+      "category" : "spark",
+      "tags"     : "资源调度 and spark",
+      "url"      : "/blog/spark-executor-driver-zi-yuan-diao-du-xiao-jie",
+      "date"     : "2014-11-19 00:00:00 +0800"
+    } ,
+  
+    {
       "title"    : "Scala中List的步长by",
       "category" : "scala",
       "tags"     : "scala",
