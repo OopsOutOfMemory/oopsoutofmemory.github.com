@@ -775,7 +775,8 @@ body {
 color: #6d7580;
 min-width: 230px;
 max-width: 250px;
-height: 333px;
+min-height: 333px;
+height: auto;
 background-color: #fff;
 border: 1px solid #d2d5d9;
 border-radius: 4px;

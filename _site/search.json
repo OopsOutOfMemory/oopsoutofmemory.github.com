@@ -1,6 +1,46 @@
 [
   
     {
+      "title"    : "Scala中List的步长by",
+      "category" : "scala",
+      "tags"     : "scala",
+      "url"      : "/blog/scala-zhong-list-de-bu-chang-by",
+      "date"     : "2014-11-19 00:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "Scala协变逆变上界下界---理解篇",
+      "category" : "scala",
+      "tags"     : "scala",
+      "url"      : "/blog/scala-xie-bian-ni-bian-shang-jie-xia-jie-----li-jie-pian",
+      "date"     : "2014-11-19 00:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "Scala implicit 隐式转换",
+      "category" : "scala",
+      "tags"     : "scala",
+      "url"      : "/blog/scala-implicit--yin-shi-zhuan-huan",
+      "date"     : "2014-11-19 00:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "Scala的cons，集合合并与添加",
+      "category" : "scala",
+      "tags"     : "scala",
+      "url"      : "/blog/scala-de-cons-ji-he-he-bing-yu-tian-jia",
+      "date"     : "2014-11-19 00:00:00 +0800"
+    } ,
+  
+    {
+      "title"    : "Scala的yield",
+      "category" : "scala",
+      "tags"     : "scala",
+      "url"      : "/blog/scala--de--yield",
+      "date"     : "2014-11-19 00:00:00 +0800"
+    } ,
+  
+    {
       "title"    : "Hive中reduce个数设定",
       "category" : "",
       "tags"     : "hive and reduce",
@@ -57,6 +97,14 @@
     } ,
   
     {
+      "title"    : "海量小文件网络传输copy优化",
+      "category" : "hadoop",
+      "tags"     : "network, hadoop, and io",
+      "url"      : "/blog/hai-liang-xiao-wen-jian-wang-luo-chuan-shu-copy-you-hua",
+      "date"     : "2014-11-19 00:00:00 +0800"
+    } ,
+  
+    {
       "title"    : "协同过滤     数据挖掘学习笔记",
       "category" : "",
       "tags"     : "data mining, machine learning, and big data",
@@ -75,7 +123,7 @@
     {
       "title"    : "Scala eclipse sbt 应用程序开发",
       "category" : "",
-      "tags"     : "spark, scaka, eclipse, and sbt",
+      "tags"     : "scala, eclipse, and sbt",
       "url"      : "/blog/Scala-eclipse-sbt-",
       "date"     : "2014-11-14 00:00:00 +0800"
     } ,

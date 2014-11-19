@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	
+	<link href="//gmpg.org/xfn/11" rel="profile">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<link rel="canonical" href="http://oopsoutofmemory.github.io/blog/hai-liang-xiao-wen-jian-wang-luo-chuan-shu-copy-you-hua" />
+	<meta name="description" content="今天部署集群环境，拷贝了一下编译好的文件 利用scp拷贝这个文件环境，然后分发到2个节点上去，然后就是刷屏的log，小文件一个一个被传输。 但是速度极慢，突然发现我忘记了，编译出来的类文件太多了，这样拷贝非常慢，马上联想到hadoop中要避免map的输出有很多小文件，因为随后要进行网络传输。 查到问题总结出2个原因： 1. 磁盘IO寻址： 原因： 因为小文件太多，造成了大量的磁盘IO，意味着大量的开和关。磁盘的寻道和寻址都要占据很大一部分时间。 就好比洗衣服一样，洗好多件衣服比洗一件衣服要慢很多，因为很多时间都浪费在你去找衣服的时间里了。 优化策略： 2. TCP慢启动 原因： 我们对每个文件都采用独立的TCP连接来传输（循环使用scp拷贝就是这个例子的实际场景，很常见的用法）。那么工作过程应该是，每传输一 个文件建立一个连接，然后连接处于慢启动阶段，传输小文件，每个小文件几乎都处于独立连接的慢启动阶段被传输，这样传输过程所用的TCP包的总量就会增 多。更细致的说一说这个事，如果在慢启动过程中传输一个小文件，我们可能需要2至3个小包，而在一个已经完成慢启动的TCP通道中（TCP通道已进入在高 速传输阶段），我们传输这个文件可能只需要1个大包。网络拷贝文件的时间基本上全部消耗都在网络传输的过程中（发数据过去等对端ACK，ACK确认归来继 续再发，这样的数据来回交互相比较本机的文件读写非常耗时间），撇开三次握手和四次握手那些包，粗略来说，慢启动阶段传输这些文件所用的包的数目是高速通 道传输这些文件的包的数目的2-3倍！那么时间上应该也是2-3倍的关系！如果文件的量足够大，这个总时间就会被放大到需求难以忍受的地步。 因此，在迁移海量小文件的需求下，我们不能使用“对每个文件都采用独立的TCP连接来传输（循环使用scp拷贝）“这样的策略，它会使每个文件的传输都处于在一个独立TCP的慢启动阶段。..." />
+	<meta property="og:description" content="今天部署集群环境，拷贝了一下编译好的文件 利用scp拷贝这个文件环境，然后分发到2个节点上去，然后就是刷屏的log，小文件一个一个被传输。 但是速度极慢，突然发现我忘记了，编译出来的类文件太多了，这样拷贝非常慢，马上联想到hadoop中要避免map的输出有很多小文件，因为随后要进行网络传输。 查到问题总结出2个原因： 1. 磁盘IO寻址： 原因： 因为小文件太多，造成了大量的磁盘IO，意味着大量的开和关。磁盘的寻道和寻址都要占据很大一部分时间。 就好比洗衣服一样，洗好多件衣服比洗一件衣服要慢很多，因为很多时间都浪费在你去找衣服的时间里了。 优化策略： 2. TCP慢启动 原因： 我们对每个文件都采用独立的TCP连接来传输（循环使用scp拷贝就是这个例子的实际场景，很常见的用法）。那么工作过程应该是，每传输一 个文件建立一个连接，然后连接处于慢启动阶段，传输小文件，每个小文件几乎都处于独立连接的慢启动阶段被传输，这样传输过程所用的TCP包的总量就会增 多。更细致的说一说这个事，如果在慢启动过程中传输一个小文件，我们可能需要2至3个小包，而在一个已经完成慢启动的TCP通道中（TCP通道已进入在高 速传输阶段），我们传输这个文件可能只需要1个大包。网络拷贝文件的时间基本上全部消耗都在网络传输的过程中（发数据过去等对端ACK，ACK确认归来继 续再发，这样的数据来回交互相比较本机的文件读写非常耗时间），撇开三次握手和四次握手那些包，粗略来说，慢启动阶段传输这些文件所用的包的数目是高速通 道传输这些文件的包的数目的2-3倍！那么时间上应该也是2-3倍的关系！如果文件的量足够大，这个总时间就会被放大到需求难以忍受的地步。 因此，在迁移海量小文件的需求下，我们不能使用“对每个文件都采用独立的TCP连接来传输（循环使用scp拷贝）“这样的策略，它会使每个文件的传输都处于在一个独立TCP的慢启动阶段。..." />
+	<meta itemprop="image" content="http://oopsoutofmemory.github.io/assets/images/oopsoutofmemory.jpg" />
+	<meta property="og:image" content="http://oopsoutofmemory.github.io/assets/images/oopsoutofmemory.jpg" />
+	<meta property="og:title" content="海量小文件网络传输copy优化" />
+	<meta property="og:type" content="article" />
+	<meta property="og:url" content="http://oopsoutofmemory.github.io/blog/hai-liang-xiao-wen-jian-wang-luo-chuan-shu-copy-you-hua" />
+	<meta property="og:site_name" content="盛利的博客" />
+	<title>海量小文件网络传输copy优化 &middot; 盛利的博客</title>
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="HandheldFriendly" content="True" />
+	<meta name="MobileOptimized" content="320" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" type="text/css" media="only screen and (min-width: 900px)" href="/assets/css/desktop.css" />
+	<link rel="stylesheet" type="text/css" media="only screen and (max-width: 899px)" href="/assets/css/mobile.css" />
+	<link href="/assets/css/genericons.css" type="text/css" rel="stylesheet" />
+	<link href="/assets/css/index.css" type="text/css" rel="stylesheet" />
+	<link href="/assets/css/syntax.css" type="text/css" rel="stylesheet" />
+		<link href="/assets/css/style.css" type="text/css" rel="stylesheet" />
+	<link rel="apple-touch-icon" href="http://oopsoutofmemory.github.io/assets/images/oopsoutofmemory.jpg">
+	<link rel="shortcut icon" href="http://oopsoutofmemory.github.io/assets/images/favicon.ico">
+	<link rel="alternate" type="application/rss+xml" title="RSS" href="http://oopsoutofmemory.github.io/atom.xml">
+	<script type="text/javascript" src="/assets/js/jquery-2.1.0.min.js"></script>
+	<script type="text/javascript" src="/assets/js/jquery.stellar.min.js"></script>
+	<script type="text/javascript" src="/assets/js/rocket.js"></script>
+	<script type="text/javascript" src="/assets/js/jekyll-search.js"></script>
+	
+</head>
+
+	<body>
+		<header class="clean" style="background-image: url(/assets/images/cover.jpg); height: 100%;" data-stellar-background-ratio="0.5" data-stellar-horizontal-offset="50">
+	
+	<span id="home-intro">
+	<b>OopsOutOfMemory 盛利's Blog</b><br/>
+    <span class="desc"><b>专注大数据领域，分布式计算，Spark Contributor</b></span>
+</span>
+<label class="menu" for="_1">
+	<span class="genericon genericon-menu"></span>
+	
+</label>
+<input id="_1" type="checkbox">
+<div class="menu-content">
+	<p class="menu-title">盛利的博客<p>
+	<div class="menu" style="background-color: #1a1a1a; z-index: -1;"></div>
+	
+		<a href="/">首页</a>
+	
+		<a href="/category.html">博客列表</a>
+	
+		<a href="/aboutMe.html">关于我</a>
+	
+		<a href="/404">Test 404</a>
+	
+	<hr>
+	
+</div>
+ <div  class="social-links" data-stellar-ratio="0.1" style="-webkit-transform: translate3d(0px, 0px, 0px);">
+		
+<div id="search-container" >
+      <input type="text" id="search-input" placeholder="search...">
+      <ul id="results-container" style="position: absolute;"></ul>
+ </div>
+		<a href="http://oopsoutofmemory.github.io"  title="Home" ><span style="display: inline-block;font-size: 45px;position: relative;top: -4px;
+right: 10px;" class="genericon genericon-home"  >
+			</span></a>
+
+			<a href="http://weibo.com/oopsoom" target="_blank" title="Sina WeiBo" ><img class="genericon genericon-github" src="/assets/images/icon/weibo.png" style="width:35px; height:32px;">
+			</img></a>
+
+			<a href="https://github.com/OopsOutOfMemory" target="_blank" title="Fork me on github"><img class="genericon genericon-github" src="/assets/images/icon/github.jpg" style="width:32px; height:29px;">
+			</img></a>
+		
+			<a href="https://twitter.com/sheng_victor" target="_blank" title="Follow me on twitter"><img class="genericon genericon-github" src="/assets/images/icon/twitter.png" style="width:34px; height:30px;">
+			</img></a>
+		
+			<a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=e5179e72fd9f500ad852aefa6e2824dc2fb59868de8fa3d5b65eae670a2fc437"><img class="genericon genericon-github" src="/assets/images/icon/qqqun.png" alt="Spark Ecosystem技术交流" style="width:34px; height:30px;" title="Spark Ecosystem技术交流"></a>
+		
+	</div>
+
+<div class="social-links" data-stellar-ratio="0.1">
+	
+</div>
+
+	<div style="display: none;" id="rocket-to-top">
+	<div style="opacity:0;display: block;" class="level-2"></div>
+	<div class="level-3"></div>
+	</div>
+ <script type="text/javascript">
+      SimpleJekyllSearch.init({
+        searchInput: document.getElementById('search-input'),
+        resultsContainer: document.getElementById('results-container'),
+        dataSource: '/search.json',
+        searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>',
+        noResultsText: 'No results found',
+        limit: 10,
+        fuzzy: false,
+      })
+    </script>
+
+
+	<div id="post-info" data-stellar-ratio="0.7">
+		<a class="site-title" style="font-weight:bold"><原创文章></a>
+		<h1>海量小文件网络传输copy优化</h1>
+		
+		<a class="site-title" href="http://oopsoutofmemory.github.io"><div class="site-icon-small" style="background-image: url(/assets/images/oopsoutofmemory.jpg);"></div>盛利的博客</a>, in 19 November 2014
+
+	</div>
+
+	<div id="nav-icon" style="bottom: 30px;" data-stellar-ratio="4">
+		<a class="scroll" data-speed="500" href="#article"><span class="genericon genericon-expand"></span></a>
+	</div>
+</header>
+
+<div id="middle">
+
+	<div class="nav">
+	<div class="title"><span style="padding-right: 10px;" class="genericon genericon-menu"><a style="color:white;" href="/category.html"><span>&nbsp;&nbsp;&nbsp;Category</span></a></div>
+	 
+	<a  href="/category.html#spark" title="view all posts">
+		<span style="padding-right: 10px;" class="genericon genericon-pinned"></span>
+		Spark <span class="bubble">2</span></a>
+	 
+	<a  href="/category.html#scala" title="view all posts">
+		<span style="padding-right: 10px;" class="genericon genericon-pinned"></span>
+		Scala <span class="bubble">6</span></a>
+	 
+	<a  href="/category.html#machine learning" title="view all posts">
+		<span style="padding-right: 10px;" class="genericon genericon-pinned"></span>
+		Machine learning <span class="bubble">2</span></a>
+	 
+	<a  href="/category.html#hadoop" title="view all posts">
+		<span style="padding-right: 10px;" class="genericon genericon-pinned"></span>
+		Hadoop <span class="bubble">1</span></a>
+	 
+	<a  href="/category.html#hive" title="view all posts">
+		<span style="padding-right: 10px;" class="genericon genericon-pinned"></span>
+		Hive <span class="bubble">7</span></a>
+	 
+	<a class="" href="/category.html"><span style="padding-right: 12px;" class="genericon genericon-pinned"></span>Show All</a>
+</div>
+	
+	<div id="article">
+		<p>今天部署集群环境，拷贝了一下编译好的文件</p>
+
+<p>利用scp拷贝这个文件环境，然后分发到2个节点上去，然后就是刷屏的log，小文件一个一个被传输。
+但是速度极慢，突然发现我忘记了，编译出来的类文件太多了，这样拷贝非常慢，马上联想到hadoop中要避免map的输出有很多小文件，因为随后要进行网络传输。</p>
+
+<p>查到问题总结出2个原因：
+1. 磁盘IO寻址：
+    原因：
+    因为小文件太多，造成了大量的磁盘IO，意味着大量的开和关。磁盘的寻道和寻址都要占据很大一部分时间。
+    就好比洗衣服一样，洗好多件衣服比洗一件衣服要慢很多，因为很多时间都浪费在你去找衣服的时间里了。</p>
+
+<p>优化策略：
+2. TCP慢启动
+    原因：
+    我们对每个文件都采用独立的TCP连接来传输（循环使用scp拷贝就是这个例子的实际场景，很常见的用法）。那么工作过程应该是，每传输一 个文件建立一个连接，然后连接处于慢启动阶段，传输小文件，每个小文件几乎都处于独立连接的慢启动阶段被传输，这样传输过程所用的TCP包的总量就会增 多。更细致的说一说这个事，如果在慢启动过程中传输一个小文件，我们可能需要2至3个小包，而在一个已经完成慢启动的TCP通道中（TCP通道已进入在高 速传输阶段），我们传输这个文件可能只需要1个大包。网络拷贝文件的时间基本上全部消耗都在网络传输的过程中（发数据过去等对端ACK，ACK确认归来继 续再发，这样的数据来回交互相比较本机的文件读写非常耗时间），撇开三次握手和四次握手那些包，粗略来说，慢启动阶段传输这些文件所用的包的数目是高速通 道传输这些文件的包的数目的2-3倍！那么时间上应该也是2-3倍的关系！如果文件的量足够大，这个总时间就会被放大到需求难以忍受的地步。
+    因此，在迁移海量小文件的需求下，我们不能使用“对每个文件都采用独立的TCP连接来传输（循环使用scp拷贝）“这样的策略，它会使每个文件的传输都处于在一个独立TCP的慢启动阶段。</p>
+
+<p><strong>优化策略：</strong></p>
+
+<p>很简单，尽量把大量小文件放在一个TCP连接中排队传输。起初的一两个文件处于慢启动过程传输，后续的文件传输全部处于高速通道中传输，用这样的方式来减少发包的数目，进而降低时间消耗。</p>
+
+<p>实际上这种传输策略带来的性能提升的功劳不仅仅归于避免慢启动，事实上也避免了大量的3次握手和四次握手，这个对海量小文件传输的性能消耗也非常致命，但是这是另一个问题，本篇不多加介绍。</p>
+
+<p>随着多核服务器的兴起，以及现代网卡的多通道技术的迅猛发展，现在我们解决这一问题的通常做法是绑定多CPU的多核到网卡的多个通道，然后由CPU的核来均分传输这些小文件，每个核用一个TCP连接来排队发送分到的小文件。</p>
+
+<ol>
+<li>参考文献</li>
+</ol>
+
+<p>关于本文慢启动的部分，参考自TCP性能优化之避免慢启动。</p>
+
+		<h5>(The End)</h5>
+		<h5><原创文章> From OopsOutOfMemory 盛利's Blog<h5>
+		<h5>转载请注明出自：<a href="http://oopsoutofmemory.github.io/blog/hai-liang-xiao-wen-jian-wang-luo-chuan-shu-copy-you-hua"> http://oopsoutofmemory.github.io/blog/hai-liang-xiao-wen-jian-wang-luo-chuan-shu-copy-you-hua</a></h5>
+	
+
+<div class="ds-thread"></div>  
+	</div>
+
+
+
+</div>
+
+
+	
+	
+	
+	
+	
+	
+
+
+<footer class="clean" style="background-image: url(/assets/images/cover.jpg); height: 75%; min-height: 500px;" data-stellar-background-ratio="0.5" data-stellar-horizontal-offset="50" data-stellar-vertical-offset="50">
+	<div id="nav-icon" style="top: 60px;" data-stellar-ratio="0.8">
+		<a class="scroll" data-speed="500" href="#article"><span class="genericon genericon-collapse"></span></a>
+	</div>
+	<div id="post-info" data-stellar-ratio="0.5" data-stellar-vertical-offset="120">
+		<h3>下一篇文章：</h3>
+		<a href="/blog/hive-dao-ru-sequencefile-cuo-wu">
+			<h1>Hive导入sequencefile错误</h1>
+			
+				<h2></h2>
+			
+		</a>
+	</div>
+
+
+	<p class="copyright">&copy;2014, <a href="http://oopsoutofmemory.github.io" target="_blank">盛利</a>. <a href="http://oopsoutofmemory.github.io" target="_blank">All rights reserved</a>.</p>
+</footer>
+<script src="/assets/js/smooth-scroll.js"></script>
+
+
+
+		<script>
+		var width = $(window).width()
+		if ( width > 899 )
+		$( function(){
+		    $.stellar({
+		    	responsive: true,
+			verticalScrolling: true,
+			horizontalOffset: 0,
+			verticalOffset: 0,
+			positionProperty: 'transform',
+		    });
+		});
+		</script>
+	</body>
+</html>
+ <!--多说js加载开始，一个页面只需要加载一次 -->
+    <script type="text/javascript">
+      var duoshuoQuery = {short_name:"oopsoutofmemory"};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = 'http://static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+    </script>
+    <!--多说js加载结束，一个页面只需要加载一次 -->
+
+ 

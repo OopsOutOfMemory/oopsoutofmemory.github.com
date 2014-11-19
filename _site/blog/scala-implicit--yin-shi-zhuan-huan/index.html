@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	
+	<link href="//gmpg.org/xfn/11" rel="profile">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<link rel="canonical" href="http://oopsoutofmemory.github.io/blog/scala-implicit--yin-shi-zhuan-huan" />
+	<meta name="description" content="我们经常在scala 源码里上看到类似implicit这个关键字。 一开始不太理解，后来看了看，发现implicit这个隐式转换是支撑scala的易用、容错以及灵活语法的基础。 我们经常使用的一些集合方法里面就用到了implicit，比如： ```scala def flatMap[B, That](f: A => GenTraversableOnce[B])(implicit bf: CanBuildFrom[Repr, B, That]): That = { ``` ###..." />
+	<meta property="og:description" content="我们经常在scala 源码里上看到类似implicit这个关键字。 一开始不太理解，后来看了看，发现implicit这个隐式转换是支撑scala的易用、容错以及灵活语法的基础。 我们经常使用的一些集合方法里面就用到了implicit，比如： ```scala def flatMap[B, That](f: A => GenTraversableOnce[B])(implicit bf: CanBuildFrom[Repr, B, That]): That = { ``` ###..." />
+	<meta itemprop="image" content="http://oopsoutofmemory.github.io/assets/images/oopsoutofmemory.jpg" />
+	<meta property="og:image" content="http://oopsoutofmemory.github.io/assets/images/oopsoutofmemory.jpg" />
+	<meta property="og:title" content="Scala implicit 隐式转换" />
+	<meta property="og:type" content="article" />
+	<meta property="og:url" content="http://oopsoutofmemory.github.io/blog/scala-implicit--yin-shi-zhuan-huan" />
+	<meta property="og:site_name" content="盛利的博客" />
+	<title>Scala implicit 隐式转换 &middot; 盛利的博客</title>
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="HandheldFriendly" content="True" />
+	<meta name="MobileOptimized" content="320" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" type="text/css" media="only screen and (min-width: 900px)" href="/assets/css/desktop.css" />
+	<link rel="stylesheet" type="text/css" media="only screen and (max-width: 899px)" href="/assets/css/mobile.css" />
+	<link href="/assets/css/genericons.css" type="text/css" rel="stylesheet" />
+	<link href="/assets/css/index.css" type="text/css" rel="stylesheet" />
+	<link href="/assets/css/syntax.css" type="text/css" rel="stylesheet" />
+		<link href="/assets/css/style.css" type="text/css" rel="stylesheet" />
+	<link rel="apple-touch-icon" href="http://oopsoutofmemory.github.io/assets/images/oopsoutofmemory.jpg">
+	<link rel="shortcut icon" href="http://oopsoutofmemory.github.io/assets/images/favicon.ico">
+	<link rel="alternate" type="application/rss+xml" title="RSS" href="http://oopsoutofmemory.github.io/atom.xml">
+	<script type="text/javascript" src="/assets/js/jquery-2.1.0.min.js"></script>
+	<script type="text/javascript" src="/assets/js/jquery.stellar.min.js"></script>
+	<script type="text/javascript" src="/assets/js/rocket.js"></script>
+	<script type="text/javascript" src="/assets/js/jekyll-search.js"></script>
+	
+</head>
+
+	<body>
+		<header class="clean" style="background-image: url(/assets/images/cover.jpg); height: 100%;" data-stellar-background-ratio="0.5" data-stellar-horizontal-offset="50">
+	
+	<span id="home-intro">
+	<b>OopsOutOfMemory 盛利's Blog</b><br/>
+    <span class="desc"><b>专注大数据领域，分布式计算，Spark Contributor</b></span>
+</span>
+<label class="menu" for="_1">
+	<span class="genericon genericon-menu"></span>
+	
+</label>
+<input id="_1" type="checkbox">
+<div class="menu-content">
+	<p class="menu-title">盛利的博客<p>
+	<div class="menu" style="background-color: #1a1a1a; z-index: -1;"></div>
+	
+		<a href="/">首页</a>
+	
+		<a href="/category.html">博客列表</a>
+	
+		<a href="/aboutMe.html">关于我</a>
+	
+		<a href="/404">Test 404</a>
+	
+	<hr>
+	
+</div>
+ <div  class="social-links" data-stellar-ratio="0.1" style="-webkit-transform: translate3d(0px, 0px, 0px);">
+		
+<div id="search-container" >
+      <input type="text" id="search-input" placeholder="search...">
+      <ul id="results-container" style="position: absolute;"></ul>
+ </div>
+		<a href="http://oopsoutofmemory.github.io"  title="Home" ><span style="display: inline-block;font-size: 45px;position: relative;top: -4px;
+right: 10px;" class="genericon genericon-home"  >
+			</span></a>
+
+			<a href="http://weibo.com/oopsoom" target="_blank" title="Sina WeiBo" ><img class="genericon genericon-github" src="/assets/images/icon/weibo.png" style="width:35px; height:32px;">
+			</img></a>
+
+			<a href="https://github.com/OopsOutOfMemory" target="_blank" title="Fork me on github"><img class="genericon genericon-github" src="/assets/images/icon/github.jpg" style="width:32px; height:29px;">
+			</img></a>
+		
+			<a href="https://twitter.com/sheng_victor" target="_blank" title="Follow me on twitter"><img class="genericon genericon-github" src="/assets/images/icon/twitter.png" style="width:34px; height:30px;">
+			</img></a>
+		
+			<a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=e5179e72fd9f500ad852aefa6e2824dc2fb59868de8fa3d5b65eae670a2fc437"><img class="genericon genericon-github" src="/assets/images/icon/qqqun.png" alt="Spark Ecosystem技术交流" style="width:34px; height:30px;" title="Spark Ecosystem技术交流"></a>
+		
+	</div>
+
+<div class="social-links" data-stellar-ratio="0.1">
+	
+</div>
+
+	<div style="display: none;" id="rocket-to-top">
+	<div style="opacity:0;display: block;" class="level-2"></div>
+	<div class="level-3"></div>
+	</div>
+ <script type="text/javascript">
+      SimpleJekyllSearch.init({
+        searchInput: document.getElementById('search-input'),
+        resultsContainer: document.getElementById('results-container'),
+        dataSource: '/search.json',
+        searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>',
+        noResultsText: 'No results found',
+        limit: 10,
+        fuzzy: false,
+      })
+    </script>
+
+
+	<div id="post-info" data-stellar-ratio="0.7">
+		<a class="site-title" style="font-weight:bold"><原创文章></a>
+		<h1>Scala implicit 隐式转换</h1>
+		
+		<a class="site-title" href="http://oopsoutofmemory.github.io"><div class="site-icon-small" style="background-image: url(/assets/images/oopsoutofmemory.jpg);"></div>盛利的博客</a>, in 19 November 2014
+
+	</div>
+
+	<div id="nav-icon" style="bottom: 30px;" data-stellar-ratio="4">
+		<a class="scroll" data-speed="500" href="#article"><span class="genericon genericon-expand"></span></a>
+	</div>
+</header>
+
+<div id="middle">
+
+	<div class="nav">
+	<div class="title"><span style="padding-right: 10px;" class="genericon genericon-menu"><a style="color:white;" href="/category.html"><span>&nbsp;&nbsp;&nbsp;Category</span></a></div>
+	 
+	<a  href="/category.html#spark" title="view all posts">
+		<span style="padding-right: 10px;" class="genericon genericon-pinned"></span>
+		Spark <span class="bubble">2</span></a>
+	 
+	<a  href="/category.html#scala" title="view all posts">
+		<span style="padding-right: 10px;" class="genericon genericon-pinned"></span>
+		Scala <span class="bubble">6</span></a>
+	 
+	<a  href="/category.html#machine learning" title="view all posts">
+		<span style="padding-right: 10px;" class="genericon genericon-pinned"></span>
+		Machine learning <span class="bubble">2</span></a>
+	 
+	<a  href="/category.html#hadoop" title="view all posts">
+		<span style="padding-right: 10px;" class="genericon genericon-pinned"></span>
+		Hadoop <span class="bubble">1</span></a>
+	 
+	<a  href="/category.html#hive" title="view all posts">
+		<span style="padding-right: 10px;" class="genericon genericon-pinned"></span>
+		Hive <span class="bubble">7</span></a>
+	 
+	<a class="" href="/category.html"><span style="padding-right: 12px;" class="genericon genericon-pinned"></span>Show All</a>
+</div>
+	
+	<div id="article">
+		<p>我们经常在scala 源码里上看到类似implicit这个关键字。
+一开始不太理解，后来看了看，发现implicit这个隐式转换是支撑scala的易用、容错以及灵活语法的基础。
+我们经常使用的一些集合方法里面就用到了implicit，比如：</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">def</span> <span class="n">flatMap</span><span class="o">[</span><span class="kt">B</span>, <span class="kt">That</span><span class="o">](</span><span class="n">f</span><span class="k">:</span> <span class="kt">A</span> <span class="o">=&gt;</span> <span class="nc">GenTraversableOnce</span><span class="o">[</span><span class="kt">B</span><span class="o">])(</span><span class="k">implicit</span> <span class="n">bf</span><span class="k">:</span> <span class="kt">CanBuildFrom</span><span class="o">[</span><span class="kt">Repr</span>, <span class="kt">B</span>, <span class="kt">That</span><span class="o">])</span><span class="k">:</span> <span class="kt">That</span> <span class="o">=</span> <span class="o">{</span>  
+</code></pre></div>
+<h3>1. 隐式转换函数的定义：</h3>
+
+<p>我们在scala repl里定义一个方法foo，接受一个string的参数，打印出message
+ 当我们传入字符串参数&quot;2&quot;的时候，输出2
+ 但是当传入的类型是int而不是string的时候，出现类型不匹配异常。
+ 如果我们想支持隐式转换，将int转化为string，可以定义一个隐式函数，def implicit intToString( i : Int) = i.toString
+ 这里注意一下这个隐式函数的输入参数和返回值。
+ 输入参数：接受隐式转换入参为int类型
+ 返回值： 返回结果是string.</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">scala</span><span class="o">&gt;</span> <span class="k">def</span> <span class="n">foo</span><span class="o">(</span><span class="n">msg</span> <span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="n">println</span><span class="o">(</span><span class="n">msg</span><span class="o">)</span>  
+<span class="n">foo</span><span class="k">:</span> <span class="o">(</span><span class="kt">msg:</span> <span class="kt">String</span><span class="o">)</span><span class="kt">Unit</span>  
+
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">foo</span><span class="o">(</span><span class="s">&quot;2&quot;</span><span class="o">)</span>  
+<span class="mi">2</span>  
+
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">foo</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span>  
+<span class="o">&lt;</span><span class="n">console</span><span class="k">&gt;:</span><span class="mi">9</span><span class="k">:</span> <span class="kt">error:</span> <span class="k">type</span> <span class="kt">mismatch</span><span class="o">;</span>  
+ <span class="n">found</span>   <span class="k">:</span> <span class="kt">Int</span><span class="o">(</span><span class="err">3</span><span class="o">)</span>  
+ <span class="kt">required:</span> <span class="kt">String</span>  
+              <span class="n">foo</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span>  
+                  <span class="o">^</span>  
+
+<span class="n">scala</span><span class="o">&gt;</span> <span class="k">implicit</span> <span class="k">def</span> <span class="n">intToString</span><span class="o">(</span><span class="n">i</span><span class="k">:</span><span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="n">i</span><span class="o">.</span><span class="n">toString</span>  
+<span class="n">warning</span><span class="k">:</span> <span class="kt">there</span> <span class="kt">were</span> <span class="err">1</span> <span class="kt">feature</span> <span class="kt">warning</span><span class="o">(</span><span class="kt">s</span><span class="o">);</span> <span class="n">re</span><span class="o">-</span><span class="n">run</span> <span class="k">with</span> <span class="o">-</span><span class="n">feature</span> <span class="k">for</span> <span class="n">details</span>  
+<span class="n">intToString</span><span class="k">:</span> <span class="o">(</span><span class="kt">i:</span> <span class="kt">Int</span><span class="o">)</span><span class="kt">String</span>  
+
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">foo</span><span class="o">(</span><span class="mi">3</span><span class="o">)</span>  
+<span class="mi">3</span>  
+</code></pre></div><div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">scala</span><span class="o">&gt;</span> <span class="k">def</span> <span class="n">bar</span><span class="o">(</span><span class="n">msg</span> <span class="k">:</span> <span class="kt">String</span><span class="o">)</span> <span class="k">=</span> <span class="n">println</span><span class="o">(</span><span class="s">&quot;aslo can use implicit function intToString...result is &quot;</span><span class="o">+</span><span class="n">msg</span><span class="o">)</span>  
+<span class="n">bar</span><span class="k">:</span> <span class="o">(</span><span class="kt">msg:</span> <span class="kt">String</span><span class="o">)</span><span class="kt">Unit</span>  
+</code></pre></div><div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">scala</span><span class="o">&gt;</span> <span class="n">bar</span><span class="o">(</span><span class="mi">33</span><span class="o">)</span>  
+</code></pre></div>
+<p>aslo can use implicit function intToString...result is 33<br>
+总结一下，我的理解是：隐式函数是在一个scop下面，给定一种输入参数类型，自动转换为返回值类型的函数，和函数名，参数名无关。
+这里intToString隐式函数是作用于一个scop的，这个scop在当前是一个scala repl，超出这个作用域，将不会起到隐式转换的效果。</p>
+
+<p>为什么我会这么定义隐式函数，下面我再定义一个相同的输入类型为int，和返回值类型为string的隐式函数名为int2str：</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">scala</span><span class="o">&gt;</span> <span class="k">implicit</span> <span class="k">def</span> <span class="n">int2str</span><span class="o">(</span><span class="n">o</span> <span class="k">:</span><span class="kt">Int</span><span class="o">)</span> <span class="k">=</span> <span class="n">o</span><span class="o">.</span><span class="n">toString</span>  
+<span class="n">warning</span><span class="k">:</span> <span class="kt">there</span> <span class="kt">were</span> <span class="err">1</span> <span class="kt">feature</span> <span class="kt">warning</span><span class="o">(</span><span class="kt">s</span><span class="o">);</span> <span class="n">re</span><span class="o">-</span><span class="n">run</span> <span class="k">with</span> <span class="o">-</span><span class="n">feature</span> <span class="k">for</span> <span class="n">details</span>  
+<span class="n">int2str</span><span class="k">:</span> <span class="o">(</span><span class="kt">o:</span> <span class="kt">Int</span><span class="o">)</span><span class="kt">String</span>  
+
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">bar</span><span class="o">(</span><span class="mi">33</span><span class="o">)</span>  
+<span class="o">&lt;</span><span class="n">console</span><span class="k">&gt;:</span><span class="mi">13</span><span class="k">:</span> <span class="kt">error:</span> <span class="k">type</span> <span class="kt">mismatch</span><span class="o">;</span>  
+ <span class="n">found</span>   <span class="k">:</span> <span class="kt">Int</span><span class="o">(</span><span class="err">33</span><span class="o">)</span>  
+ <span class="kt">required:</span> <span class="kt">String</span>  
+<span class="nc">Note</span> <span class="n">that</span> <span class="k">implicit</span> <span class="n">conversions</span> <span class="n">are</span> <span class="n">not</span> <span class="n">applicable</span> <span class="n">because</span> <span class="n">they</span> <span class="n">are</span> <span class="n">ambiguous</span><span class="k">:</span>  
+ <span class="kt">both</span> <span class="kt">method</span> <span class="kt">intToString</span> <span class="kt">of</span> <span class="k">type</span> <span class="o">(</span><span class="kt">i:</span> <span class="kt">Int</span><span class="o">)</span><span class="kt">String</span>  
+ <span class="n">and</span> <span class="n">method</span> <span class="n">int2str</span> <span class="n">of</span> <span class="k">type</span> <span class="o">(</span><span class="kt">o:</span> <span class="kt">Int</span><span class="o">)</span><span class="kt">String</span>  
+ <span class="n">are</span> <span class="n">possible</span> <span class="n">conversion</span> <span class="n">functions</span> <span class="n">from</span> <span class="nc">Int</span><span class="o">(</span><span class="mi">33</span><span class="o">)</span> <span class="n">to</span> <span class="nc">String</span>  
+              <span class="n">bar</span><span class="o">(</span><span class="mi">33</span><span class="o">)</span>  
+                  <span class="o">^</span>  
+</code></pre></div>
+<p>跑出了二义性的异常，说的是intToString和int2str这2个隐式函数都是可以处理bar(33)的，编译器不知道选择哪个了，呵呵。。
+证明了隐式函数和函数名，参数名无关，只和输入参数与返回值有关。</p>
+
+<h3>2. 隐式函数的应用</h3>
+
+<p>我们可以随便的打开scala函数的一些内置定义，比如我们最常用的map函数中-&gt;符号，看起来很像php等语言。
+但实际上-&gt;确实是一个ArrowAssoc类的方法，它位于scala源码中的Predef.scala中。下面是这个类的定义：</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">final</span> <span class="k">class</span> <span class="nc">ArrowAssoc</span><span class="o">[</span><span class="kt">A</span><span class="o">](</span><span class="k">val</span> <span class="nc">__leftOfArrow</span><span class="k">:</span> <span class="kt">A</span><span class="o">)</span> <span class="k">extends</span> <span class="nc">AnyVal</span> <span class="o">{</span>  
+  <span class="c1">// `__leftOfArrow` must be a public val to allow inlining. The val  </span>
+  <span class="c1">// used to be called `x`, but now goes by `__leftOfArrow`, as that  </span>
+  <span class="c1">// reduces the chances of a user&#39;s writing `foo.__leftOfArrow` and  </span>
+  <span class="c1">// being confused why they get an ambiguous implicit conversion  </span>
+  <span class="c1">// error. (`foo.x` used to produce this error since both  </span>
+  <span class="c1">// any2Ensuring and any2ArrowAssoc pimped an `x` onto everything)  </span>
+  <span class="nd">@deprecated</span><span class="o">(</span><span class="s">&quot;Use `__leftOfArrow` instead&quot;</span><span class="o">,</span> <span class="s">&quot;2.10.0&quot;</span><span class="o">)</span>  
+  <span class="k">def</span> <span class="n">x</span> <span class="k">=</span> <span class="nc">__leftOfArrow</span>  
+
+  <span class="nd">@inline</span> <span class="k">def</span> <span class="o">-&gt;</span> <span class="o">[</span><span class="kt">B</span><span class="o">](</span><span class="n">y</span><span class="k">:</span> <span class="kt">B</span><span class="o">)</span><span class="k">:</span> <span class="kt">Tuple2</span><span class="o">[</span><span class="kt">A</span>, <span class="kt">B</span><span class="o">]</span> <span class="k">=</span> <span class="nc">Tuple2</span><span class="o">(</span><span class="nc">__leftOfArrow</span><span class="o">,</span> <span class="n">y</span><span class="o">)</span>  
+  <span class="k">def</span> <span class="o">→[</span><span class="kt">B</span><span class="o">](</span><span class="n">y</span><span class="k">:</span> <span class="kt">B</span><span class="o">)</span><span class="k">:</span> <span class="kt">Tuple2</span><span class="o">[</span><span class="kt">A</span>, <span class="kt">B</span><span class="o">]</span> <span class="k">=</span> <span class="o">-&gt;(</span><span class="n">y</span><span class="o">)</span>  
+<span class="o">}</span>  
+<span class="nd">@inline</span> <span class="k">implicit</span> <span class="k">def</span> <span class="n">any2ArrowAssoc</span><span class="o">[</span><span class="kt">A</span><span class="o">](</span><span class="n">x</span><span class="k">:</span> <span class="kt">A</span><span class="o">)</span><span class="k">:</span> <span class="kt">ArrowAssoc</span><span class="o">[</span><span class="kt">A</span><span class="o">]</span> <span class="k">=</span> <span class="k">new</span> <span class="nc">ArrowAssoc</span><span class="o">(</span><span class="n">x</span><span class="o">)</span>  
+</code></pre></div>
+<p>我们看到def -&gt;<a href="y%20:B">B</a>返回的其实是一个Tuple2[A,B]类型。
+我们定义一个Map:</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">mp</span> <span class="k">=</span> <span class="nc">Map</span><span class="o">(</span><span class="mi">1</span><span class="o">-&gt;</span><span class="s">&quot;game1&quot;</span><span class="o">,</span><span class="mi">2</span><span class="o">-&gt;</span><span class="s">&quot;game_2&quot;</span><span class="o">)</span>  
+<span class="n">mp</span><span class="k">:</span> <span class="kt">scala.collection.immutable.Map</span><span class="o">[</span><span class="kt">Int</span>,<span class="kt">String</span><span class="o">]</span> <span class="k">=</span> <span class="nc">Map</span><span class="o">(</span><span class="mi">1</span> <span class="o">-&gt;</span> <span class="n">game1</span><span class="o">,</span> <span class="mi">2</span> <span class="o">-&gt;</span> <span class="n">game_2</span><span class="o">)</span>  
+</code></pre></div>
+<p>这里 1-&gt;&quot;game1&quot;其实是1.-&gt;(&quot;game<em>1&quot;)的简写。
+这里怎么能让整数类型1能有-&gt;方法呢。
+这里其实any2ArrowAssoc隐式函数起作用了，这里接受的参数[A]是泛型的，所以int也不例外。
+调用的是：将整型的1 implicit转换为 ArrowAssoc(1)
+看下构造方法，将1当作</em><em>leftOfArrow传入。
+-&gt;方法的真正实现是生产一个Tuple2类型的对象(</em><em>leftOfArrow,y ) 等价于(1, &quot;game</em>id&quot;)
+这就是一个典型的隐式转换应用。</p>
+
+<p>其它还有很多类似的隐式转换，都在Predef.scala中：
+例如：Int，Long，Double都是AnyVal的子类，这三个类型之间没有继承的关系，不能直接相互转换。
+在Java里，我们声明Long的时候要在末尾加上一个L，来声明它是long。
+但在scala里，我们不需要考虑那么多，只需要：</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">l</span><span class="k">:</span><span class="kt">Long</span> <span class="o">=</span> <span class="mi">10</span>  
+<span class="n">l</span><span class="k">:</span> <span class="kt">Long</span> <span class="o">=</span> <span class="mi">10</span>  
+</code></pre></div>
+<p>这就是implicit函数做到的，这也是scala类型推断的一部分，灵活，简洁。
+其实这里调用是：
+<code>scala
+val l : Long = int2long(10)
+</code></p>
+
+<p>最后的总结：
+1. 记住隐式转换函数的同一个scop中不能存在参数和返回值完全相同的2个implicit函数。
+2. 隐式转换函数只在意 输入类型，返回类型。
+3. 隐式转换是scala的语法灵活和简洁的重要组成部分。</p>
+
+		<h5>(The End)</h5>
+		<h5><原创文章> From OopsOutOfMemory 盛利's Blog<h5>
+		<h5>转载请注明出自：<a href="http://oopsoutofmemory.github.io/blog/scala-implicit--yin-shi-zhuan-huan"> http://oopsoutofmemory.github.io/blog/scala-implicit--yin-shi-zhuan-huan</a></h5>
+	
+
+<div class="ds-thread"></div>  
+	</div>
+
+
+
+</div>
+
+
+	
+	
+	
+	
+	
+	
+
+
+<footer class="clean" style="background-image: url(/assets/images/cover.jpg); height: 75%; min-height: 500px;" data-stellar-background-ratio="0.5" data-stellar-horizontal-offset="50" data-stellar-vertical-offset="50">
+	<div id="nav-icon" style="top: 60px;" data-stellar-ratio="0.8">
+		<a class="scroll" data-speed="500" href="#article"><span class="genericon genericon-collapse"></span></a>
+	</div>
+	<div id="post-info" data-stellar-ratio="0.5" data-stellar-vertical-offset="120">
+		<h3>下一篇文章：</h3>
+		<a href="/blog/scala-xie-bian-ni-bian-shang-jie-xia-jie-----li-jie-pian">
+			<h1>Scala协变逆变上界下界---理解篇</h1>
+			
+				<h2></h2>
+			
+		</a>
+	</div>
+
+
+	<p class="copyright">&copy;2014, <a href="http://oopsoutofmemory.github.io" target="_blank">盛利</a>. <a href="http://oopsoutofmemory.github.io" target="_blank">All rights reserved</a>.</p>
+</footer>
+<script src="/assets/js/smooth-scroll.js"></script>
+
+
+
+		<script>
+		var width = $(window).width()
+		if ( width > 899 )
+		$( function(){
+		    $.stellar({
+		    	responsive: true,
+			verticalScrolling: true,
+			horizontalOffset: 0,
+			verticalOffset: 0,
+			positionProperty: 'transform',
+		    });
+		});
+		</script>
+	</body>
+</html>
+ <!--多说js加载开始，一个页面只需要加载一次 -->
+    <script type="text/javascript">
+      var duoshuoQuery = {short_name:"oopsoutofmemory"};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = 'http://static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+    </script>
+    <!--多说js加载结束，一个页面只需要加载一次 -->
+
+ 

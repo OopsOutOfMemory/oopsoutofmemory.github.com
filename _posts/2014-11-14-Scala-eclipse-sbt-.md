@@ -2,8 +2,8 @@
 layout: post
 title: Scala eclipse sbt 应用程序开发
 categories: 
-- spark
-tags: [spark, scaka, eclipse, sbt]
+- scala
+tags: [scala, eclipse, sbt]
 date: 2014-11-14
 ---
 

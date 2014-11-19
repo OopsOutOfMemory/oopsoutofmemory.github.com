@@ -4,16 +4,16 @@
 	
 	<link href="//gmpg.org/xfn/11" rel="profile">
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
-	<link rel="canonical" href="http://oopsoutofmemory.github.io/blog/hive-shu-ju-fan-bei-zong-jie" />
-	<meta name="description" content="__问题：__ > 1. 数据源数据重复。。很难发现。。依赖关系。。 2. 本来8千万的数据和8千万的数据一下left outer join后，变成了30亿。。按道理还是8kw。 3. 8千万大表和几十行的小表join，数据严重倾斜，到99.99%就是reduce不完。。最终OOM了。 __总结如下：__ 1. 数据源问题： 统计前，首先检查各个数据源表，看是否有重复记录，可能是数据源的问题。 2. 业务原因，手机可能会解绑和重新绑定，所以一个帐号可能对于多个手机，而不是简单的一个帐号和一个手机是一一对应的。 3. join时on的条件不充分，join的时候一定要考虑哪几个条件能唯一的匹配到一条记录，少一个条件，就可能导致笛卡尔乘积。 考虑 on..." />
-	<meta property="og:description" content="__问题：__ > 1. 数据源数据重复。。很难发现。。依赖关系。。 2. 本来8千万的数据和8千万的数据一下left outer join后，变成了30亿。。按道理还是8kw。 3. 8千万大表和几十行的小表join，数据严重倾斜，到99.99%就是reduce不完。。最终OOM了。 __总结如下：__ 1. 数据源问题： 统计前，首先检查各个数据源表，看是否有重复记录，可能是数据源的问题。 2. 业务原因，手机可能会解绑和重新绑定，所以一个帐号可能对于多个手机，而不是简单的一个帐号和一个手机是一一对应的。 3. join时on的条件不充分，join的时候一定要考虑哪几个条件能唯一的匹配到一条记录，少一个条件，就可能导致笛卡尔乘积。 考虑 on..." />
+	<link rel="canonical" href="http://oopsoutofmemory.github.io/blog/scala-de-cons-ji-he-he-bing-yu-tian-jia" />
+	<meta name="description" content="scala对集合的元素合有特殊的符号，比如::和::: 简单说明一下： 元素和集合连接用:: 双冒号是连接 一个元素 和 一个集合 ```scala scala> val furits = "apple"::("orange"::("banana"::Nil)) furits: List[java.lang.String] = List(apple, orange, banana) ```..." />
+	<meta property="og:description" content="scala对集合的元素合有特殊的符号，比如::和::: 简单说明一下： 元素和集合连接用:: 双冒号是连接 一个元素 和 一个集合 ```scala scala> val furits = "apple"::("orange"::("banana"::Nil)) furits: List[java.lang.String] = List(apple, orange, banana) ```..." />
 	<meta itemprop="image" content="http://oopsoutofmemory.github.io/assets/images/oopsoutofmemory.jpg" />
 	<meta property="og:image" content="http://oopsoutofmemory.github.io/assets/images/oopsoutofmemory.jpg" />
-	<meta property="og:title" content="Hive数据翻倍总结" />
+	<meta property="og:title" content="Scala的cons，集合合并与添加" />
 	<meta property="og:type" content="article" />
-	<meta property="og:url" content="http://oopsoutofmemory.github.io/blog/hive-shu-ju-fan-bei-zong-jie" />
+	<meta property="og:url" content="http://oopsoutofmemory.github.io/blog/scala-de-cons-ji-he-he-bing-yu-tian-jia" />
 	<meta property="og:site_name" content="盛利的博客" />
-	<title>Hive数据翻倍总结 &middot; 盛利的博客</title>
+	<title>Scala的cons，集合合并与添加 &middot; 盛利的博客</title>
 	<meta name="mobile-web-app-capable" content="yes">
 	<meta name="HandheldFriendly" content="True" />
 	<meta name="MobileOptimized" content="320" />
@@ -107,7 +107,7 @@ right: 10px;" class="genericon genericon-home"  >
 
 	<div id="post-info" data-stellar-ratio="0.7">
 		<a class="site-title" style="font-weight:bold"><原创文章></a>
-		<h1>Hive数据翻倍总结</h1>
+		<h1>Scala的cons，集合合并与添加</h1>
 		
 		<a class="site-title" href="http://oopsoutofmemory.github.io"><div class="site-icon-small" style="background-image: url(/assets/images/oopsoutofmemory.jpg);"></div>盛利的博客</a>, in 19 November 2014
 
@@ -147,32 +147,35 @@ right: 10px;" class="genericon genericon-home"  >
 </div>
 	
 	<div id="article">
-		<p><strong>问题：</strong></p>
+		<p>scala对集合的元素合有特殊的符号，比如::和:::
+简单说明一下：
+元素和集合连接用::
+双冒号是连接 一个元素 和 一个集合</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">furits</span> <span class="k">=</span> <span class="s">&quot;apple&quot;</span><span class="o">::(</span><span class="s">&quot;orange&quot;</span><span class="o">::(</span><span class="s">&quot;banana&quot;</span><span class="o">::</span><span class="nc">Nil</span><span class="o">))</span>  
+<span class="n">furits</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">java.lang.String</span><span class="o">]</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="n">apple</span><span class="o">,</span> <span class="n">orange</span><span class="o">,</span> <span class="n">banana</span><span class="o">)</span> 
+</code></pre></div>
+<p>最后的一个Nil代表的是空集合，这个应该都知道
+先用一个&quot;banana&quot;元素和Nil一个空集合连接（合并）这时list里只有一个元素
+可以看出连接都是在list的头部进行的。
+集合和集合连接用:::</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">list1</span><span class="k">=</span><span class="nc">List</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">)</span>  
+<span class="n">list1</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">Int</span><span class="o">]</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">)</span>  
 
-<blockquote>
-<ol>
-<li>数据源数据重复。。很难发现。。依赖关系。。</li>
-<li>本来8千万的数据和8千万的数据一下left outer join后，变成了30亿。。按道理还是8kw。</li>
-<li>8千万大表和几十行的小表join，数据严重倾斜，到99.99%就是reduce不完。。最终OOM了。</li>
-</ol>
-</blockquote>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="k">val</span> <span class="n">list2</span><span class="k">=</span><span class="nc">List</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span><span class="mi">5</span><span class="o">,</span><span class="mi">6</span><span class="o">)</span>  
+<span class="n">list2</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">Int</span><span class="o">]</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">6</span><span class="o">)</span>  
 
-<p><strong>总结如下：</strong></p>
-
-<ol>
-<li><p>数据源问题：
-统计前，首先检查各个数据源表，看是否有重复记录，可能是数据源的问题。</p></li>
-<li><p>业务原因，手机可能会解绑和重新绑定，所以一个帐号可能对于多个手机，而不是简单的一个帐号和一个手机是一一对应的。</p></li>
-<li><p>join时on的条件不充分，join的时候一定要考虑哪几个条件能唯一的匹配到一条记录，少一个条件，就可能导致笛卡尔乘积。
-考虑 on a.id = b.id and  a.sid = b.sid and ？？</p></li>
-</ol>
-
-<p><strong>其它总结：</strong>
-帐号类型，普通帐号，个性化帐号，手机帐号，邮箱帐号。</p>
+<span class="n">scala</span><span class="o">&gt;</span> <span class="n">list2</span><span class="o">:::</span><span class="n">list1</span>  
+<span class="n">res55</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">Int</span><span class="o">]</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">6</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">)</span>  
+</code></pre></div>
+<p>集合和集合连接用cons::</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">scala</span><span class="o">&gt;</span> <span class="n">list2</span><span class="o">::</span><span class="n">list1</span>  
+<span class="n">res56</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">Any</span><span class="o">]</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="nc">List</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">6</span><span class="o">),</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">)</span>
+</code></pre></div>
+<p>这时候有趣的事情出现了，会把list2当成一个元素，即Any类型的放到一个List里，其实这个List[Any]</p>
 
 		<h5>(The End)</h5>
 		<h5><原创文章> From OopsOutOfMemory 盛利's Blog<h5>
-		<h5>转载请注明出自：<a href="http://oopsoutofmemory.github.io/blog/hive-shu-ju-fan-bei-zong-jie"> http://oopsoutofmemory.github.io/blog/hive-shu-ju-fan-bei-zong-jie</a></h5>
+		<h5>转载请注明出自：<a href="http://oopsoutofmemory.github.io/blog/scala-de-cons-ji-he-he-bing-yu-tian-jia"> http://oopsoutofmemory.github.io/blog/scala-de-cons-ji-he-he-bing-yu-tian-jia</a></h5>
 	
 
 <div class="ds-thread"></div>  
@@ -197,8 +200,8 @@ right: 10px;" class="genericon genericon-home"  >
 	</div>
 	<div id="post-info" data-stellar-ratio="0.5" data-stellar-vertical-offset="120">
 		<h3>下一篇文章：</h3>
-		<a href="/blog/hive-udfa--zhong-wei-shu">
-			<h1>Hive UDFA 中位数</h1>
+		<a href="/blog/scala-implicit--yin-shi-zhuan-huan">
+			<h1>Scala implicit 隐式转换</h1>
 			
 				<h2></h2>
 			
