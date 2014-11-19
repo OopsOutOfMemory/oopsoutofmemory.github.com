@@ -5,8 +5,8 @@
 	<link href="//gmpg.org/xfn/11" rel="profile">
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
 	<link rel="canonical" href="http://oopsoutofmemory.github.io/blog/spark-ji-qi-xue-xi-ku-mllib-zhi-xie-tong-guo-lv" />
-	<meta name="description" content="很久就想写一篇ML的实践文章，虽然看过肯多资料，总觉得纸上谈兵印象不深刻，过不了多久就忘了，现在就借Spark的Mllib来简单的实际一下推荐算法吧。 说起推荐算法，大家耳熟能详的就是CF（协同过滤），这次就拿CF中ALS（alternating least squares），交替最小二乘，来做个例子吧。 CF里面的算法比较多，有基于物品的，基于用户的，ALS是基于矩阵分解的，关于对推荐算法的小结，请参考我的推荐算法总结Recommendation ## Mllib 先介绍下mllib，mllib是运行在Spark上一个机器学习算法库。借助Spark的内存计算，可以使机器学习的模型计算时间大大缩短。 目前，spark1.0.0中的mllib中已经有很多算法了，具体可以参见官方网站http://spark.apache.org/docs/latest/mllib-guide.html 我们知道，协同过滤是基于用户行为的一种推荐算法，需要用户对Item的评价。 于是乎我们还是找到最经典的数据集movielens,地址http://grouplens.org/datasets/movielens/ Down下来ml-100k，解压后有很多文件，可以看README里面对数据集的介绍。 ```scala user id | item id | rating..." />
-	<meta property="og:description" content="很久就想写一篇ML的实践文章，虽然看过肯多资料，总觉得纸上谈兵印象不深刻，过不了多久就忘了，现在就借Spark的Mllib来简单的实际一下推荐算法吧。 说起推荐算法，大家耳熟能详的就是CF（协同过滤），这次就拿CF中ALS（alternating least squares），交替最小二乘，来做个例子吧。 CF里面的算法比较多，有基于物品的，基于用户的，ALS是基于矩阵分解的，关于对推荐算法的小结，请参考我的推荐算法总结Recommendation ## Mllib 先介绍下mllib，mllib是运行在Spark上一个机器学习算法库。借助Spark的内存计算，可以使机器学习的模型计算时间大大缩短。 目前，spark1.0.0中的mllib中已经有很多算法了，具体可以参见官方网站http://spark.apache.org/docs/latest/mllib-guide.html 我们知道，协同过滤是基于用户行为的一种推荐算法，需要用户对Item的评价。 于是乎我们还是找到最经典的数据集movielens,地址http://grouplens.org/datasets/movielens/ Down下来ml-100k，解压后有很多文件，可以看README里面对数据集的介绍。 ```scala user id | item id | rating..." />
+	<meta name="description" content="很久就想写一篇ML的实践文章，虽然看过肯多资料，总觉得纸上谈兵印象不深刻，过不了多久就忘了，现在就借Spark的Mllib来简单的实际一下推荐算法吧。 说起推荐算法，大家耳熟能详的就是CF（协同过滤），这次就拿CF中ALS（alternating least squares），交替最小二乘，来做个例子吧。 CF里面的算法比较多，有基于物品的，基于用户的，ALS是基于矩阵分解的，关于对推荐算法的小结，请参考我的推荐算法总结Recommendation ## Mllib 先介绍下``mllib``，mllib是运行在Spark上一个机器学习算法库。借助Spark的内存计算，可以使机器学习的模型计算时间大大缩短。 目前，spark1.0.0中的mllib中已经有很多算法了，具体可以参见官方网站 我们知道，协同过滤是基于用户行为的一种推荐算法，需要用户对Item的评价。 于是乎我们还是找到最经典的数据集movielens,地址 Down下来ml-100k，解压后有很多文件，可以看README里面对数据集的介绍。 ```scala user id | item id | rating..." />
+	<meta property="og:description" content="很久就想写一篇ML的实践文章，虽然看过肯多资料，总觉得纸上谈兵印象不深刻，过不了多久就忘了，现在就借Spark的Mllib来简单的实际一下推荐算法吧。 说起推荐算法，大家耳熟能详的就是CF（协同过滤），这次就拿CF中ALS（alternating least squares），交替最小二乘，来做个例子吧。 CF里面的算法比较多，有基于物品的，基于用户的，ALS是基于矩阵分解的，关于对推荐算法的小结，请参考我的推荐算法总结Recommendation ## Mllib 先介绍下``mllib``，mllib是运行在Spark上一个机器学习算法库。借助Spark的内存计算，可以使机器学习的模型计算时间大大缩短。 目前，spark1.0.0中的mllib中已经有很多算法了，具体可以参见官方网站 我们知道，协同过滤是基于用户行为的一种推荐算法，需要用户对Item的评价。 于是乎我们还是找到最经典的数据集movielens,地址 Down下来ml-100k，解压后有很多文件，可以看README里面对数据集的介绍。 ```scala user id | item id | rating..." />
 	<meta itemprop="image" content="http://oopsoutofmemory.github.io/assets/images/oopsoutofmemory.jpg" />
 	<meta property="og:image" content="http://oopsoutofmemory.github.io/assets/images/oopsoutofmemory.jpg" />
 	<meta property="og:title" content="Spark机器学习库mllib之协同过滤" />
@@ -157,14 +157,15 @@ right: 10px;" class="genericon genericon-home"  >
 CF里面的算法比较多，有基于物品的，基于用户的，ALS是基于矩阵分解的，关于对推荐算法的小结，请参考我的推荐算法总结Recommendation</p>
 
 <h2>Mllib</h2>
-<div class="highlight"><pre><code class="language-text" data-lang="text">先介绍下mllib，mllib是运行在Spark上一个机器学习算法库。借助Spark的内存计算，可以使机器学习的模型计算时间大大缩短。
-</code></pre></div>
-<p>目前，spark1.0.0中的mllib中已经有很多算法了，具体可以参见官方网站http://spark.apache.org/docs/latest/mllib-guide.html</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">我们知道，协同过滤是基于用户行为的一种推荐算法，需要用户对Item的评价。
-于是乎我们还是找到最经典的数据集movielens,地址http://grouplens.org/datasets/movielens/
 
-Down下来ml-100k，解压后有很多文件，可以看README里面对数据集的介绍。
-</code></pre></div><div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">user</span> <span class="n">id</span> <span class="o">|</span> <span class="n">item</span> <span class="n">id</span> <span class="o">|</span> <span class="n">rating</span> <span class="o">|</span> <span class="n">timestamp</span>                
+<p>先介绍下<code>mllib</code>，mllib是运行在Spark上一个机器学习算法库。借助Spark的内存计算，可以使机器学习的模型计算时间大大缩短。
+目前，spark1.0.0中的mllib中已经有很多算法了，具体可以参见官方网站<a href="http://spark.apache.org/docs/latest/mllib-guide.html">http://spark.apache.org/docs/latest/mllib-guide.html</a></p>
+
+<p>我们知道，协同过滤是基于用户行为的一种推荐算法，需要用户对Item的评价。
+    于是乎我们还是找到最经典的数据集movielens,地址<a href="http://grouplens.org/datasets/movielens/">http://grouplens.org/datasets/movielens/</a></p>
+
+<p>Down下来ml-100k，解压后有很多文件，可以看README里面对数据集的介绍。</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">user</span> <span class="n">id</span> <span class="o">|</span> <span class="n">item</span> <span class="n">id</span> <span class="o">|</span> <span class="n">rating</span> <span class="o">|</span> <span class="n">timestamp</span>                
 <span class="mi">1</span>       <span class="mi">1</span>      <span class="mi">5</span>       <span class="mi">874965758</span>  
 <span class="mi">1</span>       <span class="mi">2</span>      <span class="mi">3</span>       <span class="mi">876893171</span>  
 <span class="mi">1</span>       <span class="mi">3</span>      <span class="mi">4</span>       <span class="mi">878542960</span>  
@@ -276,11 +277,11 @@ Down下来ml-100k，解压后有很多文件，可以看README里面对数据集
 <span class="n">res11</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[((</span><span class="kt">Int</span>, <span class="kt">Int</span><span class="o">)</span>, <span class="o">(</span><span class="kt">Double</span>, <span class="kt">Double</span><span class="o">))]</span> <span class="k">=</span> <span class="nc">Array</span><span class="o">(((</span><span class="mi">933</span><span class="o">,</span><span class="mi">627</span><span class="o">),(</span><span class="mf">2.0</span><span class="o">,</span><span class="mf">1.6977799770529198</span><span class="o">)),</span> <span class="o">((</span><span class="mi">537</span><span class="o">,</span><span class="mi">24</span><span class="o">),(</span><span class="mf">1.0</span><span class="o">,</span><span class="mf">2.3191609228008327</span><span class="o">)),</span> <span class="o">((</span><span class="mi">717</span><span class="o">,</span><span class="mi">125</span><span class="o">),(</span><span class="mf">4.0</span><span class="o">,</span><span class="mf">3.795616142104737</span><span class="o">)))</span>  
 </code></pre></div>
 <p>join后的结果，就是每个用户对电影的实际打分和预测打分的一个对比，例如：</p>
-<div class="highlight"><pre><code class="language-text" data-lang="text">(用户，电影)，(原始评分，预测的评分）
-(933,627)，(2.0，1.6977799770529198)
-(537,24),(1.0, 2.3191609228008327)
-(717,125),(4.0,3.795616142104737)
- ......
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="o">(</span><span class="n">用户</span><span class="err">，</span><span class="n">电影</span><span class="o">)</span><span class="err">，</span><span class="o">(</span><span class="n">原始评分</span><span class="err">，</span><span class="n">预测的评分</span><span class="err">）</span>
+<span class="o">(</span><span class="mi">933</span><span class="o">,</span><span class="mi">627</span><span class="o">)</span><span class="err">，</span><span class="o">(</span><span class="mf">2.0</span><span class="err">，</span><span class="mf">1.6977799770529198</span><span class="o">)</span>
+<span class="o">(</span><span class="mi">537</span><span class="o">,</span><span class="mi">24</span><span class="o">),(</span><span class="mf">1.0</span><span class="o">,</span> <span class="mf">2.3191609228008327</span><span class="o">)</span>
+<span class="o">(</span><span class="mi">717</span><span class="o">,</span><span class="mi">125</span><span class="o">),(</span><span class="mf">4.0</span><span class="o">,</span><span class="mf">3.795616142104737</span><span class="o">)</span>
+ <span class="o">......</span>
 </code></pre></div>
 <p>最后计算均方根误差：</p>
 <div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">val</span> <span class="nc">MSE</span> <span class="k">=</span> <span class="n">ratesAndPreds</span><span class="o">.</span><span class="n">map</span> <span class="o">{</span> <span class="k">case</span> <span class="o">((</span><span class="n">user</span><span class="o">,</span> <span class="n">product</span><span class="o">),</span> <span class="o">(</span><span class="n">r1</span><span class="o">,</span> <span class="n">r2</span><span class="o">))</span> <span class="k">=&gt;</span>   
@@ -292,12 +293,10 @@ Down下来ml-100k，解压后有很多文件，可以看README里面对数据集
 <span class="mi">14</span><span class="o">/</span><span class="mi">06</span><span class="o">/</span><span class="mi">25</span> <span class="mi">18</span><span class="k">:</span><span class="err">02</span><span class="kt">:</span><span class="err">28</span> <span class="kt">INFO</span> <span class="kt">scheduler.TaskSchedulerImpl:</span> <span class="kt">Removed</span> <span class="kt">TaskSet</span> <span class="err">702</span><span class="kt">.</span><span class="err">0</span><span class="o">,</span> <span class="n">whose</span> <span class="n">tasks</span> <span class="n">have</span> <span class="n">all</span> <span class="n">completed</span><span class="o">,</span> <span class="n">from</span> <span class="n">pool</span>   
 <span class="mi">14</span><span class="o">/</span><span class="mi">06</span><span class="o">/</span><span class="mi">25</span> <span class="mi">18</span><span class="k">:</span><span class="err">02</span><span class="kt">:</span><span class="err">28</span> <span class="kt">INFO</span> <span class="kt">spark.SparkContext:</span> <span class="kt">Job</span> <span class="kt">finished:</span> <span class="kt">mean</span> <span class="kt">at</span> <span class="kt">&lt;console</span><span class="k">&gt;:</span><span class="err">36</span><span class="o">,</span> <span class="n">took</span> <span class="mf">0.585592521</span> <span class="n">s</span>  
 <span class="nc">MSE</span><span class="k">:</span> <span class="kt">Double</span> <span class="o">=</span> <span class="mf">0.4254804561682655</span>  
-
-<span class="n">顺便提一下预测的API有三个重载</span><span class="err">，</span><span class="n">上面用的是第二个</span><span class="err">：</span>
-<span class="n">调用model的API</span>  <span class="n">predict</span>
-
-<span class="err">```</span><span class="n">scala</span>
-<span class="n">scala</span><span class="o">&gt;</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span>  
+</code></pre></div>
+<p>顺便提一下预测的API有三个重载，上面用的是第二个：
+调用model的API  predict</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">scala</span><span class="o">&gt;</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span>  
 
 <span class="k">def</span> <span class="n">predict</span><span class="o">(</span><span class="n">user</span><span class="k">:</span> <span class="kt">Int</span><span class="o">,</span> <span class="n">product</span><span class="k">:</span> <span class="kt">Int</span><span class="o">)</span><span class="k">:</span> <span class="kt">Double</span>                                                                                                 
 <span class="k">def</span> <span class="n">predict</span><span class="o">(</span><span class="n">usersProducts</span><span class="k">:</span> <span class="kt">org.apache.spark.rdd.RDD</span><span class="o">[(</span><span class="kt">Int</span>, <span class="kt">Int</span><span class="o">)])</span><span class="k">:</span> <span class="kt">org.apache.spark.rdd.RDD</span><span class="o">[</span><span class="kt">org.apache.spark.mllib.recommendation.Rating</span><span class="o">]</span>     

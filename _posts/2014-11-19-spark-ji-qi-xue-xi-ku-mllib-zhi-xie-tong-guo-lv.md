@@ -11,18 +11,18 @@ date: 2014-11-19
 
 很久就想写一篇ML的实践文章，虽然看过肯多资料，总觉得纸上谈兵印象不深刻，过不了多久就忘了，现在就借Spark的Mllib来简单的实际一下推荐算法吧。
   
-  说起推荐算法，大家耳熟能详的就是CF（协同过滤），这次就拿CF中ALS（alternating least squares），交替最小二乘，来做个例子吧。
+说起推荐算法，大家耳熟能详的就是CF（协同过滤），这次就拿CF中ALS（alternating least squares），交替最小二乘，来做个例子吧。
 CF里面的算法比较多，有基于物品的，基于用户的，ALS是基于矩阵分解的，关于对推荐算法的小结，请参考我的推荐算法总结Recommendation
 
 ## Mllib
 
-    先介绍下mllib，mllib是运行在Spark上一个机器学习算法库。借助Spark的内存计算，可以使机器学习的模型计算时间大大缩短。
-目前，spark1.0.0中的mllib中已经有很多算法了，具体可以参见官方网站http://spark.apache.org/docs/latest/mllib-guide.html
+先介绍下``mllib``，mllib是运行在Spark上一个机器学习算法库。借助Spark的内存计算，可以使机器学习的模型计算时间大大缩短。
+目前，spark1.0.0中的mllib中已经有很多算法了，具体可以参见官方网站<http://spark.apache.org/docs/latest/mllib-guide.html>
     
-    我们知道，协同过滤是基于用户行为的一种推荐算法，需要用户对Item的评价。
-    于是乎我们还是找到最经典的数据集movielens,地址http://grouplens.org/datasets/movielens/
+我们知道，协同过滤是基于用户行为的一种推荐算法，需要用户对Item的评价。
+    于是乎我们还是找到最经典的数据集movielens,地址<http://grouplens.org/datasets/movielens/>
 
-    Down下来ml-100k，解压后有很多文件，可以看README里面对数据集的介绍。
+Down下来ml-100k，解压后有很多文件，可以看README里面对数据集的介绍。
 
 ```scala
 user id | item id | rating | timestamp                
@@ -162,7 +162,7 @@ res11: Array[((Int, Int), (Double, Double))] = Array(((933,627),(2.0,1.697779977
 
 join后的结果，就是每个用户对电影的实际打分和预测打分的一个对比，例如：
 
-```
+```scala
 (用户，电影)，(原始评分，预测的评分）
 (933,627)，(2.0，1.6977799770529198)
 (537,24),(1.0, 2.3191609228008327)
@@ -178,13 +178,15 @@ val MSE = ratesAndPreds.map { case ((user, product), (r1, r2)) =>
  err * err  
 .mean()  
 ```
-```scala
 
+
+```scala
 14/06/25 18:02:28 INFO scheduler.TaskSetManager: Finished TID 79 in 554 ms on localhost (progress: 1/1)  
 14/06/25 18:02:28 INFO scheduler.DAGScheduler: Stage 702 (mean at <console>:36) finished in 0.556 s  
 14/06/25 18:02:28 INFO scheduler.TaskSchedulerImpl: Removed TaskSet 702.0, whose tasks have all completed, from pool   
 14/06/25 18:02:28 INFO spark.SparkContext: Job finished: mean at <console>:36, took 0.585592521 s  
 MSE: Double = 0.4254804561682655  
+```
 
 顺便提一下预测的API有三个重载，上面用的是第二个：
 调用model的API  predict

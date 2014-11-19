@@ -21,7 +21,7 @@ title: Home
 	{% for post in paginator.posts %}
 		<div>
 			<span class="post-date">{{ post.date | date_to_long_string }}</span>
-			<h1><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h1>
+			<h1><span class="yuanchuang">原</span><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h1>
 			<p class="post-description">{{ post.content | strip_html | truncatewords: 6 }}</p>
 		</div>
 		<hr />
