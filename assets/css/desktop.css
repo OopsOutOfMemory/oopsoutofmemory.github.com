@@ -5,9 +5,8 @@ header, footer {
 }
 
 #post-info {
-	width: 700px;
-	left: 50%;
-	margin-left: -350px;
+	width: 100%;
+	left: 21%;
 	bottom: 100px;
 }
 

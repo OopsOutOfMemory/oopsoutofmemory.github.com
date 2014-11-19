@@ -21,7 +21,7 @@ article: true
 		{% if page.quote %}
 			<h2>{{ page.quote }}</h2>
 		{% endif %}
-		<a class="site-title" href="{{ site.url }}{{ site.baseurl }}"><div class="site-icon-small" style="background-image: url({{ site.icon }});"></div>{{ site.title }}</a>, in {{ page.date | date_to_long_string }}
+		<a class="site-title" style="display: inline-block;padding-left: 20px;" href="{{ site.url }}{{ site.baseurl }}"><div class="site-icon-small" style="background-image: url({{ site.icon }});"></div>{{ site.title }}</a>, in {{ page.date | date_to_long_string }}
 
 	</div>
 
