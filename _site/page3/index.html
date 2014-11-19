@@ -162,7 +162,7 @@ right: 10px;" class="genericon genericon-home"  >
 		<div>
 			<span class="post-date">19 November 2014</span>
 			<h1><a href="/blog/hai-liang-xiao-wen-jian-wang-luo-chuan-shu-copy-you-hua">海量小文件网络传输copy优化</a></h1>
-			<p class="post-description">今天部署集群环境，拷贝了一下编译好的文件 利用scp拷贝这个文件环境，然后分发到2个节点上去，然后就是刷屏的log，小文件一个一个被传输。 但是速度极慢，突然发现我忘记了，编译出来的类文件太多了，这样拷贝非常慢，马上联想到hadoop中要避免map的输出有很多小文件，因为随后要进行网络传输。 查到问题总结出2个原因： 1. 磁盘IO寻址：...</p>
+			<p class="post-description">今天部署集群环境，拷贝了一下编译好的文件 利用scp拷贝这个文件环境，然后分发到2个节点上去，然后就是刷屏的log，小文件一个一个被传输。 但是速度极慢，突然发现我忘记了，编译出来的类文件太多了，这样拷贝非常慢，马上联想到hadoop中要避免map的输出有很多小文件，因为随后要进行网络传输。 查到问题总结出2个原因： 磁盘IO寻址： 原因：...</p>
 		</div>
 		<hr />
 		<br>
