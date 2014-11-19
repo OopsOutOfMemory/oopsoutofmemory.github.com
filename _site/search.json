@@ -1,6 +1,14 @@
 [
   
     {
+      "title"    : "Spark机器学习库mllib之协同过滤",
+      "category" : "Machine Learningsparkmllib",
+      "tags"     : "spark, mllib, and 协同过滤",
+      "url"      : "/blog/spark-ji-qi-xue-xi-ku-mllib-zhi-xie-tong-guo-lv",
+      "date"     : "2014-11-19 00:00:00 +0800"
+    } ,
+  
+    {
       "title"    : "Scala中List的步长by",
       "category" : "scala",
       "tags"     : "scala",
