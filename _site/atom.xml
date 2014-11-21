@@ -4,7 +4,7 @@
  <title>盛利的博客</title>
  <link href="http://oopsoutofmemory.github.io/atom.xml" rel="self"/>
  <link href="http://oopsoutofmemory.github.io/"/>
- <updated>2014-11-21T23:41:38+08:00</updated>
+ <updated>2014-11-22T00:21:35+08:00</updated>
  <id>http://oopsoutofmemory.github.io</id>
  <author>
    <name>OopsOutOfMemory</name>
@@ -14,9 +14,9 @@
  
  <entry>
    <title>Spark机器学习库mllib之协同过滤</title>
-   <link href="http://oopsoutofmemory.github.io/blog/spark-ji-qi-xue-xi-ku-mllib-zhi-xie-tong-guo-lv"/>
+   <link href="http://oopsoutofmemory.github.io/machine%20learning/spark/mllib/2014/11/19/spark-ji-qi-xue-xi-ku-mllib-zhi-xie-tong-guo-lv"/>
    <updated>2014-11-19T00:00:00+08:00</updated>
-   <id>http://oopsoutofmemory.github.io/blog/spark-ji-qi-xue-xi-ku-mllib-zhi-xie-tong-guo-lv</id>
+   <id>http://oopsoutofmemory.github.io/machine%20learning/spark/mllib/2014/11/19/spark-ji-qi-xue-xi-ku-mllib-zhi-xie-tong-guo-lv</id>
    <content type="html">&lt;p&gt;很久就想写一篇ML的实践文章，虽然看过肯多资料，总觉得纸上谈兵印象不深刻，过不了多久就忘了，现在就借Spark的Mllib来简单的实际一下推荐算法吧。&lt;/p&gt;
 
 &lt;p&gt;说起推荐算法，大家耳熟能详的就是CF（协同过滤），这次就拿CF中ALS（alternating least squares），交替最小二乘，来做个例子吧。
@@ -188,9 +188,9 @@ CF里面的算法比较多，有基于物品的，基于用户的，ALS是基于
  
  <entry>
    <title>Spark Executor Driver资源调度小结</title>
-   <link href="http://oopsoutofmemory.github.io/blog/spark-executor-driver-zi-yuan-diao-du-xiao-jie"/>
+   <link href="http://oopsoutofmemory.github.io/spark/2014/11/19/spark-executor-driver-zi-yuan-diao-du-xiao-jie"/>
    <updated>2014-11-19T00:00:00+08:00</updated>
-   <id>http://oopsoutofmemory.github.io/blog/spark-executor-driver-zi-yuan-diao-du-xiao-jie</id>
+   <id>http://oopsoutofmemory.github.io/spark/2014/11/19/spark-executor-driver-zi-yuan-diao-du-xiao-jie</id>
    <content type="html">&lt;h2&gt;一、引子&lt;/h2&gt;
 
 &lt;p&gt;在Worker Actor中，每次LaunchExecutor会创建一个CoarseGrainedExecutorBackend进程，Executor和CoarseGrainedExecutorBackend是1对1的关系。也就是说集群里启动多少Executor实例就有多少CoarseGrainedExecutorBackend进程。
@@ -369,9 +369,9 @@ schedule()方法是来调度当前可用资源的调度方法，它管理还在�
  
  <entry>
    <title>Scala中List的步长by</title>
-   <link href="http://oopsoutofmemory.github.io/blog/scala-zhong-list-de-bu-chang-by"/>
+   <link href="http://oopsoutofmemory.github.io/scala/2014/11/19/scala-zhong-list-de-bu-chang-by"/>
    <updated>2014-11-19T00:00:00+08:00</updated>
-   <id>http://oopsoutofmemory.github.io/blog/scala-zhong-list-de-bu-chang-by</id>
+   <id>http://oopsoutofmemory.github.io/scala/2014/11/19/scala-zhong-list-de-bu-chang-by</id>
    <content type="html">&lt;p&gt;Scala的List不仅可以指定循环区间，而且还能根据步长筛选元素。
 List中的步长，by关键字：&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-scala&quot; data-lang=&quot;scala&quot;&gt;&lt;span class=&quot;n&quot;&gt;scala&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;by&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;  
@@ -494,9 +494,9 @@ res77: List[scala.collection.immutable.Range] = List(Range(1, 3, 5, 7, 9, 11, 13
  
  <entry>
    <title>Scala协变逆变上界下界---理解篇</title>
-   <link href="http://oopsoutofmemory.github.io/blog/scala-xie-bian-ni-bian-shang-jie-xia-jie-----li-jie-pian"/>
+   <link href="http://oopsoutofmemory.github.io/scala/2014/11/19/scala-xie-bian-ni-bian-shang-jie-xia-jie-----li-jie-pian"/>
    <updated>2014-11-19T00:00:00+08:00</updated>
-   <id>http://oopsoutofmemory.github.io/blog/scala-xie-bian-ni-bian-shang-jie-xia-jie-----li-jie-pian</id>
+   <id>http://oopsoutofmemory.github.io/scala/2014/11/19/scala-xie-bian-ni-bian-shang-jie-xia-jie-----li-jie-pian</id>
    <content type="html">&lt;p&gt;Scala的协变和逆变上界与下界&lt;/p&gt;
 
 &lt;h2&gt;1. 引子：&lt;/h2&gt;
@@ -631,9 +631,9 @@ res77: List[scala.collection.immutable.Range] = List(Range(1, 3, 5, 7, 9, 11, 13
  
  <entry>
    <title>Scala implicit 隐式转换</title>
-   <link href="http://oopsoutofmemory.github.io/blog/scala-implicit--yin-shi-zhuan-huan"/>
+   <link href="http://oopsoutofmemory.github.io/scala/2014/11/19/scala-implicit--yin-shi-zhuan-huan"/>
    <updated>2014-11-19T00:00:00+08:00</updated>
-   <id>http://oopsoutofmemory.github.io/blog/scala-implicit--yin-shi-zhuan-huan</id>
+   <id>http://oopsoutofmemory.github.io/scala/2014/11/19/scala-implicit--yin-shi-zhuan-huan</id>
    <content type="html">&lt;p&gt;我们经常在scala 源码里上看到类似implicit这个关键字。
 一开始不太理解，后来看了看，发现implicit这个隐式转换是支撑scala的易用、容错以及灵活语法的基础。
 我们经常使用的一些集合方法里面就用到了implicit，比如：&lt;/p&gt;
@@ -748,9 +748,9 @@ val l : Long = int2long(10)
  
  <entry>
    <title>Scala的cons，集合合并与添加</title>
-   <link href="http://oopsoutofmemory.github.io/blog/scala-de-cons-ji-he-he-bing-yu-tian-jia"/>
+   <link href="http://oopsoutofmemory.github.io/scala/2014/11/19/scala-de-cons-ji-he-he-bing-yu-tian-jia"/>
    <updated>2014-11-19T00:00:00+08:00</updated>
-   <id>http://oopsoutofmemory.github.io/blog/scala-de-cons-ji-he-he-bing-yu-tian-jia</id>
+   <id>http://oopsoutofmemory.github.io/scala/2014/11/19/scala-de-cons-ji-he-he-bing-yu-tian-jia</id>
    <content type="html">&lt;p&gt;scala对集合的元素合有特殊的符号，比如::和:::
 简单说明一下：
 元素和集合连接用::
@@ -781,9 +781,9 @@ val l : Long = int2long(10)
  
  <entry>
    <title>Scala的yield</title>
-   <link href="http://oopsoutofmemory.github.io/blog/scala--de--yield"/>
+   <link href="http://oopsoutofmemory.github.io/scala/2014/11/19/scala--de--yield"/>
    <updated>2014-11-19T00:00:00+08:00</updated>
-   <id>http://oopsoutofmemory.github.io/blog/scala--de--yield</id>
+   <id>http://oopsoutofmemory.github.io/scala/2014/11/19/scala--de--yield</id>
    <content type="html">&lt;p&gt;Scala yield
 先看下在Programming scala里yield的定义：&lt;/p&gt;
 
@@ -911,9 +911,9 @@ val l : Long = int2long(10)
  
  <entry>
    <title>Hive中reduce个数设定</title>
-   <link href="http://oopsoutofmemory.github.io/blog/hive-zhong-reduce-ge-shu-she-ding"/>
+   <link href="http://oopsoutofmemory.github.io/hive/2014/11/19/hive-zhong-reduce-ge-shu-she-ding"/>
    <updated>2014-11-19T00:00:00+08:00</updated>
-   <id>http://oopsoutofmemory.github.io/blog/hive-zhong-reduce-ge-shu-she-ding</id>
+   <id>http://oopsoutofmemory.github.io/hive/2014/11/19/hive-zhong-reduce-ge-shu-she-ding</id>
    <content type="html">&lt;p&gt;我们每次执行hive的hql时，shell里都会提示一段话：&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-scala&quot; data-lang=&quot;scala&quot;&gt;&lt;span class=&quot;o&quot;&gt;...&lt;/span&gt;  
 &lt;span class=&quot;nc&quot;&gt;Number&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;of&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;reduce&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tasks&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;specified&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Estimated&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;input&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;500&lt;/span&gt;  
@@ -1050,9 +1050,9 @@ val l : Long = int2long(10)
  
  <entry>
    <title>Hive中Lateral View用法 与 Hive UDTF explode</title>
-   <link href="http://oopsoutofmemory.github.io/blog/hive-zhong-lateral-view-yong-fa---yu--hive-udtf-explode"/>
+   <link href="http://oopsoutofmemory.github.io/hive/2014/11/19/hive-zhong-lateral-view-yong-fa---yu--hive-udtf-explode"/>
    <updated>2014-11-19T00:00:00+08:00</updated>
-   <id>http://oopsoutofmemory.github.io/blog/hive-zhong-lateral-view-yong-fa---yu--hive-udtf-explode</id>
+   <id>http://oopsoutofmemory.github.io/hive/2014/11/19/hive-zhong-lateral-view-yong-fa---yu--hive-udtf-explode</id>
    <content type="html">&lt;p&gt;Lateral View是Hive中提供给UDTF的conjunction，它可以解决UDTF不能添加额外的select列的问题。&lt;/p&gt;
 
 &lt;h2&gt;1. Why we need Lateral View？&lt;/h2&gt;
@@ -1323,9 +1323,9 @@ Outer关键字可以把不输出的UDTF的空结果，输出成NULL，防止丢�
  
  <entry>
    <title>Hive中的View视图</title>
-   <link href="http://oopsoutofmemory.github.io/blog/hive-zhong-de-view-shi-tu"/>
+   <link href="http://oopsoutofmemory.github.io/hive/2014/11/19/hive-zhong-de-view-shi-tu"/>
    <updated>2014-11-19T00:00:00+08:00</updated>
-   <id>http://oopsoutofmemory.github.io/blog/hive-zhong-de-view-shi-tu</id>
+   <id>http://oopsoutofmemory.github.io/hive/2014/11/19/hive-zhong-de-view-shi-tu</id>
    <content type="html">&lt;blockquote&gt;
 &lt;p&gt;有一个需求，让找出hive中的所有视图。&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -1430,9 +1430,9 @@ more hive-site.xml
  
  <entry>
    <title>Hive UDFA 中位数</title>
-   <link href="http://oopsoutofmemory.github.io/blog/hive-udfa--zhong-wei-shu"/>
+   <link href="http://oopsoutofmemory.github.io/hive/2014/11/19/hive-udfa--zhong-wei-shu"/>
    <updated>2014-11-19T00:00:00+08:00</updated>
-   <id>http://oopsoutofmemory.github.io/blog/hive-udfa--zhong-wei-shu</id>
+   <id>http://oopsoutofmemory.github.io/hive/2014/11/19/hive-udfa--zhong-wei-shu</id>
    <content type="html">&lt;p&gt;第一次写UDAF，拿中位数来练手。&lt;/p&gt;
 
 &lt;p&gt;看下中位数定义：
@@ -1979,9 +1979,9 @@ MEDIAN 中位数(一组数据按从小到大的顺序依次排列,处在中间�
  
  <entry>
    <title>Hive数据翻倍总结</title>
-   <link href="http://oopsoutofmemory.github.io/blog/hive-shu-ju-fan-bei-zong-jie"/>
+   <link href="http://oopsoutofmemory.github.io/hive/2014/11/19/hive-shu-ju-fan-bei-zong-jie"/>
    <updated>2014-11-19T00:00:00+08:00</updated>
-   <id>http://oopsoutofmemory.github.io/blog/hive-shu-ju-fan-bei-zong-jie</id>
+   <id>http://oopsoutofmemory.github.io/hive/2014/11/19/hive-shu-ju-fan-bei-zong-jie</id>
    <content type="html">&lt;p&gt;&lt;strong&gt;问题：&lt;/strong&gt;&lt;/p&gt;
 
 &lt;blockquote&gt;
@@ -2009,9 +2009,9 @@ MEDIAN 中位数(一组数据按从小到大的顺序依次排列,处在中间�
  
  <entry>
    <title>Hive求页面访问路径</title>
-   <link href="http://oopsoutofmemory.github.io/blog/hive-qiu-ye-mian-fang-wen-lu-jing"/>
+   <link href="http://oopsoutofmemory.github.io/hive/2014/11/19/hive-qiu-ye-mian-fang-wen-lu-jing"/>
    <updated>2014-11-19T00:00:00+08:00</updated>
-   <id>http://oopsoutofmemory.github.io/blog/hive-qiu-ye-mian-fang-wen-lu-jing</id>
+   <id>http://oopsoutofmemory.github.io/hive/2014/11/19/hive-qiu-ye-mian-fang-wen-lu-jing</id>
    <content type="html">&lt;p&gt;曾今在论坛上看到一个这样的题：&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-sql&quot; data-lang=&quot;sql&quot;&gt;&lt;span class=&quot;k&quot;&gt;SQL&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;的&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ETL&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;过程，从&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TRLOG&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;表生成&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ALLOG&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;表；（结果是一套&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;SQL&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;）&lt;/span&gt;
 &lt;span class=&quot;err&quot;&gt;有一张很大的表：&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;TRLOG&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;该表大概有&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;左右&lt;/span&gt;
@@ -2098,9 +2098,9 @@ MEDIAN 中位数(一组数据按从小到大的顺序依次排列,处在中间�
  
  <entry>
    <title>Hive导入sequencefile错误</title>
-   <link href="http://oopsoutofmemory.github.io/blog/hive-dao-ru-sequencefile-cuo-wu"/>
+   <link href="http://oopsoutofmemory.github.io/hive/2014/11/19/hive-dao-ru-sequencefile-cuo-wu"/>
    <updated>2014-11-19T00:00:00+08:00</updated>
-   <id>http://oopsoutofmemory.github.io/blog/hive-dao-ru-sequencefile-cuo-wu</id>
+   <id>http://oopsoutofmemory.github.io/hive/2014/11/19/hive-dao-ru-sequencefile-cuo-wu</id>
    <content type="html">&lt;p&gt;&lt;code&gt;本地load data到hive表中，可能会由于一些表格式的问题或文本格式问题，导致上传失败。&lt;/code&gt;&lt;/p&gt;
 
 &lt;p&gt;总结原因：&lt;/p&gt;
@@ -2154,9 +2154,9 @@ MEDIAN 中位数(一组数据按从小到大的顺序依次排列,处在中间�
  
  <entry>
    <title>海量小文件网络传输copy优化</title>
-   <link href="http://oopsoutofmemory.github.io/blog/hai-liang-xiao-wen-jian-wang-luo-chuan-shu-copy-you-hua"/>
+   <link href="http://oopsoutofmemory.github.io/hadoop/2014/11/19/hai-liang-xiao-wen-jian-wang-luo-chuan-shu-copy-you-hua"/>
    <updated>2014-11-19T00:00:00+08:00</updated>
-   <id>http://oopsoutofmemory.github.io/blog/hai-liang-xiao-wen-jian-wang-luo-chuan-shu-copy-you-hua</id>
+   <id>http://oopsoutofmemory.github.io/hadoop/2014/11/19/hai-liang-xiao-wen-jian-wang-luo-chuan-shu-copy-you-hua</id>
    <content type="html">&lt;p&gt;今天部署集群环境，拷贝了一下编译好的文件&lt;/p&gt;
 
 &lt;p&gt;利用scp拷贝这个文件环境，然后分发到2个节点上去，然后就是刷屏的log，小文件一个一个被传输。
@@ -2193,9 +2193,9 @@ MEDIAN 中位数(一组数据按从小到大的顺序依次排列,处在中间�
  
  <entry>
    <title>协同过滤     数据挖掘学习笔记</title>
-   <link href="http://oopsoutofmemory.github.io/blog/xie-tong-guo-lv-------shu-ju-wa-jue-xue-xi-bi-ji"/>
+   <link href="http://oopsoutofmemory.github.io/machine%20learning/2014/11/15/xie-tong-guo-lv-------shu-ju-wa-jue-xue-xi-bi-ji"/>
    <updated>2014-11-15T00:00:00+08:00</updated>
-   <id>http://oopsoutofmemory.github.io/blog/xie-tong-guo-lv-------shu-ju-wa-jue-xue-xi-bi-ji</id>
+   <id>http://oopsoutofmemory.github.io/machine%20learning/2014/11/15/xie-tong-guo-lv-------shu-ju-wa-jue-xue-xi-bi-ji</id>
    <content type="html">&lt;h1&gt;Collaborative Filtering&lt;/h1&gt;
 
 &lt;h2&gt;1.协同过滤CF&lt;/h2&gt;
@@ -2490,9 +2490,9 @@ del.icio.us 书签的用户一一大多数书签都是为小众群体所收藏�
  
  <entry>
    <title>推荐算法总结Recommendation</title>
-   <link href="http://oopsoutofmemory.github.io/blog/tui-jian-suan-fa-zong-jie-recommendation"/>
+   <link href="http://oopsoutofmemory.github.io/machine%20learning/2014/11/15/tui-jian-suan-fa-zong-jie-recommendation"/>
    <updated>2014-11-15T00:00:00+08:00</updated>
-   <id>http://oopsoutofmemory.github.io/blog/tui-jian-suan-fa-zong-jie-recommendation</id>
+   <id>http://oopsoutofmemory.github.io/machine%20learning/2014/11/15/tui-jian-suan-fa-zong-jie-recommendation</id>
    <content type="html">&lt;p&gt;目前为止，我们常推荐算法有好多种，比较常见的有协同过滤（Collaborative Filtering Recommendations）这个在Mahout里的ItemCF和UserCF比较常用，还有一种比较新的运行在Spark上的交替性最小二乘ALS也是一种协同过滤的算法，但是其它的推荐算法也有很多，在日常中也用的比较多，就做个总结吧。&lt;/p&gt;
 
 &lt;h2&gt;1、基于内容的推荐算法(Content Based Recommendation 简称CB)&lt;/h2&gt;
@@ -2654,9 +2654,9 @@ CB的优点：&lt;/p&gt;
  
  <entry>
    <title>Scala eclipse sbt 应用程序开发</title>
-   <link href="http://oopsoutofmemory.github.io/blog/Scala-eclipse-sbt-"/>
+   <link href="http://oopsoutofmemory.github.io/scala/2014/11/14/Scala-eclipse-sbt-"/>
    <updated>2014-11-14T00:00:00+08:00</updated>
-   <id>http://oopsoutofmemory.github.io/blog/Scala-eclipse-sbt-</id>
+   <id>http://oopsoutofmemory.github.io/scala/2014/11/14/Scala-eclipse-sbt-</id>
    <content type="html">&lt;p&gt;由于Scala有一个比较完备的Eclipse IDE（Scala IDE for Eclipse）, 对于不想从eclipse迁移到Iea平台的Dev来说，如何方便、快速、有效得在Eclipse下编译打包开发Scala应用程序尤为重要。Sbt是类似Maven的一个构建工具，我们将使用它来构建发布程序。&lt;/p&gt;
 
 &lt;p&gt;本文会介绍搭建Eclipse开发Scala应用程序的一般步骤，并结合实例演示sbt工具在eclipse里是如何创建项目文件，和编译打包部署程序的。&lt;br&gt;
@@ -2985,9 +2985,9 @@ project/*.sbt&lt;/tt&gt; files). Needed if you change the build definition.&lt;/
  
  <entry>
    <title>Run Test Case on Spark</title>
-   <link href="http://oopsoutofmemory.github.io/blog/Run-Test-Case-on-Spark"/>
+   <link href="http://oopsoutofmemory.github.io/spark/2014/11/14/Run-Test-Case-on-Spark"/>
    <updated>2014-11-14T00:00:00+08:00</updated>
-   <id>http://oopsoutofmemory.github.io/blog/Run-Test-Case-on-Spark</id>
+   <id>http://oopsoutofmemory.github.io/spark/2014/11/14/Run-Test-Case-on-Spark</id>
    <content type="html">&lt;p&gt;今天有哥们问到如何对Spark进行单元测试。现在将Sbt的测试方法写出来，如下：&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;对Spark的test case进行测试的时候可以用sbt的test命令：&lt;/strong&gt;&lt;/p&gt;
@@ -3199,9 +3199,9 @@ $SPARK_HOME/core/src/test/scala/org/apache/spark/DriverSuite.scala
  
  <entry>
    <title>Spark Common Issues</title>
-   <link href="http://oopsoutofmemory.github.io/blog/Spark-Common-Issues"/>
+   <link href="http://oopsoutofmemory.github.io/spark/2014/11/13/Spark-Common-Issues"/>
    <updated>2014-11-13T00:00:00+08:00</updated>
-   <id>http://oopsoutofmemory.github.io/blog/Spark-Common-Issues</id>
+   <id>http://oopsoutofmemory.github.io/spark/2014/11/13/Spark-Common-Issues</id>
    <content type="html">&lt;h2&gt;1、WARN TaskSchedulerImpl: Initial job has not accepted any resources; check your cluster ui to ensure that workers are registered and have sufficient memory&lt;/h2&gt;
 
 &lt;p&gt;当前的集群的可用资源不能满足应用程序所请求的资源。&lt;/p&gt;

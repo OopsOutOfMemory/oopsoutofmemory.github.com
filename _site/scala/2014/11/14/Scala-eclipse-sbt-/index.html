@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	
+	<link href="//gmpg.org/xfn/11" rel="profile">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<link rel="canonical" href="http://oopsoutofmemory.github.io/scala/2014/11/14/Scala-eclipse-sbt-" />
+	<meta name="description" content="由于Scala有一个比较完备的Eclipse IDE（Scala IDE for Eclipse）, 对于不想从eclipse迁移到Iea平台的Dev来说，如何方便、快速、有效得在Eclipse下编译打包开发Scala应用程序尤为重要。Sbt是类似Maven的一个构建工具，我们将使用它来构建发布程序。 本文会介绍搭建Eclipse开发Scala应用程序的一般步骤，并结合实例演示sbt工具在eclipse里是如何创建项目文件，和编译打包部署程序的。 这里做个备忘，也为初学者少走弯路而做出点小小的贡献。 --- ## 一、环境准备： 1. Scala : 2. Scala IDE for Eclipse :..." />
+	<meta property="og:description" content="由于Scala有一个比较完备的Eclipse IDE（Scala IDE for Eclipse）, 对于不想从eclipse迁移到Iea平台的Dev来说，如何方便、快速、有效得在Eclipse下编译打包开发Scala应用程序尤为重要。Sbt是类似Maven的一个构建工具，我们将使用它来构建发布程序。 本文会介绍搭建Eclipse开发Scala应用程序的一般步骤，并结合实例演示sbt工具在eclipse里是如何创建项目文件，和编译打包部署程序的。 这里做个备忘，也为初学者少走弯路而做出点小小的贡献。 --- ## 一、环境准备： 1. Scala : 2. Scala IDE for Eclipse :..." />
+	<meta itemprop="image" content="http://oopsoutofmemory.github.io/assets/images/oopsoutofmemory.jpg" />
+	<meta property="og:image" content="http://oopsoutofmemory.github.io/assets/images/oopsoutofmemory.jpg" />
+	<meta property="og:title" content="Scala eclipse sbt 应用程序开发" />
+	<meta property="og:type" content="article" />
+	<meta property="og:url" content="http://oopsoutofmemory.github.io/scala/2014/11/14/Scala-eclipse-sbt-" />
+	<meta property="og:site_name" content="盛利的博客" />
+	<title>Scala eclipse sbt 应用程序开发 &middot; 盛利的博客</title>
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="HandheldFriendly" content="True" />
+	<meta name="MobileOptimized" content="320" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" type="text/css" media="only screen and (min-width: 900px)" href="/assets/css/desktop.css" />
+	<link rel="stylesheet" type="text/css" media="only screen and (max-width: 899px)" href="/assets/css/mobile.css" />
+	<link href="/assets/css/genericons.css" type="text/css" rel="stylesheet" />
+	<link href="/assets/css/index.css" type="text/css" rel="stylesheet" />
+	<link href="/assets/css/syntax.css" type="text/css" rel="stylesheet" />
+		<link href="/assets/css/style.css" type="text/css" rel="stylesheet" />
+	<link rel="apple-touch-icon" href="http://oopsoutofmemory.github.io/assets/images/oopsoutofmemory.jpg">
+	<link rel="shortcut icon" href="http://oopsoutofmemory.github.io/assets/images/favicon.ico">
+	<link rel="alternate" type="application/rss+xml" title="RSS" href="http://oopsoutofmemory.github.io/atom.xml">
+	<script type="text/javascript" src="/assets/js/jquery-2.1.0.min.js"></script>
+	<script type="text/javascript" src="/assets/js/jquery.stellar.min.js"></script>
+	<script type="text/javascript" src="/assets/js/rocket.js"></script>
+	<script type="text/javascript" src="/assets/js/jekyll-search.js"></script>
+	
+</head>
+
+	<body>
+		<header class="clean" style="background-image: url(/assets/images/cover.jpg); height: 100%;" data-stellar-background-ratio="0.5" data-stellar-horizontal-offset="50">
+	
+	<span id="home-intro">
+	<b>OopsOutOfMemory 盛利's Blog</b><br/>
+    <span class="desc"><b>专注大数据领域，分布式计算，Spark Contributor</b></span>
+</span>
+<label class="menu" for="_1">
+	<span class="genericon genericon-menu"></span>
+	
+</label>
+<input id="_1" type="checkbox">
+<div class="menu-content">
+	<p class="menu-title">盛利的博客<p>
+	<div class="menu" style="background-color: #1a1a1a; z-index: -1;"></div>
+	
+		<a href="/">首页</a>
+	
+		<a href="/category.html">博客列表</a>
+	
+		<a href="/aboutMe.html">关于我</a>
+	
+		<a href="/404">Test 404</a>
+	
+	<hr>
+	
+</div>
+ <div  class="social-links" data-stellar-ratio="0.1" style="-webkit-transform: translate3d(0px, 0px, 0px);">
+		
+<div id="search-container" >
+      <input type="text" id="search-input" placeholder="search...">
+      <ul id="results-container" style="position: absolute;"></ul>
+ </div>
+		<a href="http://oopsoutofmemory.github.io"  title="Home" ><span style="display: inline-block;font-size: 45px;position: relative;top: -4px;
+right: 10px;" class="genericon genericon-home"  >
+			</span></a>
+
+			<a href="http://weibo.com/oopsoom" target="_blank" title="Sina WeiBo" ><img class="genericon genericon-github" src="/assets/images/icon/weibo.png" style="width:35px; height:32px;">
+			</img></a>
+
+			<a href="https://github.com/OopsOutOfMemory" target="_blank" title="Fork me on github"><img class="genericon genericon-github" src="/assets/images/icon/github.jpg" style="width:32px; height:29px;">
+			</img></a>
+		
+			<a href="https://twitter.com/sheng_victor" target="_blank" title="Follow me on twitter"><img class="genericon genericon-github" src="/assets/images/icon/twitter.png" style="width:34px; height:30px;">
+			</img></a>
+		
+			<a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=e5179e72fd9f500ad852aefa6e2824dc2fb59868de8fa3d5b65eae670a2fc437"><img class="genericon genericon-github" src="/assets/images/icon/qqqun.png" alt="Spark Ecosystem技术交流" style="width:34px; height:30px;" title="Spark Ecosystem技术交流"></a>
+		
+	</div>
+
+<div class="social-links" data-stellar-ratio="0.1">
+	
+</div>
+
+	<div style="display: none;" id="rocket-to-top">
+	<div style="opacity:0;display: block;" class="level-2"></div>
+	<div class="level-3"></div>
+	</div>
+ <script type="text/javascript">
+      SimpleJekyllSearch.init({
+        searchInput: document.getElementById('search-input'),
+        resultsContainer: document.getElementById('results-container'),
+        dataSource: '/search.json',
+        searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>',
+        noResultsText: 'No results found',
+        limit: 10,
+        fuzzy: false,
+      })
+    </script>
+
+
+	<div id="post-info" data-stellar-ratio="0.7">
+		<a class="site-title" style="font-weight:red"><原创文章></a>
+		<h1><span style="left:12px; backgroun-color: ;color:darkblue; top:-7px;" class="yuanchuang">原</span>
+Scala eclipse sbt 应用程序开发</h1>
+		
+		<a class="site-title" style="display: inline-block;padding-left: 20px;" href="http://oopsoutofmemory.github.io"><div class="site-icon-small" style="background-image: url(/assets/images/oopsoutofmemory.jpg);"></div>盛利的博客</a>, in 14 November 2014
+
+	</div>
+
+	<div id="nav-icon" style="bottom: 30px;" data-stellar-ratio="4">
+		<a class="scroll" data-speed="500" href="#article"><span class="genericon genericon-expand"></span></a>
+	</div>
+</header>
+
+<div id="middle">
+
+	<div class="nav">
+	<div class="title"><span style="padding-right: 10px;" class="genericon genericon-menu"><a style="color:white;" href="/category.html"><span>&nbsp;&nbsp;&nbsp;Category</span></a></div>
+	 
+	<a  href="/category.html#spark" title="view all posts">
+		<span style="padding-right: 10px;" class="genericon genericon-pinned"></span>
+		Spark <span class="bubble">4</span></a>
+	 
+	<a  href="/category.html#scala" title="view all posts">
+		<span style="padding-right: 10px;" class="genericon genericon-pinned"></span>
+		Scala <span class="bubble">6</span></a>
+	 
+	<a  href="/category.html#machine learning" title="view all posts">
+		<span style="padding-right: 10px;" class="genericon genericon-pinned"></span>
+		Machine learning <span class="bubble">3</span></a>
+	 
+	<a  href="/category.html#hadoop" title="view all posts">
+		<span style="padding-right: 10px;" class="genericon genericon-pinned"></span>
+		Hadoop <span class="bubble">1</span></a>
+	 
+	<a  href="/category.html#hive" title="view all posts">
+		<span style="padding-right: 10px;" class="genericon genericon-pinned"></span>
+		Hive <span class="bubble">7</span></a>
+	 
+	<a  href="/category.html#mllib" title="view all posts">
+		<span style="padding-right: 10px;" class="genericon genericon-pinned"></span>
+		Mllib <span class="bubble">1</span></a>
+	 
+	<a class="" href="/category.html"><span style="padding-right: 12px;" class="genericon genericon-pinned"></span>Show All</a>
+
+
+
+	<div class="nav" style="margin: 0;margin-top: 20px; min-height: 0;">
+		<div class="title"><span style="padding-right: 10px;" class="genericon genericon-menu"></span>友情链接</div>
+		<a target="_blank" href="http://fy98.com/">Frank Fan's Blog</a>
+	</div>
+</div>
+
+
+	
+	<div id="article">
+		<p>由于Scala有一个比较完备的Eclipse IDE（Scala IDE for Eclipse）, 对于不想从eclipse迁移到Iea平台的Dev来说，如何方便、快速、有效得在Eclipse下编译打包开发Scala应用程序尤为重要。Sbt是类似Maven的一个构建工具，我们将使用它来构建发布程序。</p>
+
+<p>本文会介绍搭建Eclipse开发Scala应用程序的一般步骤，并结合实例演示sbt工具在eclipse里是如何创建项目文件，和编译打包部署程序的。<br>
+这里做个备忘，也为初学者少走弯路而做出点小小的贡献。</p>
+
+<hr>
+
+<h2>一、环境准备：</h2>
+
+<ol>
+<li>Scala : <a href="http://www.scala-lang.org/">http://www.scala-lang.org/</a></li>
+<li>Scala IDE for Eclipse : <a href="http://scala-ide.org/">http://scala-ide.org/</a></li>
+<li>Sbt: <a href="http://www.scala-sbt.org//">http://www.scala-sbt.org//</a></li>
+<li>Sbt Eclipse : <a href="https://github.com/typesafehub/sbteclipse/">https://github.com/typesafehub/sbteclipse/</a>  typesafe的一个sbt for eclipse的助手，可以帮助生成eclipse<br></li>
+<li>Sbt Assembly ： <a href="https://github.com/sbt/sbt-assembly/">https://github.com/sbt/sbt-assembly/</a> 发布应用程序的一个sbt插件。
+以上列出均为开发时必须的软件环境：我的Scala版本是2.10.3， Sbt版本是0.13</li>
+</ol>
+
+<hr>
+
+<h2>二、sbt生成scala eclipse项目：</h2>
+
+<h3>目录结构</h3>
+
+<p>我们想要在Eclipse里开发scala应用并符合sbt发布程序的文件结构（类似Maven结构），除了手工建立文件结构，还可以采用sbt eclipse的配置方法。  </p>
+
+<p>添加sbt eclipse插件有2种配置方式：</p>
+
+<ul>
+<li>一种是在~/.sbt/0.13/plugins//build.sbt 里配置addPlugin,这种做法是全局的插件，即对本机所有sbt项目均使用。</li>
+<li>另一种是每个项目不一样的plugins，则是在每个项目跟目录下project/plugins.sbt里进行插件配置。</li>
+</ul>
+
+<p>比如test_sbt：</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">victor</span><span class="nd">@victor</span><span class="o">-</span><span class="n">ubuntu</span><span class="o">:~/</span><span class="n">workspace</span><span class="o">/</span><span class="n">test_sbt$</span> <span class="n">pwd</span>
+<span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">victor</span><span class="o">/</span><span class="n">workspace</span><span class="o">/</span><span class="n">test_sbt</span>
+</code></pre></div><div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">victor</span><span class="o">-</span><span class="n">ubuntu</span><span class="o">:~/</span><span class="n">workspace</span><span class="o">/</span><span class="n">test_sbt$</span> <span class="n">tree</span> <span class="o">.</span>
+<span class="o">.</span>
+<span class="o">├──</span> <span class="n">build</span><span class="o">.</span><span class="n">sbt</span>
+<span class="o">└──</span> <span class="n">project</span>
+    <span class="o">└──</span> <span class="n">plugins</span><span class="o">.</span><span class="n">sbt</span>
+
+<span class="mi">1</span> <span class="n">directory</span><span class="o">,</span> <span class="mi">2</span> <span class="n">files</span>
+</code></pre></div>
+<p>plugins.sbt里面内容配置，添加插件：</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">addSbtPlugin</span><span class="o">(</span><span class="s">&quot;com.typesafe.sbteclipse&quot;</span> <span class="o">%</span> <span class="s">&quot;sbteclipse-plugin&quot;</span> <span class="o">%</span> <span class="s">&quot;2.4.0&quot;</span><span class="o">)</span>
+</code></pre></div>
+<h3>生成eclipse项目文件</h3>
+
+<p>然后进入到根目录sbt,成功进入sbt，运行eclipse命令生成eclipse的.classpath等eclipse相关文件：</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">victor</span><span class="nd">@victor</span><span class="o">-</span><span class="n">ubuntu</span><span class="o">:~/</span><span class="n">workspace</span><span class="o">/</span><span class="n">test_sbt$</span> <span class="n">ll</span>
+<span class="n">total</span> <span class="mi">28</span>
+<span class="n">drwxrwxr</span><span class="o">-</span><span class="n">x</span> <span class="mi">5</span> <span class="n">victor</span> <span class="n">victor</span> <span class="mi">4096</span>  <span class="mi">8</span><span class="n">月</span>  <span class="mi">4</span> <span class="mi">00</span><span class="k">:</span><span class="err">38</span> <span class="kt">./</span>
+<span class="n">drwxrwxr</span><span class="o">-</span><span class="n">x</span> <span class="mi">8</span> <span class="n">victor</span> <span class="n">victor</span> <span class="mi">4096</span>  <span class="mi">8</span><span class="n">月</span>  <span class="mi">4</span> <span class="mi">00</span><span class="k">:</span><span class="err">28</span> <span class="kt">../</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">victor</span> <span class="n">victor</span>    <span class="mi">0</span>  <span class="mi">8</span><span class="n">月</span>  <span class="mi">4</span> <span class="mi">00</span><span class="k">:</span><span class="err">38</span> <span class="kt">build.sbt</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">victor</span> <span class="n">victor</span>  <span class="mi">589</span>  <span class="mi">8</span><span class="n">月</span>  <span class="mi">4</span> <span class="mi">00</span><span class="k">:</span><span class="err">38</span> <span class="kt">.classpath</span>
+<span class="n">drwxrwxr</span><span class="o">-</span><span class="n">x</span> <span class="mi">4</span> <span class="n">victor</span> <span class="n">victor</span> <span class="mi">4096</span>  <span class="mi">8</span><span class="n">月</span>  <span class="mi">4</span> <span class="mi">00</span><span class="k">:</span><span class="err">38</span> <span class="kt">project/</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">victor</span> <span class="n">victor</span>  <span class="mi">362</span>  <span class="mi">8</span><span class="n">月</span>  <span class="mi">4</span> <span class="mi">00</span><span class="k">:</span><span class="err">38</span> <span class="kt">.project</span>
+<span class="n">drwxrwxr</span><span class="o">-</span><span class="n">x</span> <span class="mi">4</span> <span class="n">victor</span> <span class="n">victor</span> <span class="mi">4096</span>  <span class="mi">8</span><span class="n">月</span>  <span class="mi">4</span> <span class="mi">00</span><span class="k">:</span><span class="err">38</span> <span class="kt">src/</span>
+<span class="n">drwxrwxr</span><span class="o">-</span><span class="n">x</span> <span class="mi">4</span> <span class="n">victor</span> <span class="n">victor</span> <span class="mi">4096</span>  <span class="mi">8</span><span class="n">月</span>  <span class="mi">4</span> <span class="mi">00</span><span class="k">:</span><span class="err">38</span> <span class="kt">target/</span>
+</code></pre></div>
+<p>可以看到和maven的目录结构是相似的：</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">victor</span><span class="nd">@victor</span><span class="o">-</span><span class="n">ubuntu</span><span class="o">:~/</span><span class="n">workspace</span><span class="o">/</span><span class="n">test_sbt$</span> <span class="n">tree</span> <span class="n">src</span>
+<span class="n">src</span>
+<span class="o">├──</span> <span class="n">main</span>
+<span class="o">│&amp;</span><span class="n">nbsp</span><span class="o">;&amp;</span><span class="n">nbsp</span><span class="o">;</span> <span class="o">├──</span> <span class="n">java</span>
+<span class="o">│&amp;</span><span class="n">nbsp</span><span class="o">;&amp;</span><span class="n">nbsp</span><span class="o">;</span> <span class="o">└──</span> <span class="n">scala</span>
+<span class="o">└──</span> <span class="n">test</span>
+    <span class="o">├──</span> <span class="n">java</span>
+    <span class="o">└──</span> <span class="n">scala</span>
+</code></pre></div>
+<p>发现没有resouces目录，在根目录的build.sbt里添加：</p>
+
+<p><code>
+EclipseKeys.createSrc := EclipseCreateSrc.Default + EclipseCreateSrc.Resource
+</code></p>
+
+<p>再执行sbt eclipse  </p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">victor</span><span class="nd">@victor</span><span class="o">-</span><span class="n">ubuntu</span><span class="o">:~/</span><span class="n">workspace</span><span class="o">/</span><span class="n">test_sbt$</span> <span class="n">tree</span> <span class="n">src</span><span class="o">/</span>
+<span class="n">src</span><span class="o">/</span>
+<span class="o">├──</span> <span class="n">main</span>
+<span class="o">│&amp;</span><span class="n">nbsp</span><span class="o">;&amp;</span><span class="n">nbsp</span><span class="o">;</span> <span class="o">├──</span> <span class="n">java</span>
+<span class="o">│&amp;</span><span class="n">nbsp</span><span class="o">;&amp;</span><span class="n">nbsp</span><span class="o">;</span> <span class="o">├──</span> <span class="n">resources</span>
+<span class="o">│&amp;</span><span class="n">nbsp</span><span class="o">;&amp;</span><span class="n">nbsp</span><span class="o">;</span> <span class="o">└──</span> <span class="n">scala</span>
+<span class="o">└──</span> <span class="n">test</span>
+    <span class="o">├──</span> <span class="n">java</span>
+    <span class="o">├──</span> <span class="n">resources</span>
+    <span class="o">└──</span> <span class="n">scala</span>
+</code></pre></div>
+<h3>导入Eclipse中</h3>
+
+<p>我们进入Eclipse，利用导入向导的import existing project into workspace这一项进行导入。
+<img src="https://cloud.githubusercontent.com/assets/6489401/5058175/b3ee9cda-6d1f-11e4-9226-af8d3f3d26ae.png" alt="image"></p>
+
+<h2>三、开发与部署</h2>
+
+<p>至此，我们的项目结构搭建完成，可以像开发java maven项目一样的开发scala sbt项目了。</p>
+
+<p>下面准备用一个实际例子演示在Scala里开发的一般步骤，最近用到scala里的json，就用json4s这个json lib来开发一个解析json的例子，json4s地址：https://github.com/json4s/json4s</p>
+
+<h3>3.1、添加依赖</h3>
+
+<p>我们如果想使用第三方的类，就需要添加依赖关系，和GAV坐标，这个再熟悉不过，我们需要编辑根目录下的build.sbt文件，添加依赖：</p>
+
+<p>这里name,version,scalaVersion要注意每个间隔一行，其它的也是，不然会出错。libraryDependencies是添加依赖的地方：我们添加2个。resolvers是仓库地址，这里配置了多个。
+如下：</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">name</span> <span class="o">:=</span> <span class="s">&quot;shengli_test_sbt&quot;</span>  
+
+<span class="n">version</span> <span class="o">:=</span> <span class="s">&quot;1.0&quot;</span>  
+
+<span class="n">scalaVersion</span> <span class="o">:=</span> <span class="s">&quot;2.10.3&quot;</span>  
+
+<span class="nc">EclipseKeys</span><span class="o">.</span><span class="n">createSrc</span> <span class="o">:=</span> <span class="nc">EclipseCreateSrc</span><span class="o">.</span><span class="nc">Default</span> <span class="o">+</span> <span class="nc">EclipseCreateSrc</span><span class="o">.</span><span class="nc">Resource</span>  
+
+<span class="n">libraryDependencies</span> <span class="o">++=</span> <span class="nc">Seq</span><span class="o">(</span>  
+  <span class="s">&quot;org.json4s&quot;</span> <span class="o">%%</span> <span class="s">&quot;json4s-native&quot;</span> <span class="o">%</span> <span class="s">&quot;3.2.10&quot;</span><span class="o">,</span>  
+  <span class="s">&quot;org.json4s&quot;</span> <span class="o">%%</span> <span class="s">&quot;json4s-jackson&quot;</span> <span class="o">%</span> <span class="s">&quot;3.2.10&quot;</span>  
+<span class="o">)</span>  
+
+<span class="n">resolvers</span> <span class="o">++=</span> <span class="nc">Seq</span><span class="o">(</span>  
+      <span class="c1">// HTTPS is unavailable for Maven Central  </span>
+      <span class="s">&quot;Maven Repository&quot;</span>     <span class="n">at</span> <span class="s">&quot;http://repo.maven.apache.org/maven2&quot;</span><span class="o">,</span>  
+      <span class="s">&quot;Apache Repository&quot;</span>    <span class="n">at</span> <span class="s">&quot;https://repository.apache.org/content/repositories/releases&quot;</span><span class="o">,</span>  
+      <span class="s">&quot;JBoss Repository&quot;</span>     <span class="n">at</span> <span class="s">&quot;https://repository.jboss.org/nexus/content/repositories/releases/&quot;</span><span class="o">,</span>  
+      <span class="s">&quot;MQTT Repository&quot;</span>      <span class="n">at</span> <span class="s">&quot;https://repo.eclipse.org/content/repositories/paho-releases/&quot;</span><span class="o">,</span>  
+      <span class="s">&quot;Cloudera Repository&quot;</span>  <span class="n">at</span> <span class="s">&quot;http://repository.cloudera.com/artifactory/cloudera-repos/&quot;</span><span class="o">,</span>  
+      <span class="c1">// For Sonatype publishing  </span>
+      <span class="c1">// &quot;sonatype-snapshots&quot;   at &quot;https://oss.sonatype.org/content/repositories/snapshots&quot;,  </span>
+      <span class="c1">// &quot;sonatype-staging&quot;     at &quot;https://oss.sonatype.org/service/local/staging/deploy/maven2/&quot;,  </span>
+      <span class="c1">// also check the local Maven repository ~/.m2  </span>
+      <span class="nc">Resolver</span><span class="o">.</span><span class="n">mavenLocal</span>  
+<span class="o">)</span> 
+</code></pre></div>
+<p>再次运行sbt eclipse，则依赖的jar包会自动加载到classpath：</p>
+
+<p><img src="https://cloud.githubusercontent.com/assets/6489401/5058189/880c5570-6d20-11e4-8e99-1c14524d8a57.png" alt="image"></p>
+
+<h3>3.2、测试程序</h3>
+
+<p>一个简单的解析Json的程序，程序很简单，这里就不解释了。</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">package</span> <span class="nn">com.shengli.json</span>  
+<span class="k">import</span> <span class="nn">org.json4s._</span>  
+<span class="k">import</span> <span class="nn">org.json4s.JsonDSL._</span>  
+<span class="k">import</span> <span class="nn">org.json4s.jackson.JsonMethods._</span>  
+
+<span class="k">object</span> <span class="nc">JsonSbtTest</span> <span class="k">extends</span> <span class="nc">Application</span><span class="o">{</span>  
+
+
+  <span class="k">case</span> <span class="k">class</span> <span class="nc">Winner</span><span class="o">(</span><span class="n">id</span><span class="k">:</span> <span class="kt">Long</span><span class="o">,</span> <span class="n">numbers</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">Int</span><span class="o">])</span>  
+  <span class="k">case</span> <span class="k">class</span> <span class="nc">Lotto</span><span class="o">(</span><span class="n">id</span><span class="k">:</span> <span class="kt">Long</span><span class="o">,</span> <span class="n">winningNumbers</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">Int</span><span class="o">],</span> <span class="n">winners</span><span class="k">:</span> <span class="kt">List</span><span class="o">[</span><span class="kt">Winner</span><span class="o">],</span> <span class="n">drawDate</span><span class="k">:</span> <span class="kt">Option</span><span class="o">[</span><span class="kt">java.util.Date</span><span class="o">])</span>  
+
+  <span class="k">val</span> <span class="n">winners</span> <span class="k">=</span> <span class="nc">List</span><span class="o">(</span><span class="nc">Winner</span><span class="o">(</span><span class="mi">23</span><span class="o">,</span> <span class="nc">List</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="mi">45</span><span class="o">,</span> <span class="mi">34</span><span class="o">,</span> <span class="mi">23</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">5</span><span class="o">)),</span> <span class="nc">Winner</span><span class="o">(</span><span class="mi">54</span><span class="o">,</span> <span class="nc">List</span><span class="o">(</span><span class="mi">52</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">12</span><span class="o">,</span> <span class="mi">11</span><span class="o">,</span> <span class="mi">18</span><span class="o">,</span> <span class="mi">22</span><span class="o">)))</span>  
+  <span class="k">val</span> <span class="n">lotto</span> <span class="k">=</span> <span class="nc">Lotto</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="nc">List</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="mi">45</span><span class="o">,</span> <span class="mi">34</span><span class="o">,</span> <span class="mi">23</span><span class="o">,</span> <span class="mi">7</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">3</span><span class="o">),</span> <span class="n">winners</span><span class="o">,</span> <span class="nc">None</span><span class="o">)</span>  
+  <span class="k">val</span> <span class="n">json</span> <span class="k">=</span>  
+    <span class="o">(</span><span class="s">&quot;lotto&quot;</span> <span class="o">-&gt;</span>  
+      <span class="o">(</span><span class="s">&quot;lotto-id&quot;</span> <span class="o">-&gt;</span> <span class="n">lotto</span><span class="o">.</span><span class="n">id</span><span class="o">)</span> <span class="o">~</span>   
+      <span class="o">(</span><span class="s">&quot;winning-numbers&quot;</span> <span class="o">-&gt;</span> <span class="n">lotto</span><span class="o">.</span><span class="n">winningNumbers</span><span class="o">)</span> <span class="o">~</span>  
+      <span class="o">(</span><span class="s">&quot;draw-date&quot;</span> <span class="o">-&gt;</span> <span class="n">lotto</span><span class="o">.</span><span class="n">drawDate</span><span class="o">.</span><span class="n">map</span><span class="o">(</span><span class="k">_</span><span class="o">.</span><span class="n">toString</span><span class="o">))</span> <span class="o">~</span>  
+      <span class="o">(</span><span class="s">&quot;winners&quot;</span> <span class="o">-&gt;</span>  
+        <span class="n">lotto</span><span class="o">.</span><span class="n">winners</span><span class="o">.</span><span class="n">map</span> <span class="o">{</span> <span class="n">w</span> <span class="k">=&gt;</span>  
+          <span class="o">((</span><span class="s">&quot;winner-id&quot;</span> <span class="o">-&gt;</span> <span class="n">w</span><span class="o">.</span><span class="n">id</span><span class="o">)</span> <span class="o">~</span>  
+           <span class="o">(</span><span class="s">&quot;numbers&quot;</span> <span class="o">-&gt;</span> <span class="n">w</span><span class="o">.</span><span class="n">numbers</span><span class="o">))}))</span>  
+
+  <span class="n">println</span><span class="o">(</span><span class="n">compact</span><span class="o">(</span><span class="n">render</span><span class="o">(</span><span class="n">json</span><span class="o">)))</span>  
+  <span class="n">println</span><span class="o">(</span><span class="n">pretty</span><span class="o">(</span><span class="n">render</span><span class="o">(</span><span class="n">json</span><span class="o">)))</span>  
+<span class="o">}</span>  
+</code></pre></div>
+<p>至此我们在eclipse能运行Run as Scala Application，但是如何加依赖打包发布呢？</p>
+
+<h3>3.3、Assembly</h3>
+
+<p>还记得Spark里面的assembly吗？那个就是发布用的，sbt本身支持的clean compile package之类的命令，但是带依赖的one jar打包方式还是assembly比较成熟。
+Sbt本身的命令：参考<a href="http://www.scala-sbt.org/0.13/tutorial/Running.html">http://www.scala-sbt.org/0.13/tutorial/Running.html</a> 和<a href="http://www.scala-sbt.org/0.13/docs/Command-Line-Reference.html">http://www.scala-sbt.org/0.13/docs/Command-Line-Reference.html</a></p>
+
+<table>
+<tbody>
+<tr>
+<td><tt>clean</tt></td>
+<td>Deletes all generated files (in the <tt>target</tt> directory).</td>
+</tr>
+<tr>
+<td><tt>compile</tt></td>
+<td>Compiles the main sources (in <tt>src/main/scala</tt> and <tt>src/main/java</tt> directories).</td>
+</tr>
+<tr>
+<td><tt>test</tt></td>
+<td>Compiles and runs all tests.</td>
+</tr>
+<tr>
+<td><tt>console</tt></td>
+<td>Starts the Scala interpreter with a classpath including the compiled sources and all dependencies. To return to sbt, type<tt>:quit</tt>, Ctrl+D (Unix), or Ctrl+Z (Windows).</td>
+</tr>
+<tr>
+<td><nobr><tt>run &lt;argument&gt;*</tt></nobr></td>
+<td>Runs the main class for the project in the same virtual machine as sbt.</td>
+</tr>
+<tr>
+<td><tt>package</tt></td>
+<td>Creates a jar file containing the files in <tt>src/main/resources</tt> and the classes compiled from<tt>src/main/scala</tt> and<tt>src/main/java</tt>.</td>
+</tr>
+<tr>
+<td><tt>help &lt;command&gt;</tt></td>
+<td>Displays detailed help for the specified command. If no command is provided, displays brief descriptions of all commands.</td>
+</tr>
+<tr>
+<td><tt>reload</tt></td>
+<td>Reloads the build definition (<tt>build.sbt</tt>, <tt>project/*.scala</tt>, <tt>
+project/*.sbt</tt> files). Needed if you change the build definition.</td>
+</tr>
+</tbody>
+</table>
+
+<p><code>Assembly：</code></p>
+
+<p>Assembly是作为一种插件的，所以要在project下面的plugins.sbt里面配置，至此plugins.sbt文件里内容如下：</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">resolvers</span> <span class="o">+=</span> <span class="nc">Resolver</span><span class="o">.</span><span class="n">url</span><span class="o">(</span><span class="s">&quot;artifactory&quot;</span><span class="o">,</span> <span class="n">url</span><span class="o">(</span><span class="s">&quot;http://scalasbt.artifactoryonline.com/scalasbt/sbt-plugin-releases&quot;</span><span class="o">))(</span><span class="nc">Resolver</span><span class="o">.</span><span class="n">ivyStylePatterns</span><span class="o">)</span>  
+
+<span class="n">resolvers</span> <span class="o">+=</span> <span class="s">&quot;Typesafe Repository&quot;</span> <span class="n">at</span> <span class="s">&quot;http://repo.typesafe.com/typesafe/releases/&quot;</span>  
+
+<span class="n">addSbtPlugin</span><span class="o">(</span><span class="s">&quot;com.typesafe.sbteclipse&quot;</span> <span class="o">%</span> <span class="s">&quot;sbteclipse-plugin&quot;</span> <span class="o">%</span> <span class="s">&quot;2.4.0&quot;</span><span class="o">)</span>  
+
+<span class="n">addSbtPlugin</span><span class="o">(</span><span class="s">&quot;com.eed3si9n&quot;</span> <span class="o">%</span> <span class="s">&quot;sbt-assembly&quot;</span> <span class="o">%</span> <span class="s">&quot;0.11.2&quot;</span><span class="o">)</span>  
+</code></pre></div>
+<p>除了插件的配置之外，还需要配置跟目录下build.sbt，支持assembly，在文件头部加入：</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="k">import</span> <span class="nn">AssemblyKeys._</span>  
+<span class="n">assemblySettings</span>  
+   <span class="n">至此build</span><span class="o">.</span><span class="n">sbt文件内容如下</span><span class="err">：</span>
+<span class="o">[</span><span class="kt">java</span><span class="o">]</span> <span class="n">view</span> <span class="n">plaincopy</span>
+<span class="k">import</span> <span class="nn">AssemblyKeys._</span>  
+<span class="n">assemblySettings</span>  
+
+<span class="n">name</span> <span class="o">:=</span> <span class="s">&quot;shengli_test_sbt&quot;</span>  
+
+<span class="n">version</span> <span class="o">:=</span> <span class="s">&quot;1.0&quot;</span>  
+
+<span class="n">scalaVersion</span> <span class="o">:=</span> <span class="s">&quot;2.10.3&quot;</span>  
+
+<span class="nc">EclipseKeys</span><span class="o">.</span><span class="n">createSrc</span> <span class="o">:=</span> <span class="nc">EclipseCreateSrc</span><span class="o">.</span><span class="nc">Default</span> <span class="o">+</span> <span class="nc">EclipseCreateSrc</span><span class="o">.</span><span class="nc">Resource</span>  
+
+<span class="n">libraryDependencies</span> <span class="o">++=</span> <span class="nc">Seq</span><span class="o">(</span>  
+  <span class="s">&quot;org.json4s&quot;</span> <span class="o">%%</span> <span class="s">&quot;json4s-native&quot;</span> <span class="o">%</span> <span class="s">&quot;3.2.10&quot;</span><span class="o">,</span>  
+  <span class="s">&quot;org.json4s&quot;</span> <span class="o">%%</span> <span class="s">&quot;json4s-jackson&quot;</span> <span class="o">%</span> <span class="s">&quot;3.2.10&quot;</span>  
+<span class="o">)</span>  
+
+<span class="n">resolvers</span> <span class="o">++=</span> <span class="nc">Seq</span><span class="o">(</span>  
+      <span class="c1">// HTTPS is unavailable for Maven Central  </span>
+      <span class="s">&quot;Maven Repository&quot;</span>     <span class="n">at</span> <span class="s">&quot;http://repo.maven.apache.org/maven2&quot;</span><span class="o">,</span>  
+      <span class="s">&quot;Apache Repository&quot;</span>    <span class="n">at</span> <span class="s">&quot;https://repository.apache.org/content/repositories/releases&quot;</span><span class="o">,</span>  
+      <span class="s">&quot;JBoss Repository&quot;</span>     <span class="n">at</span> <span class="s">&quot;https://repository.jboss.org/nexus/content/repositories/releases/&quot;</span><span class="o">,</span>  
+      <span class="s">&quot;MQTT Repository&quot;</span>      <span class="n">at</span> <span class="s">&quot;https://repo.eclipse.org/content/repositories/paho-releases/&quot;</span><span class="o">,</span>  
+      <span class="s">&quot;Cloudera Repository&quot;</span>  <span class="n">at</span> <span class="s">&quot;http://repository.cloudera.com/artifactory/cloudera-repos/&quot;</span><span class="o">,</span>  
+      <span class="c1">// For Sonatype publishing  </span>
+      <span class="c1">// &quot;sonatype-snapshots&quot;   at &quot;https://oss.sonatype.org/content/repositories/snapshots&quot;,  </span>
+      <span class="c1">// &quot;sonatype-staging&quot;     at &quot;https://oss.sonatype.org/service/local/staging/deploy/maven2/&quot;,  </span>
+      <span class="c1">// also check the local Maven repository ~/.m2  </span>
+      <span class="nc">Resolver</span><span class="o">.</span><span class="n">mavenLocal</span>  
+<span class="o">)</span>  
+</code></pre></div>
+<p>运行sbt assembly命令进行发布：</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="o">&gt;</span> <span class="n">assembly</span>  
+<span class="o">[</span><span class="kt">info</span><span class="o">]</span> <span class="nc">Updating</span> <span class="o">{</span><span class="n">file</span><span class="o">:/</span><span class="n">home</span><span class="o">/</span><span class="n">victor</span><span class="o">/</span><span class="n">workspace</span><span class="o">/</span><span class="n">test_sbt</span><span class="o">/}</span><span class="n">test_sbt</span><span class="o">...</span>  
+<span class="o">[</span><span class="kt">info</span><span class="o">]</span> <span class="nc">Resolving</span> <span class="n">org</span><span class="o">.</span><span class="n">fusesource</span><span class="o">.</span><span class="n">jansi</span><span class="k">#</span><span class="n">jansi</span><span class="o">;</span><span class="mf">1.4</span> <span class="o">...</span>  
+<span class="o">[</span><span class="kt">info</span><span class="o">]</span> <span class="nc">Done</span> <span class="n">updating</span><span class="o">.</span>  
+<span class="o">[</span><span class="kt">info</span><span class="o">]</span> <span class="nc">Compiling</span> <span class="mi">1</span> <span class="nc">Scala</span> <span class="n">source</span> <span class="n">to</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">victor</span><span class="o">/</span><span class="n">workspace</span><span class="o">/</span><span class="n">test_sbt</span><span class="o">/</span><span class="n">target</span><span class="o">/</span><span class="n">scala</span><span class="o">-</span><span class="mf">2.10</span><span class="o">/</span><span class="n">classes</span><span class="o">...</span>  
+<span class="o">[</span><span class="kt">warn</span><span class="o">]</span> <span class="n">there</span> <span class="n">were</span> <span class="mi">1</span> <span class="n">deprecation</span> <span class="n">warning</span><span class="o">(</span><span class="n">s</span><span class="o">);</span> <span class="n">re</span><span class="o">-</span><span class="n">run</span> <span class="k">with</span> <span class="o">-</span><span class="n">deprecation</span> <span class="k">for</span> <span class="n">details</span>  
+<span class="o">[</span><span class="kt">warn</span><span class="o">]</span> <span class="n">one</span> <span class="n">warning</span> <span class="n">found</span>  
+<span class="o">[</span><span class="kt">info</span><span class="o">]</span> <span class="nc">Including</span><span class="k">:</span> <span class="kt">scala-compiler-</span><span class="err">2</span><span class="kt">.</span><span class="err">10</span><span class="kt">.</span><span class="err">0</span><span class="kt">.jar</span>  
+<span class="o">[</span><span class="kt">info</span><span class="o">]</span> <span class="nc">Including</span><span class="k">:</span> <span class="kt">scala-library-</span><span class="err">2</span><span class="kt">.</span><span class="err">10</span><span class="kt">.</span><span class="err">3</span><span class="kt">.jar</span>  
+<span class="o">[</span><span class="kt">info</span><span class="o">]</span> <span class="nc">Including</span><span class="k">:</span> <span class="kt">json4s-native_2.</span><span class="err">10</span><span class="kt">-</span><span class="err">3</span><span class="kt">.</span><span class="err">2</span><span class="kt">.</span><span class="err">10</span><span class="kt">.jar</span>  
+<span class="o">[</span><span class="kt">info</span><span class="o">]</span> <span class="nc">Including</span><span class="k">:</span> <span class="kt">json4s-core_2.</span><span class="err">10</span><span class="kt">-</span><span class="err">3</span><span class="kt">.</span><span class="err">2</span><span class="kt">.</span><span class="err">10</span><span class="kt">.jar</span>  
+<span class="o">[</span><span class="kt">info</span><span class="o">]</span> <span class="nc">Including</span><span class="k">:</span> <span class="kt">json4s-ast_2.</span><span class="err">10</span><span class="kt">-</span><span class="err">3</span><span class="kt">.</span><span class="err">2</span><span class="kt">.</span><span class="err">10</span><span class="kt">.jar</span>  
+<span class="o">[</span><span class="kt">info</span><span class="o">]</span> <span class="nc">Including</span><span class="k">:</span> <span class="kt">paranamer-</span><span class="err">2</span><span class="kt">.</span><span class="err">6</span><span class="kt">.jar</span>  
+<span class="o">[</span><span class="kt">info</span><span class="o">]</span> <span class="nc">Including</span><span class="k">:</span> <span class="kt">scalap-</span><span class="err">2</span><span class="kt">.</span><span class="err">10</span><span class="kt">.</span><span class="err">0</span><span class="kt">.jar</span>  
+<span class="o">[</span><span class="kt">info</span><span class="o">]</span> <span class="nc">Including</span><span class="k">:</span> <span class="kt">jackson-databind-</span><span class="err">2</span><span class="kt">.</span><span class="err">3</span><span class="kt">.</span><span class="err">1</span><span class="kt">.jar</span>  
+<span class="o">[</span><span class="kt">info</span><span class="o">]</span> <span class="nc">Including</span><span class="k">:</span> <span class="kt">scala-reflect-</span><span class="err">2</span><span class="kt">.</span><span class="err">10</span><span class="kt">.</span><span class="err">0</span><span class="kt">.jar</span>  
+<span class="o">[</span><span class="kt">info</span><span class="o">]</span> <span class="nc">Including</span><span class="k">:</span> <span class="kt">jackson-annotations-</span><span class="err">2</span><span class="kt">.</span><span class="err">3</span><span class="kt">.</span><span class="err">0</span><span class="kt">.jar</span>  
+<span class="o">[</span><span class="kt">info</span><span class="o">]</span> <span class="nc">Including</span><span class="k">:</span> <span class="kt">json4s-jackson_2.</span><span class="err">10</span><span class="kt">-</span><span class="err">3</span><span class="kt">.</span><span class="err">2</span><span class="kt">.</span><span class="err">10</span><span class="kt">.jar</span>  
+<span class="o">[</span><span class="kt">info</span><span class="o">]</span> <span class="nc">Including</span><span class="k">:</span> <span class="kt">jackson-core-</span><span class="err">2</span><span class="kt">.</span><span class="err">3</span><span class="kt">.</span><span class="err">1</span><span class="kt">.jar</span>  
+<span class="o">[</span><span class="kt">info</span><span class="o">]</span> <span class="nc">Checking</span> <span class="n">every</span> <span class="o">*.</span><span class="n">class</span><span class="cm">/*.jar file&#39;s SHA-1.  </span>
+<span class="cm">[info] Merging files...  </span>
+<span class="cm">[warn] Merging &#39;META-INF/NOTICE&#39; with strategy &#39;rename&#39;  </span>
+<span class="cm">[warn] Merging &#39;META-INF/LICENSE&#39; with strategy &#39;rename&#39;  </span>
+<span class="cm">[warn] Merging &#39;META-INF/MANIFEST.MF&#39; with strategy &#39;discard&#39;  </span>
+<span class="cm">[warn] Merging &#39;rootdoc.txt&#39; with strategy &#39;concat&#39;  </span>
+<span class="cm">[warn] Strategy &#39;concat&#39; was applied to a file  </span>
+<span class="cm">[warn] Strategy &#39;discard&#39; was applied to a file  </span>
+<span class="cm">[warn] Strategy &#39;rename&#39; was applied to 2 files  </span>
+<span class="cm">[info] SHA-1: d4e76d7b55548fb2a6819f2b94e37daea9421684  </span>
+<span class="cm">[info] Packaging /home/victor/workspace/test_sbt/target/scala-2.10/shengli_test_sbt-assembly-1.0.jar ...  </span>
+<span class="cm">[info] Done packaging.  </span>
+<span class="cm">[success] Total time: 39 s, completed Aug 4, 2014 1:26:11 AM </span>
+</code></pre></div>
+<p>我们发现文件发布到了/home/victor/workspace/test<em>sbt/target/scala-2.10/shengli</em>test_sbt-assembly-1.0.jar</p>
+
+<p>那我们来执行一下，看是否成功：
+执行：</p>
+<div class="highlight"><pre><code class="language-scala" data-lang="scala"><span class="n">java</span> <span class="o">-</span><span class="n">cp</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">victor</span><span class="o">/</span><span class="n">workspace</span><span class="o">/</span><span class="n">test_sbt</span><span class="o">/</span><span class="n">target</span><span class="o">/</span><span class="n">scala</span><span class="o">-</span><span class="mf">2.10</span><span class="o">/</span><span class="n">shengli_test_sbt</span><span class="o">-</span><span class="n">assembly</span><span class="o">-</span><span class="mf">1.0</span><span class="o">.</span><span class="n">jar</span> <span class="n">com</span><span class="o">.</span><span class="n">shengli</span><span class="o">.</span><span class="n">json</span><span class="o">.</span><span class="nc">JsonSbtTest</span>
+<span class="o">[</span><span class="kt">java</span><span class="o">]</span> <span class="n">view</span> <span class="n">plaincopy</span>
+<span class="n">victor</span><span class="nd">@victor</span><span class="o">-</span><span class="n">ubuntu</span><span class="o">:~/</span><span class="n">workspace</span><span class="o">/</span><span class="n">test_sbt$</span> <span class="n">java</span> <span class="o">-</span><span class="n">cp</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">victor</span><span class="o">/</span><span class="n">workspace</span><span class="o">/</span><span class="n">test_sbt</span><span class="o">/</span><span class="n">target</span><span class="o">/</span><span class="n">scala</span><span class="o">-</span><span class="mf">2.10</span><span class="o">/</span><span class="n">shengli_test_sbt</span><span class="o">-</span><span class="n">assembly</span><span class="o">-</span><span class="mf">1.0</span><span class="o">.</span><span class="n">jar</span> <span class="n">com</span><span class="o">.</span><span class="n">shengli</span><span class="o">.</span><span class="n">json</span><span class="o">.</span><span class="nc">JsonSbtTest</span>  
+<span class="o">{</span><span class="s">&quot;lotto&quot;</span><span class="k">:</span><span class="o">{</span><span class="err">&quot;</span><span class="kt">lotto-id</span><span class="err">&quot;</span><span class="kt">:</span><span class="err">5</span><span class="o">,</span><span class="err">&quot;</span><span class="kt">winning-numbers</span><span class="err">&quot;</span><span class="kt">:</span><span class="o">[</span><span class="err">2</span>,<span class="err">45</span>,<span class="err">34</span>,<span class="err">23</span>,<span class="err">7</span>,<span class="err">5</span>,<span class="err">3</span><span class="o">],</span><span class="s">&quot;winners&quot;</span><span class="k">:</span><span class="err">[</span><span class="o">{</span><span class="err">&quot;</span><span class="kt">winner-id</span><span class="err">&quot;</span><span class="kt">:</span><span class="err">23</span><span class="o">,</span><span class="err">&quot;</span><span class="kt">numbers</span><span class="err">&quot;</span><span class="kt">:</span><span class="o">[</span><span class="err">2</span>,<span class="err">45</span>,<span class="err">34</span>,<span class="err">23</span>,<span class="err">3</span>,<span class="err">5</span><span class="o">]},{</span><span class="s">&quot;winner-id&quot;</span><span class="k">:</span><span class="err">54</span><span class="o">,</span><span class="s">&quot;numbers&quot;</span><span class="k">:</span><span class="err">[52</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="mi">12</span><span class="o">,</span><span class="mi">11</span><span class="o">,</span><span class="mi">18</span><span class="o">,</span><span class="mi">22</span><span class="err">]</span><span class="o">}</span><span class="err">]</span><span class="o">}}</span>  
+<span class="o">{</span>  
+  <span class="s">&quot;lotto&quot;</span> <span class="k">:</span> <span class="o">{</span>  
+    <span class="err">&quot;</span><span class="kt">lotto-id</span><span class="err">&quot;</span> <span class="kt">:</span> <span class="err">5</span><span class="o">,</span>  
+    <span class="err">&quot;</span><span class="kt">winning-numbers</span><span class="err">&quot;</span> <span class="kt">:</span> <span class="o">[</span> <span class="err">2</span>, <span class="err">45</span>, <span class="err">34</span>, <span class="err">23</span>, <span class="err">7</span>, <span class="err">5</span>, <span class="err">3</span> <span class="o">],</span>  
+    <span class="s">&quot;winners&quot;</span> <span class="k">:</span> <span class="err">[</span> <span class="o">{</span>  
+      <span class="err">&quot;</span><span class="kt">winner-id</span><span class="err">&quot;</span> <span class="kt">:</span> <span class="err">23</span><span class="o">,</span>  
+      <span class="err">&quot;</span><span class="kt">numbers</span><span class="err">&quot;</span> <span class="kt">:</span> <span class="o">[</span> <span class="err">2</span>, <span class="err">45</span>, <span class="err">34</span>, <span class="err">23</span>, <span class="err">3</span>, <span class="err">5</span> <span class="o">]</span>  
+    <span class="o">},</span> <span class="o">{</span>  
+      <span class="s">&quot;winner-id&quot;</span> <span class="k">:</span> <span class="err">54</span><span class="o">,</span>  
+      <span class="s">&quot;numbers&quot;</span> <span class="k">:</span> <span class="err">[</span> <span class="err">52</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">12</span><span class="o">,</span> <span class="mi">11</span><span class="o">,</span> <span class="mi">18</span><span class="o">,</span> <span class="mi">22</span> <span class="err">]</span>  
+    <span class="o">}</span> <span class="err">]</span>  
+  <span class="o">}</span>  
+<span class="o">}</span>  
+</code></pre></div>
+<p>证实发布的结果是成功的。</p>
+
+<h2>四、总结</h2>
+
+<p>本文介绍了在Eclipse里利用Sbt构建开发Scala程序的一般步骤，并用实例讲解了整个流程。
+   用sbt eclipse插件生成sbt文件目录结构，sbt eclipse命令来生成更新jar包依赖。
+   用assebly插件对scala应用进行打包发布。   </p>
+
+<p>至此，我们的项目结构搭建完成，可以像开发java maven项目一样的开发scala sbt项目了。</p>
+
+		<h5>(The End)</h5>
+		<h5><原创文章> From OopsOutOfMemory 盛利's Blog<h5>
+		<h5>转载请注明出自：<a href="http://oopsoutofmemory.github.io/scala/2014/11/14/Scala-eclipse-sbt-"> http://oopsoutofmemory.github.io/scala/2014/11/14/Scala-eclipse-sbt-</a></h5>
+	
+
+<div class="ds-thread"></div>  
+	</div>
+
+
+
+</div>
+
+
+	
+	
+	
+	
+	
+	
+
+
+<footer class="clean" style="background-image: url(/assets/images/cover.jpg); height: 75%; min-height: 500px;" data-stellar-background-ratio="0.5" data-stellar-horizontal-offset="50" data-stellar-vertical-offset="50">
+	<div id="nav-icon" style="top: 60px;" data-stellar-ratio="0.8">
+		<a class="scroll" data-speed="500" href="#article"><span class="genericon genericon-collapse"></span></a>
+	</div>
+	<div id="post-info" data-stellar-ratio="0.5" data-stellar-vertical-offset="120">
+		<h3>下一篇文章：</h3>
+		<a href="/machine%20learning/2014/11/15/tui-jian-suan-fa-zong-jie-recommendation">
+			<h1>推荐算法总结Recommendation</h1>
+			
+				<h2></h2>
+			
+		</a>
+	</div>
+
+
+	<p class="copyright">&copy;2014, <a href="http://oopsoutofmemory.github.io" target="_blank">盛利</a>. <a href="http://oopsoutofmemory.github.io" target="_blank">All rights reserved</a>.</p>
+</footer>
+<script src="/assets/js/smooth-scroll.js"></script>
+
+
+
+		<script>
+		var width = $(window).width()
+		if ( width > 899 )
+		$( function(){
+		    $.stellar({
+		    	responsive: true,
+			verticalScrolling: true,
+			horizontalOffset: 0,
+			verticalOffset: 0,
+			positionProperty: 'transform',
+		    });
+		});
+		</script>
+	</body>
+</html>
+ <!--多说js加载开始，一个页面只需要加载一次 -->
+    <script type="text/javascript">
+      var duoshuoQuery = {short_name:"oopsoutofmemory"};
+      (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = 'http://static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
+      })();
+    </script>
+    <!--多说js加载结束，一个页面只需要加载一次 -->
+
+ 
