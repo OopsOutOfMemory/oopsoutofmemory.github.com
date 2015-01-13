@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 上海 Spark MeetUp 第二次
-category: My Life
+category: life
 date: 2015-01-13
 ---
 
