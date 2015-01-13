@@ -1,7 +1,7 @@
 ---
 layout: post
-title: 上海SparkMeetUp第二次
-category: spark
+title: 上海 Spark MeetUp 第二次
+category: 生活
 date: 2015-01-13
 ---
 
