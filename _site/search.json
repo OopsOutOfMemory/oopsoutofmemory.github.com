@@ -1,6 +1,14 @@
 [
   
     {
+      "title"    : "上海SparkMeetUp第二次",
+      "category" : "spark",
+      "tags"     : "",
+      "url"      : "/spark/2015/01/13/shang-hai-sparkmeetup-di-er-ci",
+      "date"     : "2015-01-13 00:00:00 +0800"
+    } ,
+  
+    {
       "title"    : "Spark机器学习库mllib之协同过滤",
       "category" : "Machine Learningsparkmllib",
       "tags"     : "spark, mllib, and 协同过滤",

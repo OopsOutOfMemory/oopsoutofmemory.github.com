@@ -4,16 +4,7 @@
 	
 	<link href="//gmpg.org/xfn/11" rel="profile">
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
-	<link rel="canonical" href="http://oopsoutofmemory.github.io/hive/2014/11/19/hive-shu-ju-fan-bei-zong-jie" />
-	<meta name="description" content="__问题：__ > 1. 数据源数据重复。。很难发现。。依赖关系。。 2. 本来8千万的数据和8千万的数据一下left outer join后，变成了30亿。。按道理还是8kw。 3. 8千万大表和几十行的小表join，数据严重倾斜，到99.99%就是reduce不完。。最终OOM了。 __总结如下：__ 1. 数据源问题： 统计前，首先检查各个数据源表，看是否有重复记录，可能是数据源的问题。 2. 业务原因，手机可能会解绑和重新绑定，所以一个帐号可能对于多个手机，而不是简单的一个帐号和一个手机是一一对应的。 3. join时on的条件不充分，join的时候一定要考虑哪几个条件能唯一的匹配到一条记录，少一个条件，就可能导致笛卡尔乘积。 考虑 on..." />
-	<meta property="og:description" content="__问题：__ > 1. 数据源数据重复。。很难发现。。依赖关系。。 2. 本来8千万的数据和8千万的数据一下left outer join后，变成了30亿。。按道理还是8kw。 3. 8千万大表和几十行的小表join，数据严重倾斜，到99.99%就是reduce不完。。最终OOM了。 __总结如下：__ 1. 数据源问题： 统计前，首先检查各个数据源表，看是否有重复记录，可能是数据源的问题。 2. 业务原因，手机可能会解绑和重新绑定，所以一个帐号可能对于多个手机，而不是简单的一个帐号和一个手机是一一对应的。 3. join时on的条件不充分，join的时候一定要考虑哪几个条件能唯一的匹配到一条记录，少一个条件，就可能导致笛卡尔乘积。 考虑 on..." />
-	<meta itemprop="image" content="http://oopsoutofmemory.github.io/assets/images/oopsoutofmemory.jpg" />
-	<meta property="og:image" content="http://oopsoutofmemory.github.io/assets/images/oopsoutofmemory.jpg" />
-	<meta property="og:title" content="Hive数据翻倍总结" />
-	<meta property="og:type" content="article" />
-	<meta property="og:url" content="http://oopsoutofmemory.github.io/hive/2014/11/19/hive-shu-ju-fan-bei-zong-jie" />
-	<meta property="og:site_name" content="盛利的博客" />
-	<title>Hive数据翻倍总结 &middot; 盛利的博客</title>
+	<title>盛利的博客 &middot; blog</title>
 	<meta name="mobile-web-app-capable" content="yes">
 	<meta name="HandheldFriendly" content="True" />
 	<meta name="MobileOptimized" content="320" />
@@ -35,8 +26,7 @@
 </head>
 
 	<body>
-		<header class="clean" style="background-image: url(/assets/images/cover.jpg); height: 100%;" data-stellar-background-ratio="0.5" data-stellar-horizontal-offset="50">
-	
+		<header class="clean" style="height: 350px; background-image: url(/assets/images/cover.jpg);" data-stellar-background-ratio="0.5" data-stellar-horizontal-offset="50">
 	<span id="home-intro">
 	<b>OopsOutOfMemory 盛利's Blog</b><br/>
     <span class="desc"><b>专注大数据领域，分布式计算，Spark Contributor</b></span>
@@ -103,25 +93,16 @@ right: 10px;" class="genericon genericon-home"  >
         fuzzy: false,
       })
     </script>
-
-
-	<div id="post-info" data-stellar-ratio="0.7">
-		<a class="site-title" style="font-weight:red"><原创文章></a>
-		<h1><span style="left:12px; backgroun-color: ;color:darkblue; top:-7px;" class="yuanchuang">原</span>
-Hive数据翻倍总结</h1>
-		
-		<a class="site-title" style="display: inline-block;padding-left: 20px;" href="http://oopsoutofmemory.github.io"><div class="site-icon-small" style="background-image: url(/assets/images/oopsoutofmemory.jpg);"></div>盛利的博客</a>, in 19 November 2014
-
-	</div>
-
-	<div id="nav-icon" style="bottom: 30px;" data-stellar-ratio="4">
-		<a class="scroll" data-speed="500" href="#article"><span class="genericon genericon-expand"></span></a>
-	</div>
+	<a href="/aboutMe.html">
+		<div id="home-title"  class="site-icon-home" style="background-image: url(/assets/images/oopsoutofmemory.jpg); " data-stellar-ratio="0.5">
+		</div>
+	  
+	</a>
 </header>
 
 <div id="middle">
 
-	<div class="nav">
+<div class="nav">
 	<div class="title"><span style="padding-right: 10px;" class="genericon genericon-menu"><a style="color:white;" href="/category.html"><span>&nbsp;&nbsp;&nbsp;Category</span></a></div>
 	 
 	<a  href="/category.html#spark" title="view all posts">
@@ -159,71 +140,36 @@ Hive数据翻倍总结</h1>
 </div>
 
 
+
+<div id="post-list">
+	<strong style="font-family:cursive; font-size:30px;">Recent Posts:</strong><br/>
 	
-	<div id="article">
-		<p><strong>问题：</strong></p>
-
-<blockquote>
-<ol>
-<li>数据源数据重复。。很难发现。。依赖关系。。</li>
-<li>本来8千万的数据和8千万的数据一下left outer join后，变成了30亿。。按道理还是8kw。</li>
-<li>8千万大表和几十行的小表join，数据严重倾斜，到99.99%就是reduce不完。。最终OOM了。</li>
-</ol>
-</blockquote>
-
-<p><strong>总结如下：</strong></p>
-
-<ol>
-<li><p>数据源问题：
-统计前，首先检查各个数据源表，看是否有重复记录，可能是数据源的问题。</p></li>
-<li><p>业务原因，手机可能会解绑和重新绑定，所以一个帐号可能对于多个手机，而不是简单的一个帐号和一个手机是一一对应的。</p></li>
-<li><p>join时on的条件不充分，join的时候一定要考虑哪几个条件能唯一的匹配到一条记录，少一个条件，就可能导致笛卡尔乘积。
-考虑 on a.id = b.id and  a.sid = b.sid and ？？</p></li>
-</ol>
-
-<p><strong>其它总结：</strong>
-帐号类型，普通帐号，个性化帐号，手机帐号，邮箱帐号。</p>
-
-		<h5>(The End)</h5>
-		<h5><原创文章> From OopsOutOfMemory 盛利's Blog<h5>
-		<h5>转载请注明出自：<a href="http://oopsoutofmemory.github.io/hive/2014/11/19/hive-shu-ju-fan-bei-zong-jie"> http://oopsoutofmemory.github.io/hive/2014/11/19/hive-shu-ju-fan-bei-zong-jie</a></h5>
+		<div>
+			<span class="post-date">13 November 2014</span>
+			<h1><span class="yuanchuang">原</span><a href="/spark/2014/11/13/Spark-Common-Issues">Spark Common Issues</a></h1>
+			<p class="post-description">1、WARN TaskSchedulerImpl: Initial job has not...</p>
+		</div>
+		<hr />
+		<br>
 	
-
-<div class="ds-thread"></div>  
-	</div>
-
-
-
+</div>
+</div>
+<nav class="pagination" role="navigation">
+	
+	<span class="page-number">Page 5 of 5</span>
+	
+		
+			<a class="older-posts" href="/page4">Newer posts &rarr;</a>
+		
+	
+</nav>
 </div>
 
 
-	
-	
-	
-	
-	
-	
 
-
-<footer class="clean" style="background-image: url(/assets/images/cover.jpg); height: 75%; min-height: 500px;" data-stellar-background-ratio="0.5" data-stellar-horizontal-offset="50" data-stellar-vertical-offset="50">
-	<div id="nav-icon" style="top: 60px;" data-stellar-ratio="0.8">
-		<a class="scroll" data-speed="500" href="#article"><span class="genericon genericon-collapse"></span></a>
-	</div>
-	<div id="post-info" data-stellar-ratio="0.5" data-stellar-vertical-offset="120">
-		<h3>下一篇文章：</h3>
-		<a href="/hive/2014/11/19/hive-udfa--zhong-wei-shu">
-			<h1>Hive UDFA 中位数</h1>
-			
-				<h2></h2>
-			
-		</a>
-	</div>
-
-
+<footer class="clean" style="background-image: url(/assets/images/cover.jpg); background-position: bottom; height: 60px;">
 	<p class="copyright">&copy;2015, <a href="http://oopsoutofmemory.github.io" target="_blank">盛利</a>. <a href="http://oopsoutofmemory.github.io" target="_blank">All rights reserved</a>.</p>
 </footer>
-<script src="/assets/js/smooth-scroll.js"></script>
-
 
 
 		<script>

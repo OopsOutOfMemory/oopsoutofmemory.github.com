@@ -4,16 +4,36 @@
 	
 	<link href="//gmpg.org/xfn/11" rel="profile">
 	<meta http-equiv="content-type" content="text/html; charset=utf-8">
-	<link rel="canonical" href="http://oopsoutofmemory.github.io/hive/2014/11/19/hive-shu-ju-fan-bei-zong-jie" />
-	<meta name="description" content="__问题：__ > 1. 数据源数据重复。。很难发现。。依赖关系。。 2. 本来8千万的数据和8千万的数据一下left outer join后，变成了30亿。。按道理还是8kw。 3. 8千万大表和几十行的小表join，数据严重倾斜，到99.99%就是reduce不完。。最终OOM了。 __总结如下：__ 1. 数据源问题： 统计前，首先检查各个数据源表，看是否有重复记录，可能是数据源的问题。 2. 业务原因，手机可能会解绑和重新绑定，所以一个帐号可能对于多个手机，而不是简单的一个帐号和一个手机是一一对应的。 3. join时on的条件不充分，join的时候一定要考虑哪几个条件能唯一的匹配到一条记录，少一个条件，就可能导致笛卡尔乘积。 考虑 on..." />
-	<meta property="og:description" content="__问题：__ > 1. 数据源数据重复。。很难发现。。依赖关系。。 2. 本来8千万的数据和8千万的数据一下left outer join后，变成了30亿。。按道理还是8kw。 3. 8千万大表和几十行的小表join，数据严重倾斜，到99.99%就是reduce不完。。最终OOM了。 __总结如下：__ 1. 数据源问题： 统计前，首先检查各个数据源表，看是否有重复记录，可能是数据源的问题。 2. 业务原因，手机可能会解绑和重新绑定，所以一个帐号可能对于多个手机，而不是简单的一个帐号和一个手机是一一对应的。 3. join时on的条件不充分，join的时候一定要考虑哪几个条件能唯一的匹配到一条记录，少一个条件，就可能导致笛卡尔乘积。 考虑 on..." />
+	<link rel="canonical" href="http://oopsoutofmemory.github.io/spark/2015/01/13/shang-hai-sparkmeetup-di-er-ci" />
+	<meta name="description" content="2015年1月10日 携程网络技术大楼 举行了上海Spark Meetup 第二次聚会
+
+主办方：携程 + intel big data team
+
+会上提问，我获得了每个Spark爱好者都想要的限量版纪念衫，当然是提问才能得到哦！
+
+
+
+
+
+" />
+	<meta property="og:description" content="2015年1月10日 携程网络技术大楼 举行了上海Spark Meetup 第二次聚会
+
+主办方：携程 + intel big data team
+
+会上提问，我获得了每个Spark爱好者都想要的限量版纪念衫，当然是提问才能得到哦！
+
+
+
+
+
+" />
 	<meta itemprop="image" content="http://oopsoutofmemory.github.io/assets/images/oopsoutofmemory.jpg" />
 	<meta property="og:image" content="http://oopsoutofmemory.github.io/assets/images/oopsoutofmemory.jpg" />
-	<meta property="og:title" content="Hive数据翻倍总结" />
+	<meta property="og:title" content="上海SparkMeetUp第二次" />
 	<meta property="og:type" content="article" />
-	<meta property="og:url" content="http://oopsoutofmemory.github.io/hive/2014/11/19/hive-shu-ju-fan-bei-zong-jie" />
+	<meta property="og:url" content="http://oopsoutofmemory.github.io/spark/2015/01/13/shang-hai-sparkmeetup-di-er-ci" />
 	<meta property="og:site_name" content="盛利的博客" />
-	<title>Hive数据翻倍总结 &middot; 盛利的博客</title>
+	<title>上海SparkMeetUp第二次 &middot; 盛利的博客</title>
 	<meta name="mobile-web-app-capable" content="yes">
 	<meta name="HandheldFriendly" content="True" />
 	<meta name="MobileOptimized" content="320" />
@@ -108,9 +128,9 @@ right: 10px;" class="genericon genericon-home"  >
 	<div id="post-info" data-stellar-ratio="0.7">
 		<a class="site-title" style="font-weight:red"><原创文章></a>
 		<h1><span style="left:12px; backgroun-color: ;color:darkblue; top:-7px;" class="yuanchuang">原</span>
-Hive数据翻倍总结</h1>
+上海SparkMeetUp第二次</h1>
 		
-		<a class="site-title" style="display: inline-block;padding-left: 20px;" href="http://oopsoutofmemory.github.io"><div class="site-icon-small" style="background-image: url(/assets/images/oopsoutofmemory.jpg);"></div>盛利的博客</a>, in 19 November 2014
+		<a class="site-title" style="display: inline-block;padding-left: 20px;" href="http://oopsoutofmemory.github.io"><div class="site-icon-small" style="background-image: url(/assets/images/oopsoutofmemory.jpg);"></div>盛利的博客</a>, in 13 January 2015
 
 	</div>
 
@@ -161,32 +181,19 @@ Hive数据翻倍总结</h1>
 
 	
 	<div id="article">
-		<p><strong>问题：</strong></p>
+		<p>2015年1月10日 携程网络技术大楼 举行了上海Spark Meetup 第二次聚会</p>
 
-<blockquote>
-<ol>
-<li>数据源数据重复。。很难发现。。依赖关系。。</li>
-<li>本来8千万的数据和8千万的数据一下left outer join后，变成了30亿。。按道理还是8kw。</li>
-<li>8千万大表和几十行的小表join，数据严重倾斜，到99.99%就是reduce不完。。最终OOM了。</li>
-</ol>
-</blockquote>
+<p>主办方：携程 + intel big data team</p>
 
-<p><strong>总结如下：</strong></p>
+<p>会上提问，我获得了每个Spark爱好者都想要的限量版纪念衫，当然是提问才能得到哦！</p>
 
-<ol>
-<li><p>数据源问题：
-统计前，首先检查各个数据源表，看是否有重复记录，可能是数据源的问题。</p></li>
-<li><p>业务原因，手机可能会解绑和重新绑定，所以一个帐号可能对于多个手机，而不是简单的一个帐号和一个手机是一一对应的。</p></li>
-<li><p>join时on的条件不充分，join的时候一定要考虑哪几个条件能唯一的匹配到一条记录，少一个条件，就可能导致笛卡尔乘积。
-考虑 on a.id = b.id and  a.sid = b.sid and ？？</p></li>
-</ol>
+<p><img src="http://a1.qpic.cn/psb?/V14Xe88Z3oNG7m/CcNVAFxJKawKqq.J20SEGlghV*M7bqQDN907GVZ445M!/b/dDIsjeLhIgAA&bo=IAMrBLAEQAYFCNU!&rf=viewer_4"></img></p>
 
-<p><strong>其它总结：</strong>
-帐号类型，普通帐号，个性化帐号，手机帐号，邮箱帐号。</p>
+<p><img src="http://a1.qpic.cn/psb?/V14Xe88Z3oNG7m/lKqF5SwOcQE82eNggiPa*ir18FZOAT90WjA5i3DUNSA!/b/dHpYJ.PoPwAA&bo=IAMrBLAEQAYFAN0!&rf=viewer_4" ></img></p>
 
 		<h5>(The End)</h5>
 		<h5><原创文章> From OopsOutOfMemory 盛利's Blog<h5>
-		<h5>转载请注明出自：<a href="http://oopsoutofmemory.github.io/hive/2014/11/19/hive-shu-ju-fan-bei-zong-jie"> http://oopsoutofmemory.github.io/hive/2014/11/19/hive-shu-ju-fan-bei-zong-jie</a></h5>
+		<h5>转载请注明出自：<a href="http://oopsoutofmemory.github.io/spark/2015/01/13/shang-hai-sparkmeetup-di-er-ci"> http://oopsoutofmemory.github.io/spark/2015/01/13/shang-hai-sparkmeetup-di-er-ci</a></h5>
 	
 
 <div class="ds-thread"></div>  
@@ -198,10 +205,12 @@ Hive数据翻倍总结</h1>
 
 
 	
-	
-	
-	
-	
+		
+		
+		
+		
+		
+		
 	
 
 
@@ -210,9 +219,9 @@ Hive数据翻倍总结</h1>
 		<a class="scroll" data-speed="500" href="#article"><span class="genericon genericon-collapse"></span></a>
 	</div>
 	<div id="post-info" data-stellar-ratio="0.5" data-stellar-vertical-offset="120">
-		<h3>下一篇文章：</h3>
-		<a href="/hive/2014/11/19/hive-udfa--zhong-wei-shu">
-			<h1>Hive UDFA 中位数</h1>
+		<h3><strong>上一篇文章：</strong></h3>
+		<a href="/machine%20learning/spark/mllib/2014/11/19/spark-ji-qi-xue-xi-ku-mllib-zhi-xie-tong-guo-lv">
+			<h1>Spark机器学习库mllib之协同过滤</h1>
 			
 				<h2></h2>
 			
