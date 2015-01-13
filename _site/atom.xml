@@ -4,7 +4,7 @@
  <title>盛利的博客</title>
  <link href="http://oopsoutofmemory.github.io/atom.xml" rel="self"/>
  <link href="http://oopsoutofmemory.github.io/"/>
- <updated>2015-01-13T22:33:03+08:00</updated>
+ <updated>2015-01-13T22:48:12+08:00</updated>
  <id>http://oopsoutofmemory.github.io</id>
  <author>
    <name>OopsOutOfMemory</name>
@@ -13,10 +13,10 @@
 
  
  <entry>
-   <title>上海SparkMeetUp第二次</title>
-   <link href="http://oopsoutofmemory.github.io/spark/2015/01/13/shang-hai-sparkmeetup-di-er-ci"/>
+   <title>上海 Spark MeetUp 第二次</title>
+   <link href="http://oopsoutofmemory.github.io/life/2015/01/13/shang-hai-sparkmeetup-di-er-ci"/>
    <updated>2015-01-13T00:00:00+08:00</updated>
-   <id>http://oopsoutofmemory.github.io/spark/2015/01/13/shang-hai-sparkmeetup-di-er-ci</id>
+   <id>http://oopsoutofmemory.github.io/life/2015/01/13/shang-hai-sparkmeetup-di-er-ci</id>
    <content type="html">&lt;p&gt;2015年1月10日 携程网络技术大楼 举行了上海Spark Meetup 第二次聚会&lt;/p&gt;
 
 &lt;p&gt;主办方：携程 + intel big data team&lt;/p&gt;
